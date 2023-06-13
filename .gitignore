@@ -1,0 +1,6 @@
+# Ignore virtual environment directories
+venv/
+
+# Ignore IDE-specific files
+.idea/
+test_main.http
