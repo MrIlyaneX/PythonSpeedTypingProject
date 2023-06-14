@@ -40,7 +40,7 @@ If you have any questions or need further assistance, please contact the project
 
 - Ilia Mistiurin
 - Elena Tesmeeva
-- Polina Pushkarev
+- Polina Pushkareva
 - Anastasia Pichugina
 
 Thank you for your interest in the Python Speed Typing Project! We hope you find it helpful in improving your typing skills.
