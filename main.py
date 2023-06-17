@@ -5,6 +5,7 @@ from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
 from passlib.context import CryptContext
+import json
 
 from client_server_api.DB import *
 
@@ -134,3 +135,18 @@ async def read_own_items(
         current_user: Annotated[User, Depends(get_current_active_user)]
 ):
     return [{"item_id": "Foo", "owner": current_user.username}]
+
+
+@app.post("/signup", response_model=User)
+async def signup(user: User, password: str):
+    if user.username in fake_users_db:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Username already registered",
+        )
+    hashed_password = get_password_hash(password)
+    user_data = user.dict()
+    user_data["hashed_password"] = hashed_password
+    fake_users_db[user.username] = user_data
+    print(*fake_users_db)   
+    return user_data
