@@ -148,5 +148,5 @@ async def signup(user: User, password: str):
     user_data = user.dict()
     user_data["hashed_password"] = hashed_password
     fake_users_db[user.username] = user_data
-    print(*fake_users_db)   
+    print(user_data)
     return user_data
