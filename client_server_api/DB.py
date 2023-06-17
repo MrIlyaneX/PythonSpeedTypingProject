@@ -5,24 +5,35 @@ from datetime import datetime
 
 
 class Stats(BaseModel):
-    ids: int = Field(..., description="User ID")
-    max_score: int
-    avg_accuracy: float
-    level: int
-    max_speed_accuracy: float
-    days_in_row: Optional[int] = 0
-    time_spend: Optional[float] = 0
-    last_visit: Optional[datetime] = None
-    max_symbols_per_day: int
+    ids: int
+    max_score: int = 0
+    avg_accuracy: float | None = None
+    level: int = 0
+    max_speed_accuracy: float | None = None
+    days_in_row: int = 0
+    time_spend: float = 0
+    last_visit: datetime | None = None
+    max_symbols_per_day: int | None = None
 
 
-class UserInfo(BaseModel):
-    """ Data class made with pydantic"""
-    ids: int = Field(..., description="User ID")
-    name: str = Field(..., description="User name")
-    email: EmailStr = Field(..., description="Email address of the user", example="example@example.com")
-    password: SecretStr = Field(..., description="Password of the user")
-    registration_date: datetime = Field(datetime.now(), description="Registration date of the user",
-                                        example=datetime.now())
+class User(BaseModel):
+    username: str
+    ids: int
+    email: str | None = None
+    full_name: str | None = None
+    disabled: bool | None = None
+    registration_date: datetime | None = datetime.utcnow()
+    achievements: Stats | None = None
 
-    achievements: Optional[Stats] = None
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+
+class TokenData(BaseModel):
+    username: str | None = None
+
+
+class UserInDB(User):
+    hashed_password: str
