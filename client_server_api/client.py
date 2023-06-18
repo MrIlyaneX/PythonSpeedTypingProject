@@ -8,10 +8,10 @@ from DB import *
 server_url = "http://127.0.0.1:8000"
 
 user_info = {
-    "username": "User11",
+    "username": "User12",
     "ids": 0,
     "email": "string@email.com",
-    "full_name": "string",
+    "full_name": "User12",
     "disabled": False,
     "registration_date": "2023-06-17T14:03:19.791028",
     "achievements": {
@@ -51,7 +51,7 @@ def login(username: str, password: str):
         "username": username,
         "password": password
     }
-    response = requests.post(url, json=payload)
+    response = requests.post(url, data=payload)
     if response.status_code != 200:
         print("Error:", response.status_code)
         print(response.text)
@@ -74,3 +74,13 @@ if __name__ == "__main__":
     headers = {
         "Authorization": "Bearer " + access_token
     }
+
+# {"detail":[
+# {"loc":["body","username"],
+# "msg":"field required",
+# "type":"value_error.missing"},
+
+# {"loc":["body","password"],
+# "msg":"field required",
+# "type":"value_error.missing"}
+# ]}
