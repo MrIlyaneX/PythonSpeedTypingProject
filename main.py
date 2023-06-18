@@ -1,6 +1,8 @@
+import json
 from datetime import datetime, timedelta
 from typing import Annotated
 
+import aiofiles
 from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
@@ -133,7 +135,22 @@ async def read_users_me(
 async def read_own_items(
         current_user: Annotated[User, Depends(get_current_active_user)]
 ):
-    return [{"item_id": "Foo", "owner": current_user.username}]
+    return [{"item_id": "Foo", "owner": current_user}]
+
+
+@app.post("/users/me/upload")
+async def upload_own_data(
+        current_user: Annotated[User, Depends(get_current_active_user)], user: User
+):
+    cr = get_user(fake_users_db, current_user.username)
+    user = user.dict()
+    cr = cr.dict()
+
+    # Code for testing database data
+    # async with aiofiles.open("users.txt", mode="w") as users:
+    #     for us in fake_users_db:
+    #         await users.write(str(fake_users_db[us]) + "\n")
+    return {"Success": True}
 
 
 @app.post("/signup", response_model=User)
@@ -144,8 +161,8 @@ async def signup(user: User, password: str):
             detail="Username already registered",
         )
     hashed_password = get_password_hash(password)
+    user_to_pass = user
     user_data = user.dict()
     user_data["hashed_password"] = hashed_password
     fake_users_db[user.username] = user_data
-    print(user_data)
-    return user_data
+    return user_to_pass

@@ -1,17 +1,16 @@
 """ Client actions library; all actions for SpeedTypingProject needed for client part located here """
 
 import requests
-from fastapi.security import OAuth2PasswordRequestForm
 
 from DB import *
 
 server_url = "http://127.0.0.1:8000"
 
 user_info = {
-    "username": "User12",
+    "username": "User11",
     "ids": 0,
     "email": "string@email.com",
-    "full_name": "User12",
+    "full_name": "User11",
     "disabled": False,
     "registration_date": "2023-06-17T14:03:19.791028",
     "achievements": {
@@ -30,10 +29,6 @@ user_info = {
 user_model = User(**user_info)
 
 
-def get_token():
-    url = f"{server_url}/token"
-
-
 def signup(password: str = "secret"):
     url = f"{server_url}/signup"
     response = requests.post(url, json=user_info, params={"password": password})
@@ -41,7 +36,6 @@ def signup(password: str = "secret"):
         print("Error:", response.status_code)
         print(response.text)
         exit(19)
-    print(response.json())
     return response.json()
 
 
@@ -56,16 +50,32 @@ def login(username: str, password: str):
         print("Error:", response.status_code)
         print(response.text)
         exit(20)
-    print(response.json())
     return response.json()["access_token"]
 
 
-def get_info():
-    pass
+def get_info(header):
+    url = f"{server_url}/users/me/"
+
+    response = requests.get(url, headers=header)
+    if response.status_code != 200:
+        print("Error:", response.status_code)
+        print(response.text)
+        exit(21)
+
+    return response.json()
 
 
-def upload_info():
-    pass
+def upload_info(user: User, header):
+    url = f"{server_url}/users/me/upload"
+    user.registration_date = user.registration_date.isoformat()
+    user.achievements.last_visit = user.achievements.last_visit.isoformat()
+    response = requests.post(url, headers=header, json=user.dict())
+    if response.status_code != 200:
+        print("Error:", response.status_code)
+        print(response.text)
+        exit(22)
+
+    return response.json()
 
 
 if __name__ == "__main__":
@@ -74,6 +84,12 @@ if __name__ == "__main__":
     headers = {
         "Authorization": "Bearer " + access_token
     }
+    ans = get_info(headers)
+    print(ans)
+
+    user_model.email = "new@mail.com"
+    ans1 = upload_info(user_model, headers)
+    print(ans1)
 
 # {"detail":[
 # {"loc":["body","username"],
