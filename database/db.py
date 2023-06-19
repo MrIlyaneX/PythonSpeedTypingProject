@@ -1,55 +1,83 @@
 import sqlalchemy as db
 from sqlalchemy import ForeignKey
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, Double, Date
 from sqlalchemy.orm import declarative_base, sessionmaker
+
+""" I don't know how to create a table inside another table. So I just create an object "Achieves" 
+    inside the __init__ function and remember it's id in the variable for getting information from it.
+    You can use ID of user for getting his achievements:
+
+    gotten_person = session.get(User, 2)   -- here we get the user using his ID
+    ach = session.get(Achieves, gotten_person.ach_id)    -- here we get his achievements
+"""
 
 Base = declarative_base()
 
-
+"""
+    Class User contains his unique ID (we do not need to set it), username, password and 
+    ID of his achievements. We need username and password for creating an object.
+"""
 class User(Base):
     __tablename__ = "Users"
 
     id = Column(Integer, primary_key=True)
     username = Column("username", String)
     password = Column("password", String)
-    achievements = Column(String)
+    achievement_id = Column("achieve id", Integer)
 
-    def __init__(self, name, password, a):
+    def __init__(self, name, password):
         self.username = name
         self.password = password
-        self.achievements = a
+        ach = Achieves()
+        session.add(ach)
+        session.commit()
+        self.achievement_id = ach.id
+
 
     def __repr__(self) -> str:
         return f"User(id={self.id!r}, username={self.name!r}, " \
                f"password={self.password})"
 
 
+""" 
+    Class Achieves contains unique id, max speed without mistakes(double), days in a raw(integer), 
+    max symbols in one day (integer), time spend on site (integer), last visit (Integer) (Should we make
+    it as a Date?). Firstly, all the attributes ate set to 0.
+    
+    Also, because of my method of relating the User object and Achieves object I cannot set the column
+    owner_id in Achieves. Is that a problem? Do we need the owner id of achievements? (actually, 
+    in my opinion, we don't)
+    
+    Anyway, I can set the owner id after "commit" function, if it needed.
+"""
+
+
 class Achieves(Base):
     __tablename__ = 'Achievements'
     id = Column(Integer, primary_key=True)
-    speed_no_mistakes = Column(Integer)
+    speed_no_mistakes = Column(Double)
     days_in_raw = Column(Integer)
     max_symbol_one_day = Column(Integer)
     time_on_site = Column(Integer)
     last_visit = Column(Integer)
-    owner = Column(Integer, ForeignKey("Users.id"))
 
-    def __init__(self, owner_id):
+    owner_id = Column(Integer, ForeignKey("Users.id"))
+
+    def __init__(self):
         self.speed_no_mistakes = 0
         self.days_in_raw = 0
         self.max_symbol_one_day = 0
         self.time_on_site = 0
         self.last_visit = 0
-        self.owner = owner_id
 
 
     def __repr__(self):
-        return f"Achievements(spees = {self.speed_no_mistakes}, days = {self.days_in_raw}," \
+        return f"Achievements(speed = {self.speed_no_mistakes}, days = {self.days_in_raw}," \
                f" max symbols = {self.max_symbol_one_day}, time = {self.time_on_site}, " \
                f"last visit = {self.last_visit}"
 
 
-engine = db.create_engine("sqlite:///mydb.db", echo=True)
+engine = db.create_engine("sqlite:///mydb2.db", echo=True)
 connection = engine.connect()
 Base.metadata.create_all(bind = engine)
 
@@ -57,51 +85,28 @@ Session = sessionmaker(bind = engine)
 session = Session()
 
 
-# person1 = User('Ann', '1234', 'no')
-# person2 = User('Kate', '3456', 'no')
-# person3 = User('Dan', '7890', 'no')
-# session.add(person1)
-# session.add(person2)
-# session.add(person3)
-# session.commit()
-
-a1 = Achieves(1)
-a2 = Achieves(2)
-a3 = Achieves(3)
-session.add(a1)
-session.add(a2)
-session.add(a3)
+person1 = User('Ann', '1234')
+person2 = User('Kate', '3456')
+person3 = User('Dan', '7890')
+session.add(person1)
+session.add(person2)
+session.add(person3)
 session.commit()
 
-gotten_person = session.get(User, 1)
-print(gotten_person.username, gotten_person.password)
+# Example of getting objects from the database
+gotten_person = session.get(User, 2)
+ach = session.get(Achieves, gotten_person.achievement_id)
+print(gotten_person.username, gotten_person.password, ach.last_visit)
 
 
 def get_person(id):
     return session.get(id)
 
 
-def set_person(username, password):
+def add_person(username, password):
     new_person = User(username, password)
     session.add(new_person)
     session.commit()
-
-
-# Creation of an object
-# user1 = User(username = 'Ivan')
-# session.add(user1)
-# session.commit()
-# print(user1.id)
-#
-# # Getting info from the base
-# q = session.query(User).filter_by(username = 'Ivan')
-# gotten_user = q.first()
-# # gotten_user is user1 = True
-#
-# #Mutation:
-# user1.username = 'Vasya'
-# session.commit()
-
 
 
 
