@@ -3,6 +3,8 @@ venv/
 
 # Ignore IDE-specific files
 .idea/
+.env
 
 # Ignore unnecessart or test file\configs
 test_main.http
+script_runner.py

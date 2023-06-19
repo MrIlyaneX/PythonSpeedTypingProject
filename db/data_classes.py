@@ -1,6 +1,6 @@
 """ DataBase class represents user data, statistics """
-from typing import Optional
-from pydantic import BaseModel, EmailStr, Field, SecretStr
+from enum import Enum
+from pydantic import BaseModel
 from datetime import datetime
 
 
@@ -37,3 +37,8 @@ class TokenData(BaseModel):
 
 class UserInDB(User):
     hashed_password: str
+
+
+class Language(str, Enum):
+    ru = "ru"
+    en = "en"
