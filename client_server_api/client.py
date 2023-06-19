@@ -30,6 +30,13 @@ user_model = User(**user_info)
 
 
 def signup(password: str = "secret"):
+    """
+    Creates user on the server
+
+    :param password:
+    :return:
+    """
+
     url = f"{server_url}/signup"
     response = requests.post(url, json=user_info, params={"password": password})
     if response.status_code != 200:
@@ -40,6 +47,13 @@ def signup(password: str = "secret"):
 
 
 def login(username: str, password: str):
+    """
+    Gets token for future authentication related actions
+
+    :param username:
+    :param password:
+    :return:
+    """
     url = f"{server_url}/token"
     payload = {
         "username": username,
@@ -54,6 +68,12 @@ def login(username: str, password: str):
 
 
 def get_info(header):
+    """
+    Gets info from the server about user
+
+    :param header:
+    :return:
+    """
     url = f"{server_url}/users/me/"
 
     response = requests.get(url, headers=header)
@@ -66,6 +86,13 @@ def get_info(header):
 
 
 def upload_info(user: User, header):
+    """
+    For now uploads achievements data in User at the server side
+
+    :param user:
+    :param header:
+    :return:
+    """
     url = f"{server_url}/users/me/upload"
     user.registration_date = user.registration_date.isoformat()
     user.achievements.last_visit = user.achievements.last_visit.isoformat()
@@ -84,6 +111,8 @@ def upload_info(user: User, header):
 
 
 if __name__ == "__main__":
+    """ Currently runs the client, in future this functionality will be relocated """
+
     cur_user = signup()
     access_token = login(user_model.username, password="secret")
     headers = {
@@ -95,13 +124,3 @@ if __name__ == "__main__":
     user_model.achievements.level = 100
     ans1 = upload_info(user_model, headers)
     print(ans1)
-
-# {"detail":[
-# {"loc":["body","username"],
-# "msg":"field required",
-# "type":"value_error.missing"},
-
-# {"loc":["body","password"],
-# "msg":"field required",
-# "type":"value_error.missing"}
-# ]}
