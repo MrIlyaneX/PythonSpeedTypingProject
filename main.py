@@ -1,7 +1,4 @@
-import asyncio
-import json
-from enum import Enum
-from datetime import datetime, timedelta
+from datetime import timedelta
 from typing import Annotated
 
 import aiofiles
@@ -11,7 +8,7 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 
-from client_server_api.DB import *
+from db.data_classes import *
 
 # to get a string like this run:
 # openssl rand -hex 32
@@ -177,15 +174,10 @@ async def signup(user: User, password: str):
     return user_to_pass
 
 
-class Language(str, Enum):
-    ru = "ru"
-    en = "en"
-
-
 @app.get("/files/words/{language}")
 async def send_words(language: Language):
     if language in Language.en:
-        return FileResponse("words/en.json", media_type="application/json", filename="en.json")
+        return FileResponse("Server/words/en.json", media_type="application/json", filename="en.json")
     if language is Language.ru:
         pass
     raise HTTPException(status_code=400, detail="Invalid language")

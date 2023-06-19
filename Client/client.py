@@ -4,7 +4,7 @@ import time
 
 import requests
 
-from DB import *
+from db.data_classes import *
 
 server_url = "http://127.0.0.1:8000"
 
@@ -130,6 +130,6 @@ def get_file(language: str, header):
 
     content_disposition = response.headers.get("content-disposition")
     filename = content_disposition.split("filename=")[-1].strip('\"')
-    save_path = f"../user/data/{filename}"
+    save_path = f"user/data/words/{filename}"
     with open(save_path, "w") as file:
         json.dump(response.json(), file)

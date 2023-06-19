@@ -1,11 +1,5 @@
-import time
-from datetime import datetime
-from getpass import getpass
-
-import requests
-
-from client import *
-from DB import *
+from Client.client import *
+from db.data_classes import *
 
 server_url = "http://127.0.0.1:8000"
 
