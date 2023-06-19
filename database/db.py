@@ -17,6 +17,8 @@ Base = declarative_base()
     Class User contains his unique ID (we do not need to set it), username, password and 
     ID of his achievements. We need username and password for creating an object.
 """
+
+
 class User(Base):
     __tablename__ = "Users"
 
@@ -73,6 +75,7 @@ class Achieves(Base):
         return f"Achievements(speed = {self.speed_no_mistakes}, days = {self.days_in_raw}," \
                f" max symbols = {self.max_symbol_one_day}, time = {self.time_on_site}, " \
                f"last visit = {self.last_visit}"
+
 
 
 engine = db.create_engine("sqlite:///mydb2.db", echo=True)
