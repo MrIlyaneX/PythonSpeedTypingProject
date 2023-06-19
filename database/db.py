@@ -82,6 +82,7 @@ Base.metadata.create_all(bind = engine)
 Session = sessionmaker(bind = engine)
 session = Session()
 
+
 person1 = User('Ann', '1234')
 person2 = User('Kate', '3456')
 person3 = User('Dan', '7890')
