@@ -1,4 +1,5 @@
 """ Client actions library; all actions for SpeedTypingProject needed for client part located here """
+import json
 import time
 
 import requests
@@ -103,3 +104,32 @@ def upload_info(user_info: User, header):
         exit(22)
 
     return response.json()
+
+
+def get_file(language: str, header):
+    """
+    Gets file with chosen language from the server to user/data/file_name
+
+    :param language:
+    :param header:
+    :return:
+    """
+
+    url = f"{server_url}/files/words/{language}"
+    response = requests.get(url, headers=header)
+
+    if response.status_code == 401:
+        print("Error:", response.status_code)
+        print(response.text)
+        print("Authorization error")
+        exit(23)
+    if response.status_code != 200:
+        print("Error:", response.status_code)
+        print(response.text)
+        exit(24)
+
+    content_disposition = response.headers.get("content-disposition")
+    filename = content_disposition.split("filename=")[-1].strip('\"')
+    save_path = f"../user/data/{filename}"
+    with open(save_path, "w") as file:
+        json.dump(response.json(), file)

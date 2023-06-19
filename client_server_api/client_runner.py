@@ -59,4 +59,8 @@ if __name__ == "__main__":
     ans1 = upload_info(user_model, headers)
     end = time.time()
     print("upload", format(end - start, ".20f"))
-    # print(ans1)
+
+    start = time.time()
+    ans2 = get_file(language="en", header=headers)
+    end = time.time()
+    print("download_file", format(end - start, ".20f"))

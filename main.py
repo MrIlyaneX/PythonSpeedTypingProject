@@ -1,10 +1,12 @@
 import asyncio
 import json
+from enum import Enum
 from datetime import datetime, timedelta
 from typing import Annotated
 
 import aiofiles
 from fastapi import Depends, FastAPI, HTTPException, status
+from fastapi.responses import FileResponse
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
 from passlib.context import CryptContext
@@ -173,3 +175,17 @@ async def signup(user: User, password: str):
     user_data["hashed_password"] = hashed_password
     fake_users_db[user.username] = user_data
     return user_to_pass
+
+
+class Language(str, Enum):
+    ru = "ru"
+    en = "en"
+
+
+@app.get("/files/words/{language}")
+async def send_words(language: Language):
+    if language in Language.en:
+        return FileResponse("words/en.json", media_type="application/json", filename="en.json")
+    if language is Language.ru:
+        pass
+    raise HTTPException(status_code=400, detail="Invalid language")
