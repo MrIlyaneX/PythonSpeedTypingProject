@@ -1,3 +1,4 @@
+import asyncio
 import json
 from datetime import datetime, timedelta
 from typing import Annotated
@@ -38,6 +39,9 @@ fake_users_db = {
     }
 }
 
+keys = ["max_score", "avg_accuracy", "level", "max_speed_accuracy", "days_in_row", "time_spend", "last_visit",
+        "max_symbols_per_day"]
+
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
@@ -56,6 +60,16 @@ def get_password_hash(password):
 def get_user(db, username: str):
     if username in db:
         return UserInDB(**db[username])
+
+
+def update_user_achievements(db, username: str, user: User, db_user: UserInDB):
+    db_user_copy = db_user.copy().dict()
+    user_copy = user.copy().dict()
+    if username in db:
+        for key in keys:
+            if db_user_copy["achievements"][key] != user_copy["achievements"][key]:
+                db_user_copy["achievements"][key] = user_copy["achievements"][key]
+        db[username] = UserInDB(**db_user_copy)
 
 
 def authenticate_user(fake_db, username: str, password: str):
@@ -131,20 +145,12 @@ async def read_users_me(
     return current_user.dict()
 
 
-@app.get("/users/me/items/")
-async def read_own_items(
-        current_user: Annotated[User, Depends(get_current_active_user)]
-):
-    return [{"item_id": "Foo", "owner": current_user}]
-
-
 @app.post("/users/me/upload")
 async def upload_own_data(
         current_user: Annotated[User, Depends(get_current_active_user)], user: User
 ):
-    cr = get_user(fake_users_db, current_user.username)
-    user = user.dict()
-    cr = cr.dict()
+    db_user = get_user(fake_users_db, current_user.username)
+    update_user_achievements(db=fake_users_db, username=current_user.username, user=user, db_user=db_user)
 
     # Code for testing database data
     # async with aiofiles.open("users.txt", mode="w") as users:

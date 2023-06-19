@@ -70,6 +70,11 @@ def upload_info(user: User, header):
     user.registration_date = user.registration_date.isoformat()
     user.achievements.last_visit = user.achievements.last_visit.isoformat()
     response = requests.post(url, headers=header, json=user.dict())
+    if response.status_code == 401:
+        print("Error:", response.status_code)
+        print(response.text)
+        print("Authorization error")
+        exit(23)
     if response.status_code != 200:
         print("Error:", response.status_code)
         print(response.text)
@@ -87,7 +92,7 @@ if __name__ == "__main__":
     ans = get_info(headers)
     print(ans)
 
-    user_model.email = "new@mail.com"
+    user_model.achievements.level = 100
     ans1 = upload_info(user_model, headers)
     print(ans1)
 
