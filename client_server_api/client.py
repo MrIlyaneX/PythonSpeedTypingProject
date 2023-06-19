@@ -1,4 +1,5 @@
 """ Client actions library; all actions for SpeedTypingProject needed for client part located here """
+import time
 
 import requests
 
@@ -6,39 +7,34 @@ from DB import *
 
 server_url = "http://127.0.0.1:8000"
 
-user_info = {
-    "username": "User11",
-    "ids": 0,
-    "email": "string@email.com",
-    "full_name": "User11",
-    "disabled": False,
-    "registration_date": "2023-06-17T14:03:19.791028",
-    "achievements": {
-        "ids": 0,
-        "max_score": 0,
-        "avg_accuracy": 0,
-        "level": 0,
-        "max_speed_accuracy": 0,
-        "days_in_row": 0,
-        "time_spend": 0,
-        "last_visit": "2023-06-17T14:04:12.127Z",
-        "max_symbols_per_day": 0
-    }
-}
 
-user_model = User(**user_info)
+def user_to_dict(user: User):
+    start = time.perf_counter()
+    user_copy = user.copy()
+    if isinstance(user_copy.registration_date, datetime):
+        user_copy.registration_date = user_copy.registration_date.isoformat()
+    if isinstance(user_copy.achievements.last_visit, datetime):
+        user_copy.achievements.last_visit = user_copy.achievements.last_visit.isoformat()
+    user_copy.achievements = user_copy.achievements.dict()
+    user_copy = user_copy.dict()
+
+    end = time.perf_counter()
+    print("us_di", format(end - start, ".10f"))
+    return user_copy
 
 
-def signup(password: str = "secret"):
+def signup(user_info: User, password: str):
     """
     Creates user on the server
 
+    :param user_info:
     :param password:
     :return:
     """
 
     url = f"{server_url}/signup"
-    response = requests.post(url, json=user_info, params={"password": password})
+    user_dict = user_to_dict(user_info)
+    response = requests.post(url, json=user_dict, params={"password": password})
     if response.status_code != 200:
         print("Error:", response.status_code)
         print(response.text)
@@ -85,18 +81,17 @@ def get_info(header):
     return response.json()
 
 
-def upload_info(user: User, header):
+def upload_info(user_info: User, header):
     """
     For now uploads achievements data in User at the server side
 
-    :param user:
+    :param user_info:
     :param header:
     :return:
     """
     url = f"{server_url}/users/me/upload"
-    user.registration_date = user.registration_date.isoformat()
-    user.achievements.last_visit = user.achievements.last_visit.isoformat()
-    response = requests.post(url, headers=header, json=user.dict())
+    user_dict = user_to_dict(user_info)
+    response = requests.post(url, headers=header, json=user_dict)
     if response.status_code == 401:
         print("Error:", response.status_code)
         print(response.text)
@@ -108,19 +103,3 @@ def upload_info(user: User, header):
         exit(22)
 
     return response.json()
-
-
-if __name__ == "__main__":
-    """ Currently runs the client, in future this functionality will be relocated """
-
-    cur_user = signup()
-    access_token = login(user_model.username, password="secret")
-    headers = {
-        "Authorization": "Bearer " + access_token
-    }
-    ans = get_info(headers)
-    print(ans)
-
-    user_model.achievements.level = 100
-    ans1 = upload_info(user_model, headers)
-    print(ans1)

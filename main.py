@@ -167,8 +167,9 @@ async def signup(user: User, password: str):
             detail="Username already registered",
         )
     hashed_password = get_password_hash(password)
-    user_to_pass = user
-    user_data = user.dict()
+    user_to_pass = user.copy()
+    user_to_pass.achievements = user_to_pass.achievements.dict()
+    user_data = user_to_pass.dict()
     user_data["hashed_password"] = hashed_password
     fake_users_db[user.username] = user_data
     return user_to_pass
