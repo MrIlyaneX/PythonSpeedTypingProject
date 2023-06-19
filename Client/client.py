@@ -10,17 +10,16 @@ server_url = "http://127.0.0.1:8000"
 
 
 def user_to_dict(user: User):
-    start = time.perf_counter()
     user_copy = user.copy()
+
     if isinstance(user_copy.registration_date, datetime):
         user_copy.registration_date = user_copy.registration_date.isoformat()
+
     if isinstance(user_copy.achievements.last_visit, datetime):
         user_copy.achievements.last_visit = user_copy.achievements.last_visit.isoformat()
+
     user_copy.achievements = user_copy.achievements.dict()
     user_copy = user_copy.dict()
-
-    end = time.perf_counter()
-    print("us_di", format(end - start, ".10f"))
     return user_copy
 
 
@@ -40,7 +39,7 @@ def signup(user_info: User, password: str):
         print("Error:", response.status_code)
         print(response.text)
         exit(19)
-    return response.json()
+    return User(**response.json())
 
 
 def login(username: str, password: str):
@@ -64,7 +63,7 @@ def login(username: str, password: str):
     return response.json()["access_token"]
 
 
-def get_info(header):
+def get_info(header) -> User:
     """
     Gets info from the server about user
 
@@ -79,7 +78,7 @@ def get_info(header):
         print(response.text)
         exit(21)
 
-    return response.json()
+    return User(**response.json())
 
 
 def upload_info(user_info: User, header):
@@ -103,7 +102,7 @@ def upload_info(user_info: User, header):
         print(response.text)
         exit(22)
 
-    return response.json()
+    return User(**response.json())
 
 
 def get_file(language: str, header):

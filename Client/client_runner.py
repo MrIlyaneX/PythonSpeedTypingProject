@@ -1,60 +1,56 @@
-from Client.client import *
-from db.data_classes import *
+""" Works with client data exchange to server and inner data """
+import random
+
+from Client.user.scripts.user_updater import *
+from Client.user.scripts.user_creator import *
+from db.data_classes import User, Token
 
 server_url = "http://127.0.0.1:8000"
 
-user_info = {
-    "username": "qw",
-    "ids": 0,
-    "email": "string@email.com",
-    "full_name": "qw",
-    "disabled": False,
-    "registration_date": datetime.utcnow(),
-    "achievements": {
-        "ids": 0,
-        "max_score": 0,
-        "avg_accuracy": 0,
-        "level": 0,
-        "max_speed_accuracy": 0,
-        "days_in_row": 0,
-        "time_spend": 0,
-        "last_visit": datetime.utcnow(),
-        "max_symbols_per_day": 0
-    }
-}
 
-user_model = User(**user_info)
+def get_data():
+    """
+    Temporary function for emulating user signup.
+    Returns data for successful signup.
+
+
+    :return: {"username": "value", "email": "value@email.com", "password": "value"}
+    """
+
+    return {"username": "qweq", "email": "q@email.com", "password": "qe"}
+
+
+def data_from_login() -> dict:
+    """
+    Emulates user login actions
+
+    :return: {"username": "value", "password": "value"}
+    """
+    return {"username": str(random.seed), "password": "q"}
+
+
+def runner_main(to_signup: bool = True, to_remember: bool = True):
+    """
+    Function for user work with server
+
+    :param to_remember:
+    :param to_signup:
+    :return:
+    """
+
+    user: User
+    token: Token
+    if to_signup:
+        user = signup_user(**get_data())
+        token = login(user.username, get_data()["password"])
+    if not to_signup and to_remember:
+        user, password = get_user(), get_password()
+        token = login(user.username, password)
+    if not to_signup and not to_remember:
+        token = login(**data_from_login())
+
+    header = {"Authorization": "Bearer " + token}
+
 
 if __name__ == "__main__":
-    # print(user_to_dict(user_model))
-
-    start = time.time()
-    signup(user_info=user_model, password="secret")
-    end = time.time()
-    print("signup", format(end - start, ".20f"))
-
-    start = time.time()
-    access_token = login(user_model.username, password="secret")
-    end = time.time()
-    print("login", format(end - start, ".20f"))
-    headers = {
-        "Authorization": "Bearer " + access_token
-    }
-
-    start = time.time()
-    ans = get_info(headers)
-    # print(ans, headers)
-    end = time.time()
-    print("get_info", format(end - start, ".20f"))
-
-    user_model.achievements.level = 100
-
-    start = time.time()
-    ans1 = upload_info(user_model, headers)
-    end = time.time()
-    print("upload", format(end - start, ".20f"))
-
-    start = time.time()
-    ans2 = get_file(language="en", header=headers)
-    end = time.time()
-    print("download_file", format(end - start, ".20f"))
+    runner_main(to_signup=True)
