@@ -77,7 +77,6 @@ class Achieves(Base):
 
 engine = db.create_engine("sqlite:///mydb2.db", echo=True)
 connection = engine.connect()
-
 Base.metadata.create_all(bind = engine)
 
 Session = sessionmaker(bind = engine)
