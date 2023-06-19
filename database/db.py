@@ -1,5 +1,6 @@
 import sqlalchemy as db
-from sqlalchemy import ForeignKey
+from sqlalchemy import select
+from datetime import datetime
 from sqlalchemy import Column, Integer, String, Double
 from sqlalchemy.orm import declarative_base, sessionmaker
 
@@ -17,21 +18,23 @@ Base = declarative_base()
     Class User contains his unique ID (we do not need to set it), username, password and 
     ID of his achievements. We need username and password for creating an object.
 """
+
+
 class User(Base):
     __tablename__ = "Users"
 
     id = Column(Integer, primary_key=True)
     username = Column("username", String)
     password = Column("password", String)
-    achievement_id = Column("achieve id", Integer)
+    email = Column("email", String)
 
-    def __init__(self, name, password):
+    def __init__(self, name, password, email):
         self.username = name
         self.password = password
+        self.email = email
         ach = Achieves()
         session.add(ach)
         session.commit()
-        self.achievement_id = ach.id
 
     def __repr__(self) -> str:
         return f"User(id={self.id!r}, username={self.name!r}, " \
@@ -54,50 +57,56 @@ class User(Base):
 class Achieves(Base):
     __tablename__ = 'Achievements'
     id = Column(Integer, primary_key=True)
-    speed_no_mistakes = Column(Double)
+    max_score = Column(Integer)
+    avg_accuracy = Column(Double)
     days_in_raw = Column(Integer)
-    max_symbol_one_day = Column(Integer)
-    time_on_site = Column(Integer)
-    last_visit = Column(Integer)
-
-    owner_id = Column(Integer, ForeignKey("Users.id"))
+    max_symbol_per_day = Column(Integer)
+    time_spend = Column(Integer)
+    last_visit = Column(String)
+    level = Column(Integer)
 
     def __init__(self):
-        self.speed_no_mistakes = 0
-        self.days_in_raw = 0
-        self.max_symbol_one_day = 0
-        self.time_on_site = 0
-        self.last_visit = 0
+        self.max_score = 0
+        self.avg_accuracy = 0
+        self.days_in_raw = 1
+        self.max_symbol_per_day = 0
+        self.time_spend = 0
+        self.last_visit = datetime.today()
+        self.level = 1
 
     def __repr__(self):
-        return f"Achievements(speed = {self.speed_no_mistakes}, days = {self.days_in_raw}," \
-               f" max symbols = {self.max_symbol_one_day}, time = {self.time_on_site}, " \
+        return f"Achievements(speed = {self.avg_accuracy}, days = {self.days_in_raw}," \
+               f" max symbols = {self.max_symbol_per_day}, time = {self.time_spend}, " \
                f"last visit = {self.last_visit}"
 
 
-engine = db.create_engine("sqlite:///mydb2.db", echo=True)
+engine = db.create_engine("sqlite:///mydb.db", echo=True)
 connection = engine.connect()
 Base.metadata.create_all(bind = engine)
 
 Session = sessionmaker(bind = engine)
 session = Session()
 
-person1 = User('Ann', '1234')
-person2 = User('Kate', '3456')
-person3 = User('Dan', '7890')
-session.add(person1)
-session.add(person2)
-session.add(person3)
-session.commit()
-
-# Example of getting objects from the database
-gotten_person = session.get(User, 2)
-ach = session.get(Achieves, gotten_person.achievement_id)
-print(gotten_person.username, gotten_person.password, ach.last_visit)
+# person1 = User('Ann', '1234', 'em1')
+# person2 = User('Kate', '3456', 'em2')
+# person3 = User('Dan', '7890', 'em3')
+# session.add(person1)
+# session.add(person2)
+# session.add(person3)
+# session.commit()
 
 
-def get_person(id):
-    return session.get(id)
+def get_person_by_id(id):
+    return session.get(User, id)
+
+
+def get_person_by_username(username) -> User:
+    return session.execute(select(User).filter_by(username=username)).scalar_one()
+
+
+def get_achieves(name):
+    person = get_person_by_username(name)
+    return session.get(Achieves, person.id)
 
 
 def add_person(username, password):
@@ -106,11 +115,32 @@ def add_person(username, password):
     session.commit()
 
 
+def set_username(old, new):
+    person = get_person_by_username(old)
+    person.username = new
+    session.commit()
 
-# user: unique id, username, password, achievements - table
-# achievements:
-# max speed without mistakes
-# days in a row
-# max symbols in one day
-# time spent on site
-# last visit time
+
+def set_password(old, new):
+    person = get_person_by_username(old)
+    person.password = new
+    session.commit()
+
+
+def set_achieve(kind, name, value):
+    achieve = get_achieves(name)
+    if kind == 'avg_accuracy':
+        achieve.avg_accuracy = max(achieve.avg_accuracy, value)
+    elif kind == 'max_score':
+        achieve.max_score = max(achieve.max_score, value)
+    elif kind == 'days_in_raw':
+        achieve.days_in_raw = value
+    elif kind == 'max_symbol_per_day':
+        achieve.max_symbol_per_day = value
+    elif kind == 'time_spend':
+        achieve.time_spend += value
+    elif kind == 'last_visit':
+        achieve.last_visit = value
+    elif kind == 'level':
+        achieve.level += 1
+    session.commit()
