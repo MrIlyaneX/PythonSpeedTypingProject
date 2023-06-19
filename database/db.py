@@ -1,6 +1,6 @@
 import sqlalchemy as db
 from sqlalchemy import ForeignKey
-from sqlalchemy import Column, Integer, String, Double, Date
+from sqlalchemy import Column, Integer, String, Double
 from sqlalchemy.orm import declarative_base, sessionmaker
 
 """ I don't know how to create a table inside another table. So I just create an object "Achieves" 
@@ -32,7 +32,6 @@ class User(Base):
         session.add(ach)
         session.commit()
         self.achievement_id = ach.id
-
 
     def __repr__(self) -> str:
         return f"User(id={self.id!r}, username={self.name!r}, " \
@@ -69,7 +68,6 @@ class Achieves(Base):
         self.max_symbol_one_day = 0
         self.time_on_site = 0
         self.last_visit = 0
-
 
     def __repr__(self):
         return f"Achievements(speed = {self.speed_no_mistakes}, days = {self.days_in_raw}," \
