@@ -12,7 +12,7 @@ class Stats(BaseModel):
     max_speed_accuracy: float | None = None
     days_in_row: int = 0
     time_spend: float = 0
-    last_visit: datetime | None = None
+    last_visit: datetime | None = datetime.utcnow()
     max_symbols_per_day: int | None = None
 
 
@@ -21,7 +21,7 @@ class User(BaseModel):
     ids: int
     email: str | None = None
     full_name: str | None = None
-    disabled: bool | None = None
+    disabled: bool | None = False
     registration_date: datetime | None = datetime.utcnow()
     achievements: Stats | None = None
 

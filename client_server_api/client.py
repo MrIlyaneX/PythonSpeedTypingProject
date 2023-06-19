@@ -1,51 +1,56 @@
 """ Client actions library; all actions for SpeedTypingProject needed for client part located here """
+import json
+import time
 
 import requests
-from fastapi.security import OAuth2PasswordRequestForm
 
 from DB import *
 
 server_url = "http://127.0.0.1:8000"
 
-user_info = {
-    "username": "User12",
-    "ids": 0,
-    "email": "string@email.com",
-    "full_name": "User12",
-    "disabled": False,
-    "registration_date": "2023-06-17T14:03:19.791028",
-    "achievements": {
-        "ids": 0,
-        "max_score": 0,
-        "avg_accuracy": 0,
-        "level": 0,
-        "max_speed_accuracy": 0,
-        "days_in_row": 0,
-        "time_spend": 0,
-        "last_visit": "2023-06-17T14:04:12.127Z",
-        "max_symbols_per_day": 0
-    }
-}
 
-user_model = User(**user_info)
+def user_to_dict(user: User):
+    start = time.perf_counter()
+    user_copy = user.copy()
+    if isinstance(user_copy.registration_date, datetime):
+        user_copy.registration_date = user_copy.registration_date.isoformat()
+    if isinstance(user_copy.achievements.last_visit, datetime):
+        user_copy.achievements.last_visit = user_copy.achievements.last_visit.isoformat()
+    user_copy.achievements = user_copy.achievements.dict()
+    user_copy = user_copy.dict()
+
+    end = time.perf_counter()
+    print("us_di", format(end - start, ".10f"))
+    return user_copy
 
 
-def get_token():
-    url = f"{server_url}/token"
+def signup(user_info: User, password: str):
+    """
+    Creates user on the server
 
+    :param user_info:
+    :param password:
+    :return:
+    """
 
-def signup(password: str = "secret"):
     url = f"{server_url}/signup"
-    response = requests.post(url, json=user_info, params={"password": password})
+    user_dict = user_to_dict(user_info)
+    response = requests.post(url, json=user_dict, params={"password": password})
     if response.status_code != 200:
         print("Error:", response.status_code)
         print(response.text)
         exit(19)
-    print(response.json())
     return response.json()
 
 
 def login(username: str, password: str):
+    """
+    Gets token for future authentication related actions
+
+    :param username:
+    :param password:
+    :return:
+    """
     url = f"{server_url}/token"
     payload = {
         "username": username,
@@ -56,31 +61,75 @@ def login(username: str, password: str):
         print("Error:", response.status_code)
         print(response.text)
         exit(20)
-    print(response.json())
     return response.json()["access_token"]
 
 
-def get_info():
-    pass
+def get_info(header):
+    """
+    Gets info from the server about user
+
+    :param header:
+    :return:
+    """
+    url = f"{server_url}/users/me/"
+
+    response = requests.get(url, headers=header)
+    if response.status_code != 200:
+        print("Error:", response.status_code)
+        print(response.text)
+        exit(21)
+
+    return response.json()
 
 
-def upload_info():
-    pass
+def upload_info(user_info: User, header):
+    """
+    For now uploads achievements data in User at the server side
+
+    :param user_info:
+    :param header:
+    :return:
+    """
+    url = f"{server_url}/users/me/upload"
+    user_dict = user_to_dict(user_info)
+    response = requests.post(url, headers=header, json=user_dict)
+    if response.status_code == 401:
+        print("Error:", response.status_code)
+        print(response.text)
+        print("Authorization error")
+        exit(23)
+    if response.status_code != 200:
+        print("Error:", response.status_code)
+        print(response.text)
+        exit(22)
+
+    return response.json()
 
 
-if __name__ == "__main__":
-    cur_user = signup()
-    access_token = login(user_model.username, password="secret")
-    headers = {
-        "Authorization": "Bearer " + access_token
-    }
+def get_file(language: str, header):
+    """
+    Gets file with chosen language from the server to user/data/file_name
 
-# {"detail":[
-# {"loc":["body","username"],
-# "msg":"field required",
-# "type":"value_error.missing"},
+    :param language:
+    :param header:
+    :return:
+    """
 
-# {"loc":["body","password"],
-# "msg":"field required",
-# "type":"value_error.missing"}
-# ]}
+    url = f"{server_url}/files/words/{language}"
+    response = requests.get(url, headers=header)
+
+    if response.status_code == 401:
+        print("Error:", response.status_code)
+        print(response.text)
+        print("Authorization error")
+        exit(23)
+    if response.status_code != 200:
+        print("Error:", response.status_code)
+        print(response.text)
+        exit(24)
+
+    content_disposition = response.headers.get("content-disposition")
+    filename = content_disposition.split("filename=")[-1].strip('\"')
+    save_path = f"../user/data/{filename}"
+    with open(save_path, "w") as file:
+        json.dump(response.json(), file)
