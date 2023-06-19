@@ -3,4 +3,6 @@ venv/
 
 # Ignore IDE-specific files
 .idea/
+
+# Ignore unnecessart or test file\configs
 test_main.http

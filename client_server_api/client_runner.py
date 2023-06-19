@@ -1,30 +1,66 @@
+import time
+from datetime import datetime
+from getpass import getpass
+
+import requests
+
+from client import *
 from DB import *
-from client import post_user_info, get_user_info
 
-info = [
-    UserInfo(id=0, name="mid", email="mid@example.com", registration_date=datetime.now(),
-             achievements={}, last_visit=datetime.now(), days_in_row=0, max_score=0, avg_accuracy=0.0, level=0),
-    UserInfo(id=1, name="Oleg", email="oleg@example.com", registration_date=datetime.now(),
-             achievements={}, last_visit=datetime.now(), days_in_row=0, max_score=0, avg_accuracy=0.0, level=0),
-    UserInfo(id=2, name="Dom", email="dom@example.com", registration_date=datetime.now(),
-             achievements={}, last_visit=datetime.now(), days_in_row=0, max_score=0, avg_accuracy=0.0, level=0)
-]
+server_url = "http://127.0.0.1:8000"
 
-info_test = [
-    UserInfo(id=0, name="mid", email="mid@example.com", registration_date=datetime.now(),
-             achievements={}, last_visit=datetime.now(), days_in_row=0, max_score=0, avg_accuracy=0.0, level=0),
-    UserInfo(id=1, name="Oleg", email="oleg@example.com", registration_date=datetime.now(),
-             achievements={}, last_visit=datetime.now(), days_in_row=0, max_score=0, avg_accuracy=0.0, level=0),
-    UserInfo(id=2, name="Dom", email="dom@example.com", registration_date=datetime.now(),
-             achievements={}, last_visit=datetime.now(), days_in_row=0, max_score=0, avg_accuracy=0.0, level=0),
-    UserInfo(id=3, name="Tester", email="tester@example.com", registration_date=datetime.now(),
-             achievements={}, last_visit=datetime.now(), days_in_row=0, max_score=0, avg_accuracy=0.0, level=0)
-]
+user_info = {
+    "username": "qw",
+    "ids": 0,
+    "email": "string@email.com",
+    "full_name": "qw",
+    "disabled": False,
+    "registration_date": datetime.utcnow(),
+    "achievements": {
+        "ids": 0,
+        "max_score": 0,
+        "avg_accuracy": 0,
+        "level": 0,
+        "max_speed_accuracy": 0,
+        "days_in_row": 0,
+        "time_spend": 0,
+        "last_visit": datetime.utcnow(),
+        "max_symbols_per_day": 0
+    }
+}
 
-print("Putting info to api")
-for i, user in enumerate(info):
-    print(post_user_info(user, i))
+user_model = User(**user_info)
 
-print("Getting info from api")
-for i in info_test:
-    print(get_user_info(i.id))
+if __name__ == "__main__":
+    # print(user_to_dict(user_model))
+
+    start = time.time()
+    signup(user_info=user_model, password="secret")
+    end = time.time()
+    print("signup", format(end - start, ".20f"))
+
+    start = time.time()
+    access_token = login(user_model.username, password="secret")
+    end = time.time()
+    print("login", format(end - start, ".20f"))
+    headers = {
+        "Authorization": "Bearer " + access_token
+    }
+
+    start = time.time()
+    ans = get_info(headers)
+    # print(ans, headers)
+    end = time.time()
+    print("get_info", format(end - start, ".20f"))
+
+    user_model.achievements.level = 100
+
+    start = time.time()
+    ans1 = upload_info(user_model, headers)
+    end = time.time()
+    print("upload", format(end - start, ".20f"))
+
+    start = time.time()
+    ans2 = get_file(language="en", header=headers)
+    end = time.time()
+    print("download_file", format(end - start, ".20f"))

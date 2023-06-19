@@ -32,7 +32,10 @@ The Python Speed Typing Project utilizes the following libraries and frameworks:
 
 -
 
--
+## Error Codes
+
+- 19 Invalid Sign Up 
+- 20 Invalid Log In
 
 ## Contact
 
