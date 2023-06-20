@@ -11,18 +11,12 @@ def signup_user(username: str, email: str, password: str) -> User:
 
     user = {
         "username": username,
-        "ids": 0,
         "email": email,
         "disabled": True,
-        "registration_date": datetime.utcnow(),
         "achievements": {
-            "ids": 0,
             "max_score": 0,
             "avg_accuracy": 0,
-            "level": 0,
             "max_speed_accuracy": 0,
-            "days_in_row": 0,
-            "time_spend": 0,
             "last_visit": datetime.utcnow(),
             "max_symbols_per_day": 0
         }
