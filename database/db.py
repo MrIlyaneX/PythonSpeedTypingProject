@@ -27,13 +27,13 @@ class UserDB(Base):
     username = Column("username", String)
     password = Column("password", String)
     email = Column("email", String)
-    disables = Column("disabled", Boolean)
+    disabled = Column("disabled", Boolean)
 
     def __init__(self, name, password, email):
         self.username = name
         self.password = password
         self.email = email
-        self.disables = False
+        self.disabled = False
         ach = Achieves()
         session.add(ach)
         session.commit()
@@ -124,14 +124,15 @@ def get_person_by_username(username) -> dict | None:
         }
     }
 
-def get(username) -> UserDB:
+
+def get(username) -> UserDB | None:
     gotten: UserDB = session.query(UserDB).filter_by(username=username).scalar()
     if gotten is None:
         return None
     return gotten
 
 
-def get_achieves(name):
+def get_achieves(name) -> Achieves | None:
     person = get(name)
     return session.get(Achieves, person.id)
 
