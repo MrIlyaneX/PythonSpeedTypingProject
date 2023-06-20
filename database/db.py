@@ -1,5 +1,5 @@
 import sqlalchemy as db
-from sqlalchemy import select
+from sqlalchemy import select, DATETIME, Boolean
 from datetime import datetime
 from sqlalchemy import Column, Integer, String, Double
 from sqlalchemy.orm import declarative_base, sessionmaker
@@ -27,11 +27,13 @@ class User(Base):
     username = Column("username", String)
     password = Column("password", String)
     email = Column("email", String)
+    disables = Column("disabled", Boolean)
 
     def __init__(self, name, password, email):
         self.username = name
         self.password = password
         self.email = email
+        self.disables = False
         ach = Achieves()
         session.add(ach)
         session.commit()
@@ -60,18 +62,20 @@ class Achieves(Base):
     max_score = Column(Integer)
     avg_accuracy = Column(Double)
     days_in_raw = Column(Integer)
+    max_days_in_raw = Column(Integer)
     max_symbol_per_day = Column(Integer)
     time_spend = Column(Integer)
-    last_visit = Column(String)
+    last_visit = Column(DATETIME)
     level = Column(Integer)
 
     def __init__(self):
         self.max_score = 0
         self.avg_accuracy = 0
         self.days_in_raw = 1
+        self.max_days_in_raw = 1
         self.max_symbol_per_day = 0
         self.time_spend = 0
-        self.last_visit = datetime.today()
+        self.last_visit = datetime.utcnow()
         self.level = 1
 
     def __repr__(self):
@@ -87,13 +91,13 @@ Base.metadata.create_all(bind = engine)
 Session = sessionmaker(bind = engine)
 session = Session()
 
-# person1 = User('Ann', '1234', 'em1')
-# person2 = User('Kate', '3456', 'em2')
-# person3 = User('Dan', '7890', 'em3')
-# session.add(person1)
-# session.add(person2)
-# session.add(person3)
-# session.commit()
+person1 = User('Ann', '1234', 'em1')
+person2 = User('Kate', '3456', 'em2')
+person3 = User('Dan', '7890', 'em3')
+session.add(person1)
+session.add(person2)
+session.add(person3)
+session.commit()
 
 
 def get_person_by_id(id):
