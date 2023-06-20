@@ -114,6 +114,7 @@ def get_person_by_username(username) -> dict | None:
         "username": gotten.username,
         "email": gotten.email,
         "disabled": gotten.disabled,
+        "hashed_password": gotten.password,
         "achievements": {
             "max_score": achieves.max_score,
             "avg_accuracy": achieves.avg_accuracy,
@@ -123,9 +124,15 @@ def get_person_by_username(username) -> dict | None:
         }
     }
 
+def get(username) -> UserDB:
+    gotten: UserDB = session.query(UserDB).filter_by(username=username).scalar()
+    if gotten is None:
+        return None
+    return gotten
+
 
 def get_achieves(name):
-    person = get_person_by_username(name)
+    person = get(name)
     return session.get(Achieves, person.id)
 
 
@@ -136,13 +143,13 @@ def add_person(username, password, mail):
 
 
 def set_username(old, new):
-    person = get_person_by_username(old)
+    person = get(old)
     person.username = new
     session.commit()
 
 
 def set_password(old, new):
-    person = get_person_by_username(old)
+    person = get(old)
     person.password = new
     session.commit()
 
