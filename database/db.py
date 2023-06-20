@@ -105,7 +105,7 @@ def get_person_by_id(id):
 
 
 def get_person_by_username(username) -> UserDB:
-    return session.query(UserDB).filter_by(username='Ann').scalar()
+    return session.query(UserDB).filter_by(username=username).scalar()
 
 
 def get_achieves(name):
