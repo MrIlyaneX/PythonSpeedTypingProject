@@ -7,6 +7,7 @@ from fastapi.responses import FileResponse
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
 from passlib.context import CryptContext
+from database.db import *
 
 from db.data_classes import *
 
@@ -14,32 +15,10 @@ from db.data_classes import *
 # openssl rand -hex 32
 SECRET_KEY = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+ACCESS_TOKEN_EXPIRE_MINUTES = 300
 
-fake_users_db = {
-    "johndoe": {
-        "ids": 1,
-        "username": "johndoe",
-        "full_name": "John Doe",
-        "email": "johndoe@example.com",
-        "hashed_password": "$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW",
-        "disabled": False,
-        "achievements": {
-            "ids": 1,
-            "max_score": 100,
-            "avg_accuracy": 0.9,
-            "level": 5,
-            "max_speed_accuracy": 0.8,
-            "days_in_row": 10,
-            "time_spend": 8.5,
-            "last_visit": "2022-06-01T10:00:00",
-            "max_symbols_per_day": 500
-        },
-    }
-}
-
-keys = ["max_score", "avg_accuracy", "level", "max_speed_accuracy", "days_in_row", "time_spend", "last_visit",
-        "max_symbols_per_day"]
+keys = ["max_score", "avg_accuracy", "level", "max_speed_accuracy",
+        "time_spend", "last_visit", "max_symbols_per_day"]
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -56,23 +35,18 @@ def get_password_hash(password):
     return pwd_context.hash(password)
 
 
-def get_user(db, username: str):
-    if username in db:
-        return UserInDB(**db[username])
+def get_user(username: str):
+    user = get_person_by_username(username=username)
+    if user is not None:
+        return UserInDB(**user)
 
 
-def update_user_achievements(db, username: str, user: User, db_user: UserInDB):
-    db_user_copy = db_user.copy().dict()
-    user_copy = user.copy().dict()
-    if username in db:
-        for key in keys:
-            if db_user_copy["achievements"][key] != user_copy["achievements"][key]:
-                db_user_copy["achievements"][key] = user_copy["achievements"][key]
-        db[username] = UserInDB(**db_user_copy)
+def update_user_achievements(username: str, user: User):
+    set_achieve(data=user.achievements.dict(), name=user)
 
 
-def authenticate_user(fake_db, username: str, password: str):
-    user = get_user(fake_db, username)
+def authenticate_user(username: str, password: str):
+    user = get_user(username)
     if not user:
         return False
     if not verify_password(password, user.hashed_password):
@@ -105,7 +79,7 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
         token_data = TokenData(username=username)
     except JWTError:
         raise credentials_exception
-    user = get_user(fake_users_db, username=token_data.username)
+    user = get_user(username=token_data.username)
     if user is None:
         raise credentials_exception
     return user
@@ -123,7 +97,7 @@ async def get_current_active_user(
 async def login_for_access_token(
         form_data: Annotated[OAuth2PasswordRequestForm, Depends()]
 ):
-    user = authenticate_user(fake_users_db, form_data.username, form_data.password)
+    user = authenticate_user(form_data.username, form_data.password)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -148,29 +122,27 @@ async def read_users_me(
 async def upload_own_data(
         current_user: Annotated[User, Depends(get_current_active_user)], user: User
 ):
-    db_user = get_user(fake_users_db, current_user.username)
-    update_user_achievements(db=fake_users_db, username=current_user.username, user=user, db_user=db_user)
-
-    # Code for testing database data
-    # async with aiofiles.open("users.txt", mode="w") as users:
-    #     for us in fake_users_db:
-    #         await users.write(str(fake_users_db[us]) + "\n")
+    if get_person_by_username(username=user.username) is None:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Username already registered",
+        )
+    update_user_achievements(username=current_user.username, user=user)
     return {"Success": True}
 
 
 @app.post("/signup", response_model=User)
 async def signup(user: User, password: str):
-    if user.username in fake_users_db:
+    if get_person_by_username(username=user.username) is not None:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Username already registered",
         )
     hashed_password = get_password_hash(password)
     user_to_pass = user.copy()
-    user_to_pass.achievements = user_to_pass.achievements.dict()
-    user_data = user_to_pass.dict()
-    user_data["hashed_password"] = hashed_password
-    fake_users_db[user.username] = user_data
+
+    add_person(username=user.username, password=hashed_password, mail=user.email)
+
     return user_to_pass
 
 

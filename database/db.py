@@ -13,6 +13,8 @@ from sqlalchemy.orm import declarative_base, sessionmaker
 """
 
 Base = declarative_base()
+url = "sqlite:///database/mydb.db"
+
 
 """
     Class User contains his unique ID (we do not need to set it), username, password and 
@@ -84,7 +86,7 @@ class Achieves(Base):
                f"last visit = {self.last_visit}"
 
 
-engine = db.create_engine("sqlite:///mydb.db", echo=True)
+engine = db.create_engine(url, echo=True)
 connection = engine.connect()
 Base.metadata.create_all(bind=engine)
 
