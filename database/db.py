@@ -47,11 +47,11 @@ class UserDB(Base):
     Class Achieves contains unique id, max speed without mistakes(double), days in a raw(integer), 
     max symbols in one day (integer), time spend on site (integer), last visit (Integer) (Should we make
     it as a Date?). Firstly, all the attributes ate set to 0.
-    
+
     Also, because of my method of relating the User object and Achieves object I cannot set the column
     owner_id in Achieves. Is that a problem? Do we need the owner id of achievements? (actually, 
     in my opinion, we don't)
-    
+
     Anyway, I can set the owner id after "commit" function, if it needed.
 """
 
@@ -86,10 +86,11 @@ class Achieves(Base):
 
 engine = db.create_engine("sqlite:///mydb.db", echo=True)
 connection = engine.connect()
-Base.metadata.create_all(bind = engine)
+Base.metadata.create_all(bind=engine)
 
-Session = sessionmaker(bind = engine)
+Session = sessionmaker(bind=engine)
 session = Session()
+
 
 # person1 = UserDB('Ann', '1234', 'em1')
 # person2 = UserDB('Kate', '3456', 'em2')
@@ -104,8 +105,23 @@ def get_person_by_id(id):
     return session.get(UserDB, id)
 
 
-def get_person_by_username(username) -> UserDB:
-    return session.query(UserDB).filter_by(username=username).scalar()
+def get_person_by_username(username) -> dict | None:
+    gotten: UserDB = session.query(UserDB).filter_by(username=username).scalar()
+    if gotten is None:
+        return None
+    achieves = session.get(Achieves, gotten.id)
+    return {
+        "username": gotten.username,
+        "email": gotten.email,
+        "disabled": gotten.disabled,
+        "achievements": {
+            "max_score": achieves.max_score,
+            "avg_accuracy": achieves.avg_accuracy,
+            "max_speed_accuracy": 0,
+            "last_visit": achieves.last_visit,
+            "max_symbols_per_day": achieves.max_symbol_per_day
+        }
+    }
 
 
 def get_achieves(name):
