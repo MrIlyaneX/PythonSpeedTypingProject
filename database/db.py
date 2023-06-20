@@ -20,7 +20,7 @@ Base = declarative_base()
 """
 
 
-class User(Base):
+class UserDB(Base):
     __tablename__ = "Users"
 
     id = Column(Integer, primary_key=True)
@@ -39,7 +39,7 @@ class User(Base):
         session.commit()
 
     def __repr__(self) -> str:
-        return f"User(id={self.id!r}, username={self.name!r}, " \
+        return f"User(id={self.id!r}, username={self.username!r}, " \
                f"password={self.password})"
 
 
@@ -91,21 +91,21 @@ Base.metadata.create_all(bind = engine)
 Session = sessionmaker(bind = engine)
 session = Session()
 
-person1 = User('Ann', '1234', 'em1')
-person2 = User('Kate', '3456', 'em2')
-person3 = User('Dan', '7890', 'em3')
-session.add(person1)
-session.add(person2)
-session.add(person3)
-session.commit()
+# person1 = UserDB('Ann', '1234', 'em1')
+# person2 = UserDB('Kate', '3456', 'em2')
+# person3 = UserDB('Dan', '7890', 'em3')
+# session.add(person1)
+# session.add(person2)
+# session.add(person3)
+# session.commit()
 
 
 def get_person_by_id(id):
-    return session.get(User, id)
+    return session.get(UserDB, id)
 
 
-def get_person_by_username(username) -> User:
-    return session.execute(select(User).filter_by(username=username)).scalar_one()
+def get_person_by_username(username) -> UserDB:
+    return session.query(UserDB).filter_by(username=username).scalar()
 
 
 def get_achieves(name):
@@ -113,8 +113,8 @@ def get_achieves(name):
     return session.get(Achieves, person.id)
 
 
-def add_person(username, password):
-    new_person = User(username, password)
+def add_person(username, password, mail):
+    new_person = UserDB(username, password, mail)
     session.add(new_person)
     session.commit()
 
