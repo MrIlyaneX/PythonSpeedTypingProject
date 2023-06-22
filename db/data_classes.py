@@ -1,10 +1,11 @@
-""" DataBase class represents user data, statistics """
+""" DataBase class represents user data, statistics for exchange between Client-Server """
 from enum import Enum
 from pydantic import BaseModel
 from datetime import datetime
 
 
 class Stats(BaseModel):
+    """ Stats used by the User in Client-Server exchange """
     max_score: int = 0
     avg_accuracy: float | None = None
     max_speed_accuracy: float | None = None
@@ -13,6 +14,9 @@ class Stats(BaseModel):
 
 
 class User(BaseModel):
+    """
+    Data class represents the model of User data which Server-Client exchange
+    """
     username: str
     email: str | None = None
     disabled: bool | None = False
@@ -20,6 +24,9 @@ class User(BaseModel):
 
 
 class Token(BaseModel):
+    """
+    Represents token data
+    """
     access_token: str
     token_type: str
 
@@ -33,5 +40,8 @@ class UserInDB(User):
 
 
 class Language(str, Enum):
+    """
+    Enum class represents acceptable languages for the application
+    """
     ru = "ru"
     en = "en"
