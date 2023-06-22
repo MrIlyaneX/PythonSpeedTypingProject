@@ -16,9 +16,15 @@ The Python Speed Typing Project is a desktop-web application designed to improve
 
 ## Installation
 
+Via Setup Wizard
+
 To run the Python Speed Typing Project on your local machine, follow these steps:
 
-1. In progress
+- In progress
+
+Local instalation via Docker Image:
+
+- In progress
 
 ## Technologies Used
 
