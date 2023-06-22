@@ -20,4 +20,4 @@ def update_user_achievements(username: str, user: User):
     :param username: The username of the user.
     :param user: The User object containing the updated achievements.
     """
-    set_achieve(data=user.achievements.dict(), name=user)
+    set_achieve(data=user.achievements.dict(), name=user.username)

@@ -163,12 +163,11 @@ def set_password(old, new):
 """
 
 
-def set_achieve(gotten, name):
+def set_achieve(data, name):
     achieve = get_achieves(name)
-    achieve.avg_accuracy = max(achieve.avg_accuracy, gotten['avg_accuracy'])
-    achieve.max_score = max(achieve.max_score, gotten['max_score'])
-    achieve.max_symbol_per_day = max(achieve.max_symbol_per_day, gotten['max_symbol_per_day'])
-    achieve.time_spend = gotten['time_spend']
-    achieve.last_visit = gotten['last_visit']
-    achieve.level = gotten['level']
+    achieve.avg_accuracy = max(achieve.avg_accuracy, data['avg_accuracy'])
+    achieve.max_score = max(achieve.max_score, data['max_score'])
+    achieve.max_symbol_per_day = max(achieve.max_symbol_per_day, data['max_symbols_per_day'])
+    achieve.time_spend = data['time_spend']
+    achieve.last_visit = data['last_visit']
     session.commit()
