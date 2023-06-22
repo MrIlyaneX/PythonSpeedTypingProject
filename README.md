@@ -36,6 +36,10 @@ The Python Speed Typing Project utilizes the following libraries and frameworks:
 
 - 19 Invalid Sign Up 
 - 20 Invalid Log In
+- 21 Failed to get information from server
+- 22 Failed to uload info to the server
+- 23 Authorization error during uploaing info
+- 24 Failed to get words from chosen language from the server
 
 ## Contact
 
