@@ -1,5 +1,5 @@
 import sqlalchemy as db
-from sqlalchemy import select, DATETIME, Boolean
+from sqlalchemy import DATETIME, Boolean
 from datetime import datetime
 from sqlalchemy import Column, Integer, String, Double
 from sqlalchemy.orm import declarative_base, sessionmaker
@@ -157,20 +157,18 @@ def set_password(old, new):
     session.commit()
 
 
-def set_achieve(kind, name, value):
+"""
+- what url for engine should be?
+- must the session be closed?
+"""
+
+
+def set_achieve(gotten, name):
     achieve = get_achieves(name)
-    if kind == 'avg_accuracy':
-        achieve.avg_accuracy = max(achieve.avg_accuracy, value)
-    elif kind == 'max_score':
-        achieve.max_score = max(achieve.max_score, value)
-    elif kind == 'days_in_raw':
-        achieve.days_in_raw = value
-    elif kind == 'max_symbol_per_day':
-        achieve.max_symbol_per_day = value
-    elif kind == 'time_spend':
-        achieve.time_spend += value
-    elif kind == 'last_visit':
-        achieve.last_visit = value
-    elif kind == 'level':
-        achieve.level += 1
+    achieve.avg_accuracy = max(achieve.avg_accuracy, gotten['avg_accuracy'])
+    achieve.max_score = max(achieve.max_score, gotten['max_score'])
+    achieve.max_symbol_per_day = max(achieve.max_symbol_per_day, gotten['max_symbol_per_day'])
+    achieve.time_spend = gotten['time_spend']
+    achieve.last_visit = gotten['last_visit']
+    achieve.level = gotten['level']
     session.commit()
