@@ -13,6 +13,7 @@ def post_user_info(link: str, user_info: UserInfo):
     return {"message": "User info posted successfully", "info": user_data[link]}
 
 
+
 @app.get("/user/{link}")
 def get_user_info(link: str):
     if link in user_data:

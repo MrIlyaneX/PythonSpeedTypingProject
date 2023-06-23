@@ -9,15 +9,15 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 
 
-class Ui_MainWindow(object):
-    def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(800, 600)
+class Ui_LogInWindow(object):
+    def setupUi(self, LogInWindow):
+        LogInWindow.setObjectName("LogInWindow")
+        LogInWindow.resize(800, 600)
         font = QtGui.QFont()
         font.setPointSize(12)
-        MainWindow.setFont(font)
-        MainWindow.setStyleSheet("background-color: rgb(231, 255, 239);")
-        self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
+        LogInWindow.setFont(font)
+        LogInWindow.setStyleSheet("background-color: rgb(231, 255, 239);")
+        self.centralwidget = QtWidgets.QWidget(parent=LogInWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.LogIn = QtWidgets.QLabel(parent=self.centralwidget)
         self.LogIn.setGeometry(QtCore.QRect(0, -10, 800, 181))
@@ -68,25 +68,25 @@ class Ui_MainWindow(object):
         self.lineEdit_2.setGeometry(QtCore.QRect(310, 460, 181, 41))
         self.lineEdit_2.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.lineEdit_2.setObjectName("lineEdit_2")
-        MainWindow.setCentralWidget(self.centralwidget)
+        LogInWindow.setCentralWidget(self.centralwidget)
 
-        self.retranslateUi(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.retranslateUi(LogInWindow)
+        QtCore.QMetaObject.connectSlotsByName(LogInWindow)
 
-    def retranslateUi(self, MainWindow):
+    def retranslateUi(self, LogInWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.LogIn.setText(_translate("MainWindow", "Log in"))
-        self.Username.setText(_translate("MainWindow", "Username"))
-        self.Password.setText(_translate("MainWindow", "Password"))
-        self.logIn_button.setText(_translate("MainWindow", "Log in"))
+        LogInWindow.setWindowTitle(_translate("LogInWindow", "LogInWindow"))
+        self.LogIn.setText(_translate("LogInWindow", "Log in"))
+        self.Username.setText(_translate("LogInWindow", "Username"))
+        self.Password.setText(_translate("LogInWindow", "Password"))
+        self.logIn_button.setText(_translate("LogInWindow", "Log in"))
 
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
+    LogInWindow = QtWidgets.QLogInWindow()
+    ui = Ui_LogInWindow()
+    ui.setupUi(LogInWindow)
+    LogInWindow.show()
     sys.exit(app.exec())
