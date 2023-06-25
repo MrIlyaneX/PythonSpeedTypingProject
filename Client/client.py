@@ -12,9 +12,6 @@ server_url = "http://127.0.0.1:8000"
 def user_to_dict(user: User):
     user_copy = user.copy()
 
-    if isinstance(user_copy.registration_date, datetime):
-        user_copy.registration_date = user_copy.registration_date.isoformat()
-
     if isinstance(user_copy.achievements.last_visit, datetime):
         user_copy.achievements.last_visit = user_copy.achievements.last_visit.isoformat()
 

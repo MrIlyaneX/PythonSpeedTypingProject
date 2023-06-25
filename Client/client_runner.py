@@ -50,6 +50,8 @@ def runner_main(to_signup: bool = True, to_remember: bool = True):
         token = login(**data_from_login())
 
     header = {"Authorization": "Bearer " + token}
+    print(user)
+    print(header)
 
 
 if __name__ == "__main__":
