@@ -1,6 +1,5 @@
 """ Client actions library; all actions for SpeedTypingProject needed for client part located here """
 import json
-import time
 
 import requests
 
@@ -9,7 +8,14 @@ from db.data_classes import *
 server_url = "http://127.0.0.1:8000"
 
 
-def user_to_dict(user: User):
+def user_to_dict(user: User) -> dict:
+    """
+    Converts User to dict
+
+    :param user: user data of type User
+    :return: dict with user data in json format
+    """
+
     user_copy = user.copy()
 
     if isinstance(user_copy.achievements.last_visit, datetime):
@@ -20,18 +26,20 @@ def user_to_dict(user: User):
     return user_copy
 
 
-def signup(user_info: User, password: str):
+def signup(username: str, user_email: str, password: str) -> User:
     """
     Creates user on the server
 
-    :param user_info:
-    :param password:
-    :return:
+    :param username: username
+    :param user_email: user email 
+    :param password: user password
+    :return: User
     """
 
     url = f"{server_url}/signup"
-    user_dict = user_to_dict(user_info)
-    response = requests.post(url, json=user_dict, params={"password": password})
+    user_dict = {"username": username, "email": user_email}
+    response = requests.post(url, json=user_dict, params={
+                             "password": password})
     if response.status_code != 200:
         print("Error:", response.status_code)
         print(response.text)
@@ -39,13 +47,13 @@ def signup(user_info: User, password: str):
     return User(**response.json())
 
 
-def login(username: str, password: str):
+def login(username: str, password: str) -> str:
     """
     Gets token for future authentication related actions
 
-    :param username:
-    :param password:
-    :return:
+    :param username: username
+    :param password: password
+    :return: token
     """
     url = f"{server_url}/token"
     payload = {
@@ -64,8 +72,8 @@ def get_info(header) -> User:
     """
     Gets info from the server about user
 
-    :param header:
-    :return:
+    :param header: header with token
+    :return: user info in User format
     """
     url = f"{server_url}/users/me/"
 
@@ -78,13 +86,13 @@ def get_info(header) -> User:
     return User(**response.json())
 
 
-def upload_info(user_info: User, header):
+def upload_info(user_info: User, header) -> User:
     """
     For now uploads achievements data in User at the server side
 
-    :param user_info:
-    :param header:
-    :return:
+    :param user_info: user info in User format to upload
+    :param header: header with token
+    :return: user info in User format
     """
     url = f"{server_url}/users/me/upload"
     user_dict = user_to_dict(user_info)
@@ -102,13 +110,13 @@ def upload_info(user_info: User, header):
     return User(**response.json())
 
 
-def get_file(language: str, header):
+def get_file(language: str, header) -> None:
     """
     Gets file with chosen language from the server to user/data/file_name
 
-    :param language:
-    :param header:
-    :return:
+    :param language: language of the file in type "en" or "ru"
+    :param header: header with token
+    :return: None
     """
 
     url = f"{server_url}/files/words/{language}"
