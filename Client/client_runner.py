@@ -1,6 +1,5 @@
 """ Works with client data exchange to server and inner data """
 
-
 from Client.client import signup, login, get_file, upload_info, get_info
 from db.data_classes import User, Token
 
@@ -20,11 +19,11 @@ def get_header(username: str, password: str, user_email: str, to_login: bool | N
     :param to_remember: if True, remember
     :return: None
     """
-    user: User = None
-    token: Token = None
+
+    token: Token | None = None
 
     if to_signup:
-        user = signup(username, password, user_email)
+        signup(username, password, user_email)
         token = login(username, password)
     if to_login and not to_remember:
         token = login(username, password)
@@ -32,7 +31,7 @@ def get_header(username: str, password: str, user_email: str, to_login: bool | N
         token = login(username, password)
 
     if token is not None:
-        return {"Authorization": "Bearer " + token}
+        return {"Authorization": "Bearer " + token.access_token}
     else:
         return None
 
@@ -47,7 +46,7 @@ def get_user(header: dict) -> User | None:
     return get_info(header)
 
 
-def get_achivements(header: dict) -> dict | None:
+def get_achievements(header: dict) -> dict | None:
     """
     Gets user achievements
 
@@ -57,10 +56,14 @@ def get_achivements(header: dict) -> dict | None:
     return get_info(header)["achievements"]
 
 
-if __name__ == "__main__":
+def main():
     header = get_header(to_signup=True, password="123",
                         username="123", user_email="123")
     user = get_user(header)
-    achivements = get_achivements(header)
+    achievements = get_achievements(header)
     print(user)
-    print(achivements)
+    print(achievements)
+
+
+if __name__ == "__main__":
+    main()

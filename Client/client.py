@@ -39,7 +39,7 @@ def signup(username: str, user_email: str, password: str) -> User:
     url = f"{server_url}/signup"
     user_dict = {"username": username, "email": user_email}
     response = requests.post(url, json=user_dict, params={
-                             "password": password})
+        "password": password})
     if response.status_code != 200:
         print("Error:", response.status_code)
         print(response.text)
@@ -47,7 +47,7 @@ def signup(username: str, user_email: str, password: str) -> User:
     return User(**response.json())
 
 
-def login(username: str, password: str) -> str:
+def login(username: str, password: str) -> Token:
     """
     Gets token for future authentication related actions
 
@@ -65,7 +65,7 @@ def login(username: str, password: str) -> str:
         print("Error:", response.status_code)
         print(response.text)
         exit(20)
-    return response.json()["access_token"]
+    return response.json()
 
 
 def get_info(header) -> User:
