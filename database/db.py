@@ -15,7 +15,6 @@ from sqlalchemy.orm import declarative_base, sessionmaker
 Base = declarative_base()
 url = "sqlite:///database/mydb.db"
 
-
 """
     Class User contains his unique ID (we do not need to set it), username, password and 
     ID of his achievements. We need username and password for creating an object.
@@ -86,7 +85,7 @@ class Achieves(Base):
                f"last visit = {self.last_visit}"
 
 
-engine = db.create_engine(url, echo=True)
+engine = db.create_engine(url, echo=False)
 connection = engine.connect()
 Base.metadata.create_all(bind=engine)
 
@@ -103,7 +102,7 @@ session = Session()
 # session.commit()
 
 
-def get_person_by_id(id):
+def get_person_by_id(id: int):
     return session.get(UserDB, id)
 
 

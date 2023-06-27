@@ -65,7 +65,7 @@ async def upload_own_data(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Username do not exist",
         )
-    update_user_achievements(username=current_user.username, user=user)
+    update_user_achievements(user=user)
     return {"Success": True}
 
 

@@ -14,10 +14,9 @@ def get_user(username: str):
         return UserInDB(**user)
 
 
-def update_user_achievements(username: str, user: User):
+def update_user_achievements(user: User):
     """
     Updates the user's achievements in the database.
-    :param username: The username of the user.
     :param user: The User object containing the updated achievements.
     """
     set_achieve(data=user.achievements.dict(), name=user.username)
