@@ -26,7 +26,7 @@ def user_to_dict(user: User) -> dict:
     return user_copy
 
 
-def signup(username: str, user_email: str, password: str) -> User:
+def signup(username: str, user_email: str, password: str) -> User | dict:
     """
     Creates user on the server
 
@@ -43,11 +43,11 @@ def signup(username: str, user_email: str, password: str) -> User:
     if response.status_code != 200:
         print("Error:", response.status_code)
         print(response.text)
-        exit(19)
+        return {"msg": "Invalid Sign Up", "code": 20}
     return User(**response.json())
 
 
-def login(username: str, password: str) -> Token:
+def login(username: str, password: str) -> Token | dict:
     """
     Gets token for future authentication related actions
 
@@ -64,11 +64,11 @@ def login(username: str, password: str) -> Token:
     if response.status_code != 200:
         print("Error:", response.status_code)
         print(response.text)
-        exit(20)
+        return {"msg": "Invalid Log In", "code": 20}
     return response.json()
 
 
-def get_info(header) -> User:
+def get_info(header) -> User | dict:
     """
     Gets info from the server about user
 
@@ -81,12 +81,12 @@ def get_info(header) -> User:
     if response.status_code != 200:
         print("Error:", response.status_code)
         print(response.text)
-        exit(21)
+        return {"msg": " Failed to get information from server", "code": 21}
 
     return User(**response.json())
 
 
-def upload_info(user_info: User, header) -> User:
+def upload_info(user_info: User, header) -> User | dict:
     """
     For now uploads achievements data in User at the server side
 
@@ -101,16 +101,16 @@ def upload_info(user_info: User, header) -> User:
         print("Error:", response.status_code)
         print(response.text)
         print("Authorization error")
-        exit(23)
+        return {"msg": "Authorization error during uploaing info", "code": 23}
     if response.status_code != 200:
         print("Error:", response.status_code)
         print(response.text)
-        exit(22)
+        return {"msg": " Failed to uload info to the server", "code": 22}
 
     return User(**response.json())
 
 
-def get_file(language: str, header) -> None:
+def get_file(language: str, header) -> None | dict:
     """
     Gets file with chosen language from the server to user/data/file_name
 
@@ -126,11 +126,11 @@ def get_file(language: str, header) -> None:
         print("Error:", response.status_code)
         print(response.text)
         print("Authorization error")
-        exit(23)
+        return {"msg": "Authorization error during uploaing info", "code": 23}
     if response.status_code != 200:
         print("Error:", response.status_code)
         print(response.text)
-        exit(24)
+        return {"msg": "Failed to get words from chosen language from the server", "code": 24}
 
     content_disposition = response.headers.get("content-disposition")
     filename = content_disposition.split("filename=")[-1].strip('\"')
