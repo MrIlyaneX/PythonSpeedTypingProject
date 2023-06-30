@@ -5,8 +5,8 @@ from sqlalchemy import Column, Integer, String, Double
 from sqlalchemy.orm import declarative_base, sessionmaker
 
 Base = declarative_base()
-# url = "sqlite:///database/mydb.db"
-url = "sqlite:///mydb.db"
+url = "sqlite:///database/mydb.db"
+# url = "sqlite:///mydb.db"
 
 engine = db.create_engine(url, echo=False)
 connection = engine.connect()
