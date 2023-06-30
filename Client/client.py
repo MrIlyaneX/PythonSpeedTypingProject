@@ -101,11 +101,11 @@ def upload_info(user_info: User, header) -> User | dict:
         print("Error:", response.status_code)
         print(response.text)
         print("Authorization error")
-        return {"msg": "Authorization error during uploaing info", "code": 23}
+        return {"msg": "Authorization error during uploading info", "code": 23}
     if response.status_code != 200:
         print("Error:", response.status_code)
         print(response.text)
-        return {"msg": " Failed to uload info to the server", "code": 22}
+        return {"msg": " Failed to upload info to the server", "code": 22}
 
     return User(**response.json())
 
@@ -126,7 +126,7 @@ def get_file(language: str, header) -> None | dict:
         print("Error:", response.status_code)
         print(response.text)
         print("Authorization error")
-        return {"msg": "Authorization error during uploaing info", "code": 23}
+        return {"msg": "Authorization error during uploading info", "code": 23}
     if response.status_code != 200:
         print("Error:", response.status_code)
         print(response.text)
@@ -137,3 +137,15 @@ def get_file(language: str, header) -> None | dict:
     save_path = f"user/data/words/{filename}"
     with open(save_path, "w") as file:
         json.dump(response.json(), file)
+
+
+def get_leaderboard():
+    url = f"{server_url}/leaderboard"
+    response = requests.get(url)
+
+    if response.status_code != 200:
+        print("Error:", response.status_code)
+        print(response.text)
+        return {"msg": "Failed to get leaderboard from the server", "code": 25}
+
+    return response.json()

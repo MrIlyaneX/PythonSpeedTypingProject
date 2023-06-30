@@ -22,3 +22,7 @@ def update_user_achievements(user: User):
     :param user: The User object containing the updated achievements.
     """
     set_achieve(data=user.achievements.dict(), name=user.username)
+
+
+def get_leaderboard():
+    return get_top()

@@ -7,7 +7,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 
 from Server.config import ACCESS_TOKEN_EXPIRE_MINUTES
 from Server.auth_functions import create_access_token, authenticate_user, get_current_active_user, get_password_hash
-from Server.db_access import get_person_by_username, update_user_achievements, add_person
+from Server.db_access import get_person_by_username, update_user_achievements, add_person, get_leaderboard
 from db.data_classes import Token, User, Language
 
 router = APIRouter()
@@ -70,6 +70,9 @@ async def upload_own_data(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Username do not exist",
         )
+
+
+
     update_user_achievements(user=user)
     return {"Success": True}
 
@@ -80,7 +83,7 @@ async def signup(username: str, user_email: str, password: str) -> User:
     Sign up a new user.
 
     :param username: The username for the new user.
-    :param user: The user data to be signed up.
+    :param user_email: The user data to be signed up.
     :param password: The password for the new user.
     :return: The signed-up user details.
 
@@ -94,7 +97,7 @@ async def signup(username: str, user_email: str, password: str) -> User:
     hashed_password = get_password_hash(password)
 
     add_person(username=username, password=hashed_password, mail=user_email)
-    return get_person_by_username(username=username)
+    return User(**get_person_by_username(username=username))
 
 
 @router.get("/files/words/{language}", response_model=FileResponse)
@@ -112,3 +115,8 @@ async def send_words(language: Language) -> FileResponse:
     if language is Language.ru:
         pass
     raise HTTPException(status_code=400, detail="Invalid language")
+
+
+@router.post("/leaderboard", response_model=dict)
+async def post_leaderboard() -> dict:
+    return get_leaderboard()

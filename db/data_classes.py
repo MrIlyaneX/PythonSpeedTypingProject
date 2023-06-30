@@ -25,7 +25,7 @@ class User(BaseModel):
 
 class Token(BaseModel):
     """
-    Represents token data
+    Represents token
     """
     access_token: str
     remember_token: str | None

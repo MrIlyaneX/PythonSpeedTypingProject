@@ -1,6 +1,6 @@
 """ Works with client data exchange to server and inner data """
 
-from Client.client import signup, login, get_file, upload_info, get_info
+from Client.client import signup, login, get_file, upload_info, get_info, get_leaderboard
 from db.data_classes import User, Token
 
 server_url = "http://127.0.0.1:8000"
@@ -10,7 +10,7 @@ def get_header(username: str, password: str, user_email: str, to_login: bool | N
                to_signup: bool | None = None, to_remember: bool | None = None) -> dict | None:
     """
     Main function for client actions
-    SignUp or LogIn user into system and returns header with token or None if error occured
+    SignUp or LogIn user into system and returns header with token or None if error occurred
 
     :param username: username
     :param password: password
@@ -29,8 +29,6 @@ def get_header(username: str, password: str, user_email: str, to_login: bool | N
     if to_login and not to_remember:
         token = login(username, password)
     if to_login and to_remember:
-        token = login(username, password)
-    if to_login and not to_remember:
         token = login(username, password)
 
     if isinstance(token, Token):
