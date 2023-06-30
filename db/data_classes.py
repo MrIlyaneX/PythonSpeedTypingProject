@@ -28,6 +28,7 @@ class Token(BaseModel):
     Represents token data
     """
     access_token: str
+    remember_token: str | None
     token_type: str
 
 
