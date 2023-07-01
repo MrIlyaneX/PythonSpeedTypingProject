@@ -9,17 +9,17 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 
 
-class Ui_CreateAccWindow(object):
-    def setupUi(self, CreateAccWindow):
-        CreateAccWindow.setObjectName("CreateAccWindow")
-        CreateAccWindow.resize(800, 600)
+class Ui_MainWindow(object):
+    def setupUi(self, MainWindow):
+        MainWindow.setObjectName("MainWindow")
+        MainWindow.resize(800, 600)
         font = QtGui.QFont()
         font.setFamily("Arial Rounded MT Bold")
-        CreateAccWindow.setFont(font)
-        CreateAccWindow.setStyleSheet("background-color: rgb(231, 255, 239);\n"
+        MainWindow.setFont(font)
+        MainWindow.setStyleSheet("background-color: rgb(231, 255, 239);\n"
 "")
-        CreateAccWindow.setTabShape(QtWidgets.QTabWidget.TabShape.Rounded)
-        self.centralwidget = QtWidgets.QWidget(parent=CreateAccWindow)
+        MainWindow.setTabShape(QtWidgets.QTabWidget.TabShape.Rounded)
+        self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.Createaccount = QtWidgets.QLabel(parent=self.centralwidget)
         self.Createaccount.setGeometry(QtCore.QRect(0, 0, 801, 181))
@@ -98,26 +98,26 @@ class Ui_CreateAccWindow(object):
         self.Save.setStyleSheet("background-color: rgb(235, 255, 197);\n"
 "border-radius: 25px;")
         self.Save.setObjectName("Save")
-        CreateAccWindow.setCentralWidget(self.centralwidget)
+        MainWindow.setCentralWidget(self.centralwidget)
 
-        self.retranslateUi(CreateAccWindow)
-        QtCore.QMetaObject.connectSlotsByName(CreateAccWindow)
+        self.retranslateUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-    def retranslateUi(self, CreateAccWindow):
+    def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        CreateAccWindow.setWindowTitle(_translate("CreateAccWindow", "CreateAccWindow"))
-        CreateAccWindow.setToolTip(_translate("CreateAccWindow", "<html><head/><body><p align=\"center\"><br/></p></body></html>"))
-        self.Createaccount.setText(_translate("CreateAccWindow", "Create an account"))
-        self.Write_your_name.setText(_translate("CreateAccWindow", "Write you name"))
-        self.Create_a_password.setText(_translate("CreateAccWindow", "Create a password"))
-        self.Save.setText(_translate("CreateAccWindow", "Save"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setToolTip(_translate("MainWindow", "<html><head/><body><p align=\"center\"><br/></p></body></html>"))
+        self.Createaccount.setText(_translate("MainWindow", "Create an account"))
+        self.Write_your_name.setText(_translate("MainWindow", "Write you name"))
+        self.Create_a_password.setText(_translate("MainWindow", "Create a password"))
+        self.Save.setText(_translate("MainWindow", "Save"))
 
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    CreateAccWindow = QtWidgets.QCreateAccWindow()
-    ui = Ui_CreateAccWindow()
-    ui.setupUi(CreateAccWindow)
-    CreateAccWindow.show()
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
     sys.exit(app.exec())
