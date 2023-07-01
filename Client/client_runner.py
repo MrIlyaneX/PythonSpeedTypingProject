@@ -57,6 +57,18 @@ def get_achievements(header: dict) -> dict | None:
     return get_info(header)["achievements"]
 
 
+# I need to use functions from client.py for easy use of client part
+def upload_user_info(header: dict, user: User) -> None:
+    """
+    Uploads user info to server
+
+    :param header: header
+    :param user: user info
+    :return: None
+    """
+    upload_info(header=header, user_info=user)
+
+
 def main():
     """ Actions for testing the work of system (server+app) """
     header = get_header(to_signup=True, password="123",

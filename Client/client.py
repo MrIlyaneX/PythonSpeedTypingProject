@@ -86,7 +86,7 @@ def get_info(header) -> User | dict:
     return User(**response.json())
 
 
-def upload_info(user_info: User, header) -> User | dict:
+def upload_info(user_info: User, header: dict) -> User | dict:
     """
     For now uploads achievements data in User at the server side
 
