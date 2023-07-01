@@ -7,7 +7,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 
 from Server.config import ACCESS_TOKEN_EXPIRE_MINUTES
 from Server.auth_functions import create_access_token, authenticate_user, get_current_active_user, get_password_hash
-from Server.db_access import get_person_by_username, update_user_achievements, add_person
+from Server.db_access import get_person_by_username, update_user_achievements, add_person, get_leaderboard
 from db.data_classes import Token, User, Language
 
 router = APIRouter()
@@ -16,11 +16,13 @@ router = APIRouter()
 @router.post("/token", response_model=Token)
 async def login_for_access_token(
         form_data: Annotated[OAuth2PasswordRequestForm, Depends()]
-):
+) -> dict:
     """
     Retrieves an access token for the user based on the provided login credentials.
+
     :param form_data: The login form data.
     :return: The access token.
+
     :raises HTTPException: If the username or password is incorrect.
     """
     user = authenticate_user(form_data.username, form_data.password)
@@ -40,9 +42,10 @@ async def login_for_access_token(
 @router.get("/users/me/", response_model=User)
 async def read_users_me(
         current_user: Annotated[User, Depends(get_current_active_user)]
-):
+) -> dict:
     """
     Retrieve the details of the current authenticated user.
+
     :param current_user: The currently authenticated user.
     :return: The details of the current user as a dictionary.
     """
@@ -52,51 +55,59 @@ async def read_users_me(
 @router.post("/users/me/upload")
 async def upload_own_data(
         current_user: Annotated[User, Depends(get_current_active_user)], user: User
-):
+) -> dict:
     """
     Upload data for the current authenticated user.
+
     :param current_user: The currently authenticated user.
     :param user: The user data to be uploaded.
     :return: A dictionary indicating the success of the upload.
-    :raises HTTPException: If the username is already registered.
+
+    :raises HTTPException: The username is already registered.
     """
     if get_person_by_username(username=user.username) is None:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Username do not exist",
         )
-    update_user_achievements(username=current_user.username, user=user)
+
+
+
+    update_user_achievements(user=user)
     return {"Success": True}
 
 
 @router.post("/signup", response_model=User)
-async def signup(user: User, password: str):
+async def signup(username: str, user_email: str, password: str) -> User:
     """
     Sign up a new user.
-    :param user: The user data to be signed up.
+
+    :param username: The username for the new user.
+    :param user_email: The user data to be signed up.
     :param password: The password for the new user.
     :return: The signed-up user details.
+
     :raises HTTPException: If the username is already registered.
     """
-    if get_person_by_username(username=user.username) is not None:
+    if get_person_by_username(username=username) is not None:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Username already registered",
         )
     hashed_password = get_password_hash(password)
-    user_to_pass = user.copy()
 
-    add_person(username=user.username, password=hashed_password, mail=user.email)
-
-    return user_to_pass
+    add_person(username=username, password=hashed_password, mail=user_email)
+    return User(**get_person_by_username(username=username))
 
 
-@router.get("/files/words/{language}")
-async def send_words(language: Language):
+@router.get("/files/words/{language}", response_model=FileResponse)
+async def send_words(language: Language) -> FileResponse:
     """
     Retrieve words for a specific language.
+
     :param language: The language for which words are requested.
     :return: The file containing words in the specified language.
+
     :raises HTTPException: If the language is invalid.
     """
     if language in Language.en:
@@ -104,3 +115,8 @@ async def send_words(language: Language):
     if language is Language.ru:
         pass
     raise HTTPException(status_code=400, detail="Invalid language")
+
+
+@router.post("/leaderboard", response_model=dict)
+async def post_leaderboard() -> dict:
+    return get_leaderboard()
