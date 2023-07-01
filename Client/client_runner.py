@@ -1,56 +1,83 @@
 """ Works with client data exchange to server and inner data """
-import random
 
-from Client.user.scripts.user_updater import *
-from Client.user.scripts.user_creator import *
+from Client.client import signup, login, get_file, upload_info, get_info, get_leaderboard
 from db.data_classes import User, Token
 
 server_url = "http://127.0.0.1:8000"
 
 
-def get_data():
+def get_header(username: str, password: str, user_email: str, to_login: bool | None = None,
+               to_signup: bool | None = None, to_remember: bool | None = None) -> dict | None:
     """
-    Temporary function for emulating user signup.
-    Returns data for successful signup.
+    Main function for client actions
+    SignUp or LogIn user into system and returns header with token or None if error occurred
 
-
-    :return: {"username": "value", "email": "value@email.com", "password": "value"}
-    """
-
-    return {"username": "qweq", "email": "q@email.com", "password": "qe"}
-
-
-def data_from_login() -> dict:
-    """
-    Emulates user login actions
-
-    :return: {"username": "value", "password": "value"}
-    """
-    return {"username": str(random.seed), "password": "q"}
-
-
-def runner_main(to_signup: bool = True, to_remember: bool = True):
-    """
-    Function for user work with server
-
-    :param to_remember:
-    :param to_signup:
-    :return:
+    :param username: username
+    :param password: password
+    :param user_email: email
+    :param to_login: if True, login
+    :param to_signup: if True, signup
+    :param to_remember: if True, remember
+    :return: None or Header
     """
 
-    user: User
-    token: Token
+    token: Token | None = None
+
     if to_signup:
-        user = signup_user(**get_data())
-        token = login(user.username, get_data()["password"])
-    if not to_signup and to_remember:
-        user, password = get_user(), get_password()
-        token = login(user.username, password)
-    if not to_signup and not to_remember:
-        token = login(**data_from_login())
+        signup(username, password, user_email)
+        token = login(username, password)
+    if to_login and not to_remember:
+        token = login(username, password)
+    if to_login and to_remember:
+        token = login(username, password)
 
-    header = {"Authorization": "Bearer " + token}
+    if isinstance(token, Token):
+        return {"Authorization": "Bearer " + token.access_token}
+    else:
+        return token
+
+
+def get_user(header: dict) -> User | None:
+    """
+    Gets user using auth header
+
+    :param header: header
+    :return: user of type User
+    """
+    return get_info(header)
+
+
+def get_achievements(header: dict) -> dict | None:
+    """
+    Gets user achievements using auth header
+
+    :param header: header
+    :return: user achievements
+    """
+    return get_info(header)["achievements"]
+
+
+# I need to use functions from client.py for easy use of client part
+def upload_user_info(header: dict, user: User) -> None:
+    """
+    Uploads user info to server
+
+    :param header: header
+    :param user: user info
+    :return: None
+    """
+    upload_info(header=header, user_info=user)
+
+
+def main():
+    """ Actions for testing the work of system (server+app) """
+    header = get_header(to_signup=True, password="123",
+                        username="123", user_email="123")
+    user = get_user(header)
+    achievements = get_achievements(header)
+    print(user)
+    print(achievements)
 
 
 if __name__ == "__main__":
-    runner_main(to_signup=True)
+    main()

@@ -1,6 +1,5 @@
 """ Client actions library; all actions for SpeedTypingProject needed for client part located here """
 import json
-import time
 
 import requests
 
@@ -9,11 +8,15 @@ from db.data_classes import *
 server_url = "http://127.0.0.1:8000"
 
 
-def user_to_dict(user: User):
-    user_copy = user.copy()
+def user_to_dict(user: User) -> dict:
+    """
+    Converts User to dict
 
-    if isinstance(user_copy.registration_date, datetime):
-        user_copy.registration_date = user_copy.registration_date.isoformat()
+    :param user: user data of type User
+    :return: dict with user data in json format
+    """
+
+    user_copy = user.copy()
 
     if isinstance(user_copy.achievements.last_visit, datetime):
         user_copy.achievements.last_visit = user_copy.achievements.last_visit.isoformat()
@@ -23,32 +26,34 @@ def user_to_dict(user: User):
     return user_copy
 
 
-def signup(user_info: User, password: str):
+def signup(username: str, user_email: str, password: str) -> User | dict:
     """
     Creates user on the server
 
-    :param user_info:
-    :param password:
-    :return:
+    :param username: username
+    :param user_email: user email 
+    :param password: user password
+    :return: User
     """
 
     url = f"{server_url}/signup"
-    user_dict = user_to_dict(user_info)
-    response = requests.post(url, json=user_dict, params={"password": password})
+    user_dict = {"username": username, "email": user_email}
+    response = requests.post(url, json=user_dict, params={
+        "password": password})
     if response.status_code != 200:
         print("Error:", response.status_code)
         print(response.text)
-        exit(19)
+        return {"msg": "Invalid Sign Up", "code": 20}
     return User(**response.json())
 
 
-def login(username: str, password: str):
+def login(username: str, password: str) -> Token | dict:
     """
     Gets token for future authentication related actions
 
-    :param username:
-    :param password:
-    :return:
+    :param username: username
+    :param password: password
+    :return: token
     """
     url = f"{server_url}/token"
     payload = {
@@ -59,16 +64,16 @@ def login(username: str, password: str):
     if response.status_code != 200:
         print("Error:", response.status_code)
         print(response.text)
-        exit(20)
-    return response.json()["access_token"]
+        return {"msg": "Invalid Log In", "code": 20}
+    return response.json()
 
 
-def get_info(header) -> User:
+def get_info(header) -> User | dict:
     """
     Gets info from the server about user
 
-    :param header:
-    :return:
+    :param header: header with token
+    :return: user info in User format
     """
     url = f"{server_url}/users/me/"
 
@@ -76,18 +81,18 @@ def get_info(header) -> User:
     if response.status_code != 200:
         print("Error:", response.status_code)
         print(response.text)
-        exit(21)
+        return {"msg": " Failed to get information from server", "code": 21}
 
     return User(**response.json())
 
 
-def upload_info(user_info: User, header):
+def upload_info(user_info: User, header: dict) -> User | dict:
     """
     For now uploads achievements data in User at the server side
 
-    :param user_info:
-    :param header:
-    :return:
+    :param user_info: user info in User format to upload
+    :param header: header with token
+    :return: user info in User format
     """
     url = f"{server_url}/users/me/upload"
     user_dict = user_to_dict(user_info)
@@ -96,22 +101,22 @@ def upload_info(user_info: User, header):
         print("Error:", response.status_code)
         print(response.text)
         print("Authorization error")
-        exit(23)
+        return {"msg": "Authorization error during uploading info", "code": 23}
     if response.status_code != 200:
         print("Error:", response.status_code)
         print(response.text)
-        exit(22)
+        return {"msg": " Failed to upload info to the server", "code": 22}
 
     return User(**response.json())
 
 
-def get_file(language: str, header):
+def get_file(language: str, header) -> None | dict:
     """
     Gets file with chosen language from the server to user/data/file_name
 
-    :param language:
-    :param header:
-    :return:
+    :param language: language of the file in type "en" or "ru"
+    :param header: header with token
+    :return: None
     """
 
     url = f"{server_url}/files/words/{language}"
@@ -121,14 +126,26 @@ def get_file(language: str, header):
         print("Error:", response.status_code)
         print(response.text)
         print("Authorization error")
-        exit(23)
+        return {"msg": "Authorization error during uploading info", "code": 23}
     if response.status_code != 200:
         print("Error:", response.status_code)
         print(response.text)
-        exit(24)
+        return {"msg": "Failed to get words from chosen language from the server", "code": 24}
 
     content_disposition = response.headers.get("content-disposition")
     filename = content_disposition.split("filename=")[-1].strip('\"')
     save_path = f"user/data/words/{filename}"
     with open(save_path, "w") as file:
         json.dump(response.json(), file)
+
+
+def get_leaderboard():
+    url = f"{server_url}/leaderboard"
+    response = requests.get(url)
+
+    if response.status_code != 200:
+        print("Error:", response.status_code)
+        print(response.text)
+        return {"msg": "Failed to get leaderboard from the server", "code": 25}
+
+    return response.json()
