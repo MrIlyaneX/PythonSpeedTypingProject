@@ -42,14 +42,14 @@ async def login_for_access_token(
 @router.get("/users/me/", response_model=User)
 async def read_users_me(
         current_user: Annotated[User, Depends(get_current_active_user)]
-) -> dict:
+) -> User:
     """
     Retrieve the details of the current authenticated user.
 
     :param current_user: The currently authenticated user.
     :return: The details of the current user as a dictionary.
     """
-    return current_user.dict()
+    return current_user
 
 
 @router.post("/users/me/upload")
@@ -70,8 +70,6 @@ async def upload_own_data(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Username do not exist",
         )
-
-
 
     update_user_achievements(user=user)
     return {"Success": True}
@@ -100,7 +98,7 @@ async def signup(username: str, user_email: str, password: str) -> User:
     return User(**get_person_by_username(username=username))
 
 
-@router.get("/files/words/{language}", response_model=FileResponse)
+@router.get("/files/words/{language}")
 async def send_words(language: Language) -> FileResponse:
     """
     Retrieve words for a specific language.
@@ -110,11 +108,12 @@ async def send_words(language: Language) -> FileResponse:
 
     :raises HTTPException: If the language is invalid.
     """
-    if language in Language.en:
+    if language == Language.en:
         return FileResponse("Server/words/en.json", media_type="application/json", filename="en.json")
-    if language is Language.ru:
-        pass
-    raise HTTPException(status_code=400, detail="Invalid language")
+    elif language == Language.ru:
+        return FileResponse("Server/words/en.json", media_type="application/json", filename="en.json")
+    else:
+        raise HTTPException(status_code=400, detail="Invalid language")
 
 
 @router.post("/leaderboard", response_model=dict)

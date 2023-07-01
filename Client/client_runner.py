@@ -31,10 +31,11 @@ def get_header(username: str, password: str, user_email: str, to_login: bool | N
     if to_login and to_remember:
         token = login(username, password)
 
-    if isinstance(token, Token):
-        return {"Authorization": "Bearer " + token.access_token}
+    if token is not None:
+        tokens = Token(**token)
+        return {"Authorization": "Bearer " + tokens.access_token}
     else:
-        return token
+        return None
 
 
 def get_user(header: dict) -> User | None:
@@ -54,7 +55,7 @@ def get_achievements(header: dict) -> dict | None:
     :param header: header
     :return: user achievements
     """
-    return get_info(header)["achievements"]
+    return get_info(header).achievements.dict()
 
 
 # I need to use functions from client.py for easy use of client part
@@ -71,8 +72,9 @@ def upload_user_info(header: dict, user: User) -> None:
 
 def main():
     """ Actions for testing the work of system (server+app) """
-    header = get_header(to_signup=True, password="123",
-                        username="123", user_email="123")
+    header = get_header(to_login=True, to_remember=False, password="123",
+                        username="loq2", user_email="123")
+    print(header)
     user = get_user(header)
     achievements = get_achievements(header)
     print(user)
