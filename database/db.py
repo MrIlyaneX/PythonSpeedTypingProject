@@ -5,15 +5,8 @@ from sqlalchemy import Column, Integer, String, Double
 from sqlalchemy.orm import declarative_base, sessionmaker
 
 Base = declarative_base()
-url = "sqlite:///database/mydb.db"
-# url = "sqlite:///mydb.db"
-
-engine = db.create_engine(url, echo=False)
-connection = engine.connect()
-Base.metadata.create_all(bind=engine)
-
-Session = sessionmaker(bind=engine)
-session = Session()
+# url = "sqlite:///database/mydb.db"
+url = "sqlite:///mydb.db"
 
 
 class UserDB(Base):
@@ -24,13 +17,13 @@ class UserDB(Base):
     """
     __tablename__ = "Users"
 
-    id = Column(Integer, primary_key=True)
+    id = Column("id", Integer, primary_key=True)
     username = Column("username", String)
     password = Column("password", String)
     email = Column("email", String)
     disabled = Column("disabled", Boolean)
 
-    def __init__(self, name, password, email):
+    def __init__(self, name: str, password: str, email: str):
         self.username = name
         self.password = password
         self.email = email
@@ -53,15 +46,15 @@ class Achievements(Base):
         of the corresponding user (their ids are the same)
     """
     __tablename__ = 'Achievements'
-    id = Column(Integer, primary_key=True)
-    max_score = Column(Integer)
-    avg_accuracy = Column(Double)
-    days_in_raw = Column(Integer)
-    max_days_in_raw = Column(Integer)
-    max_symbols_per_day = Column(Integer)
-    time_spend = Column(Integer)
-    last_visit = Column(DATETIME)
-    level = Column(Integer)
+    id = Column("id", Integer, primary_key=True)
+    max_score = Column("max_score", Integer)
+    avg_accuracy = Column("avg_accuracy", Double)
+    days_in_raw = Column("days_in_raw", Integer)
+    max_days_in_raw = Column("max_days_in_raw", Integer)
+    max_symbols_per_day = Column("max_symbols_per_day", Integer)
+    time_spend = Column("time_spend", Integer)
+    last_visit = Column("last_visit", DATETIME)
+    level = Column("level", Integer)
 
     def __init__(self):
         self.max_score = 0
@@ -73,15 +66,23 @@ class Achievements(Base):
         self.last_visit = datetime.utcnow()
         self.level = 1
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"Achievements(average accuracy = {self.avg_accuracy}, max score = {self.max_score}, " \
                f"days in raw = {self.days_in_raw}, max days in raw = {self.max_days_in_raw}, " \
                f"max symbols per day = {self.max_symbols_per_day}, spent time={self.time_spend}, " \
                f"last visit={self.last_visit}, level = {self.level}"
 
 
+engine = db.create_engine(url, echo=False)
+meta = Base.metadata
+meta.create_all(bind=engine)
+
+Session = sessionmaker(bind=engine)
+session = Session()
+
+
 """ Variable for saving 10 users with the best max_scores in tuple type (username, score). """
-top = [(0, 0)]
+top = [("", 0)]
 
 
 # person1 = UserDB('Ann', '1234', 'em1')
@@ -93,7 +94,7 @@ top = [(0, 0)]
 # session.commit()
 
 
-def get_person_by_username(username) -> dict | None:
+def get_person_by_username(username: str) -> dict | None:
     """ Finds the needed user by his username and returns a dictionary with his personal
     information and achievements if such username exists. Otherwise, returns None. """
     current_user: UserDB = session.query(UserDB).filter_by(username=username).scalar()
@@ -115,52 +116,57 @@ def get_person_by_username(username) -> dict | None:
     }
 
 
-def get(username) -> UserDB | None:
-    """ Finds the user in the table and returns UserDB object if he exists """
+def get(username: str) -> UserDB | None:
+    """ Finds the user in the table and returns UserDB object if he exists.
+        Used for inside processes. """
     current_user: UserDB = session.query(UserDB).filter_by(username=username).scalar()
     if current_user is None:
         return None
     return current_user
 
 
-def get_achievements(name) -> Achievements | None:
+def get_achievements(username: str) -> Achievements | None:
     """ Finds the corresponding user and his achievements using his id.
-    Returns Achievements object. """
-    current_user = get(name)
+    Returns Achievements object, used for inside processes. """
+    current_user = get(username)
     return session.get(Achievements, current_user.id)
 
 
-def get_top():
+def get_top() -> list:
     """ Returns the top of 10 users with the best scores. """
     return top
 
 
-def add_person(username, password, mail):
+def add_person(username: str, password: str, mail: str) -> None:
     """ Creates a new UserDB object and puts him into the table. """
     new_person = UserDB(username, password, mail)
     session.add(new_person)
     session.commit()
 
 
-def set_username(old, new):
+def set_username(old: str, new: str) -> None:
     """ Changes the username of the user """
     person = get(old)
     if person is not None:
         person.username = new
         session.commit()
+    else:
+        return None
 
 
-def set_password(old, new):
+def set_password(old: str, new: str) -> None:
     """ Changes the password of the user """
     person = get(old)
     if person is not None:
         person.password = new
         session.commit()
+    else:
+        return None
 
 
-def set_achieve(data, name):
-    user = get(name)
-    achieve = get_achievements(name)
+def set_achieve(data: dict, username: str) -> None:
+    user = get(username)
+    achieve = get_achievements(username)
     achieve.avg_accuracy = max(achieve.avg_accuracy, data['avg_accuracy'])
     achieve.max_score = max(achieve.max_score, data['max_score'])
     achieve.max_symbols_per_day = max(achieve.max_symbols_per_day, data['max_symbols_per_day'])
@@ -168,7 +174,7 @@ def set_achieve(data, name):
     achieve.last_visit = data['last_visit']
     session.commit()
     if data['max_score'] > top[0][1]:
-        top.append((name, data['max_score']))
+        top.append((username, data['max_score']))
         sorted(top, key=lambda current_user: current_user[1])
         if top.__len__() > 10:
             top.pop()
