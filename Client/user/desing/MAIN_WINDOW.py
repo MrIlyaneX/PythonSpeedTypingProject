@@ -1,9 +1,9 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
-from Client.user.desing2.Account import Ui_Account
-from Client.user.desing2.Achievements import Ui_Achievements
+from Client.user.desing.Account import Ui_Account
+from Client.user.desing.Achievements import Ui_Achievements
 from Rating import Ui_Rating
-from Client.user.desing2.Info import Ui_Info
-from Client.user.desing2.LogIn import Ui_LogIn
+from Client.user.desing.Info import Ui_Info
+from Client.user.desing.LogIn import Ui_LogIn
 
 class Ui_MainWindow(object):
     def logIn(self):
