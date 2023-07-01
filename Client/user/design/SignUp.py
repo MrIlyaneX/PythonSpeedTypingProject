@@ -3,6 +3,7 @@ from MAIN_WINDOW import Ui_MainWindow
 from LogIn import Ui_LogIn
 from CreateAccount import Ui_CreateAccount
 
+# comments
 
 class Ui_SignUp(object):
     def openWindow(self):
