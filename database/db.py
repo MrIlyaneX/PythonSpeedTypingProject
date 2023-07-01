@@ -181,3 +181,4 @@ def set_achieve(data: dict, name: str) -> None:
     user.attemts.append(data['max_score'])
     user.attempts.pop()
     session.commit()
+
