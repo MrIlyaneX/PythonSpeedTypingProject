@@ -164,9 +164,9 @@ def set_password(old: str, new: str) -> None:
         return None
 
 
-def set_achieve(data: dict, username: str) -> None:
-    user = get(username)
-    achieve = get_achievements(username)
+def set_achieve(data: dict, name: str) -> None:
+    user = get(name)
+    achieve = get_achievements(name)
     achieve.avg_accuracy = max(achieve.avg_accuracy, data['avg_accuracy'])
     achieve.max_score = max(achieve.max_score, data['max_score'])
     achieve.max_symbols_per_day = max(achieve.max_symbols_per_day, data['max_symbols_per_day'])
@@ -174,11 +174,10 @@ def set_achieve(data: dict, username: str) -> None:
     achieve.last_visit = data['last_visit']
     session.commit()
     if data['max_score'] > top[0][1]:
-        top.append((username, data['max_score']))
+        top.append((name, data['max_score']))
         sorted(top, key=lambda current_user: current_user[1])
         if top.__len__() > 10:
             top.pop()
     user.attemts.append(data['max_score'])
     user.attempts.pop()
     session.commit()
-
