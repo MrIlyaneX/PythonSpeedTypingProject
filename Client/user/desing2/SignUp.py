@@ -7,7 +7,7 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from MAIN_WINDOW import Ui_MainWindow1
 from LogIn import Ui_LogInWindow
-from creation_an_account import Ui_CreateAccWindow
+from creation_an_account import Ui_CreateAccW
 
 class Ui_MainWindow2(object):
 
