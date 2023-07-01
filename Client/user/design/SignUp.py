@@ -9,21 +9,21 @@ class Ui_SignUp(object):
         self.window = QtWidgets.QMainWindow()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self.window)
-
+        SignUpWindow.hide()
         self.window.show()
 
     def createAcc(self):
         self.window = QtWidgets.QMainWindow()
         self.ui = Ui_CreateAccount()
         self.ui.setupUi(self.window)
-
+        SignUpWindow.hide()
         self.window.show()
 
     def openLogIn(self):
         self.window = QtWidgets.QMainWindow()
         self.ui = Ui_LogIn()
         self.ui.setupUi(self.window)
-
+        SignUpWindow.hide()
         self.window.show()
 
     def setupUi(self, SignUpWindow):
