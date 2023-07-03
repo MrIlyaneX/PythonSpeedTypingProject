@@ -37,12 +37,11 @@ def signup(username: str, user_email: str, password: str) -> User | dict:
     """
 
     url = f"{server_url}/signup"
-    user_dict = {"username": username, "email": user_email}
-    response = requests.post(url, json=user_dict, params={
-        "password": password})
+    response = requests.post(url, params={"password": password, "username": username, "user_email": user_email})
     if response.status_code != 200:
         print("Error:", response.status_code)
         print(response.text)
+        print(1000)
         return {"msg": "Invalid Sign Up", "code": 20}
     return User(**response.json())
 
