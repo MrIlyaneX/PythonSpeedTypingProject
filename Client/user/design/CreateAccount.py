@@ -4,34 +4,34 @@ from Client.client_runner import *
 
 class Ui_CreateAccount(object):
     # function for getting text from user (username)
-    def getUsername(self):
+    def get_username(self):
         text = self.NameText.text()
         print(text)
         return text
 
     # function for getting text from user (password)
-    def getPassword(self):
+    def get_password(self):
         text = self.PasswordText.text()
         print(text)
         return text
 
     # function for getting text from user (email)
-    def getEmail(self):
+    def get_email(self):
         text = self.emailText.text()
         print(text)
         return text
 
     # function for closing this window
-    def Back(self):
+    def back(self):
         from MAIN_WINDOW import Ui_MainWindow
         self.window = QtWidgets.QMainWindow()
         self.ui = Ui_MainWindow()
-        self.ui.setupUi(self.window)
+        self.ui.setup_ui(self.window)
 
     def button_clicked(self):
-        user_email = self.getEmail()
-        username = self.getUsername()
-        password = self.getPassword()
+        user_email = self.get_email()
+        username = self.get_username()
+        password = self.get_password()
         print(user_email, username, password)
         header = get_header(username=username, password=password, user_email=user_email, to_signup=True)
         print(header)
@@ -40,7 +40,7 @@ class Ui_CreateAccount(object):
     def button_checker(self):
         print("checker")
 
-    def setupUi(self, MainWindow):
+    def setup_ui(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 600)
         font = QtGui.QFont()
@@ -174,13 +174,13 @@ class Ui_CreateAccount(object):
         self.SaveBtn.clicked.connect(self.emailText.clear)
 
         # Button action to come back to the MainWindow
-        self.BackBtn.clicked.connect(self.Back)
+        self.BackBtn.clicked.connect(self.back)
         self.BackBtn.clicked.connect(MainWindow.close)
 
-        self.retranslateUi(MainWindow)
+        self.retranslate_ui(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-    def retranslateUi(self, MainWindow):
+    def retranslate_ui(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         MainWindow.setToolTip(
@@ -200,7 +200,7 @@ if __name__ == "__main__":
     MainWindow = QtWidgets.QMainWindow()
 
     ui = Ui_CreateAccount()
-    ui.setupUi(MainWindow)
+    ui.setup_ui(MainWindow)
     MainWindow.show()
 
     sys.exit(app.exec())

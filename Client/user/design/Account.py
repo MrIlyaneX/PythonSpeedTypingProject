@@ -1,17 +1,19 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
+
+
 class Ui_Account(object):
-    def Back(self):
+    def back(self):
         from MAIN_WINDOW import Ui_MainWindow
         self.window = QtWidgets.QMainWindow()
         self.ui = Ui_MainWindow()
-        self.ui.setupUi(self.window)
+        self.ui.setup_ui(self.window)
         # self.window.show()
 
-    def setupUi(self, Account):
+    def setup_ui(self, Account):
         Account.setObjectName("Account")
         Account.resize(800, 600)
         Account.setStyleSheet("background-color: rgb(231, 255, 239);\n"
-"font: 12pt \"Arial Rounded MT Bold\";")
+                              "font: 12pt \"Arial Rounded MT Bold\";")
         self.centralwidget = QtWidgets.QWidget(parent=Account)
         self.centralwidget.setObjectName("centralwidget")
         self.frame = QtWidgets.QFrame(parent=self.centralwidget)
@@ -23,7 +25,7 @@ class Ui_Account(object):
         self.AccountLbl = QtWidgets.QLabel(parent=self.frame)
         self.AccountLbl.setGeometry(QtCore.QRect(300, 50, 221, 81))
         self.AccountLbl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-"border-radius: 25px;")
+                                      "border-radius: 25px;")
         self.AccountLbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.AccountLbl.setObjectName("AccountLbl")
         self.UsernameTxt = QtWidgets.QTextBrowser(parent=self.centralwidget)
@@ -41,10 +43,10 @@ class Ui_Account(object):
         self.backBtn = QtWidgets.QPushButton(parent=self.centralwidget)
         self.backBtn.setGeometry(QtCore.QRect(630, 530, 151, 51))
         self.backBtn.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-"border-radius: 25px;")
+                                   "border-radius: 25px;")
         self.backBtn.setObjectName("backBtn")
         # Button action to come back to the MainWindow
-        self.backBtn.clicked.connect(self.Back)
+        self.backBtn.clicked.connect(self.back)
         self.backBtn.setAutoDefault(False)
         self.backBtn.clicked.connect(Account.close)
         self.backBtn.setAutoDefault(False)
@@ -56,33 +58,33 @@ class Ui_Account(object):
         self.UsernameLbl = QtWidgets.QLabel(parent=self.centralwidget)
         self.UsernameLbl.setGeometry(QtCore.QRect(40, 220, 331, 61))
         self.UsernameLbl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-"border-radius: 25px;")
+                                       "border-radius: 25px;")
         self.UsernameLbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.UsernameLbl.setObjectName("UsernameLbl")
         self.TimeLbl = QtWidgets.QLabel(parent=self.centralwidget)
         self.TimeLbl.setGeometry(QtCore.QRect(500, 300, 221, 61))
         self.TimeLbl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-"border-radius: 25px;")
+                                   "border-radius: 25px;")
         self.TimeLbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.TimeLbl.setObjectName("TimeLbl")
         self.DaysLbl = QtWidgets.QLabel(parent=self.centralwidget)
         self.DaysLbl.setGeometry(QtCore.QRect(170, 500, 121, 61))
         self.DaysLbl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-"border-radius: 25px;")
+                                   "border-radius: 25px;")
         self.DaysLbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.DaysLbl.setObjectName("DaysLbl")
         self.WithUsLbl = QtWidgets.QLabel(parent=self.centralwidget)
         self.WithUsLbl.setGeometry(QtCore.QRect(40, 430, 271, 61))
         self.WithUsLbl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-"border-radius: 25px;")
+                                     "border-radius: 25px;")
         self.WithUsLbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.WithUsLbl.setObjectName("WithUsLbl")
         Account.setCentralWidget(self.centralwidget)
 
-        self.retranslateUi(Account)
+        self.retranslate_ui(Account)
         QtCore.QMetaObject.connectSlotsByName(Account)
 
-    def retranslateUi(self, Account):
+    def retranslate_ui(self, Account):
         _translate = QtCore.QCoreApplication.translate
         Account.setWindowTitle(_translate("Account", "MainWindow"))
         self.AccountLbl.setText(_translate("Account", "Account"))
@@ -95,9 +97,10 @@ class Ui_Account(object):
 
 if __name__ == "__main__":
     import sys
+
     app = QtWidgets.QApplication(sys.argv)
     Account = QtWidgets.QMainWindow()
     ui = Ui_Account()
-    ui.setupUi(Account)
+    ui.setup_ui(Account)
     Account.show()
     sys.exit(app.exec())

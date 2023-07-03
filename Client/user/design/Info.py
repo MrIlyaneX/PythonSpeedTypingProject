@@ -2,14 +2,14 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 
 
 class Ui_Info(object):
-    def Back(self):
+    def back(self):
         from MAIN_WINDOW import Ui_MainWindow
         self.window = QtWidgets.QMainWindow()
         self.ui = Ui_MainWindow()
-        self.ui.setupUi(self.window)
+        self.ui.setup_ui(self.window)
         # self.window.show()
 
-    def setupUi(self, Back):
+    def setup_ui(self, Back):
         Back.setObjectName("Back")
         Back.resize(800, 600)
         Back.setStyleSheet("background-color: rgb(231, 255, 239);\n"
@@ -34,7 +34,7 @@ class Ui_Info(object):
                                    "border-radius: 25px;")
         self.backBtn.setObjectName("backBtn")
         # Button action to come back to the MainWindow
-        self.backBtn.clicked.connect(self.Back)
+        self.backBtn.clicked.connect(self.back)
         self.backBtn.clicked.connect(Back.close)
         self.DescriptionText = QtWidgets.QLabel(parent=self.centralwidget)
         self.DescriptionText.setGeometry(QtCore.QRect(60, 230, 671, 241))
@@ -55,10 +55,10 @@ class Ui_Info(object):
         self.DescriptionText.setObjectName("DescriptionText")
         Back.setCentralWidget(self.centralwidget)
 
-        self.retranslateUi(Back)
+        self.retranslate_ui(Back)
         QtCore.QMetaObject.connectSlotsByName(Back)
 
-    def retranslateUi(self, Back):
+    def retranslate_ui(self, Back):
         _translate = QtCore.QCoreApplication.translate
         Back.setWindowTitle(_translate("Back", "MainWindow"))
         self.InfoLbl.setText(_translate("Back", "Information"))
@@ -73,6 +73,6 @@ if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_Info()
-    ui.setupUi(MainWindow)
+    ui.setup_ui(MainWindow)
     MainWindow.show()
     sys.exit(app.exec())

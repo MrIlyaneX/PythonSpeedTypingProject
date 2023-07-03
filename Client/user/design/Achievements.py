@@ -2,14 +2,14 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 
 
 class Ui_Achievements(object):
-    def Back(self):
+    def back(self):
         from MAIN_WINDOW import Ui_MainWindow
         self.window = QtWidgets.QMainWindow()
         self.ui = Ui_MainWindow()
-        self.ui.setupUi(self.window)
+        self.ui.setup_ui(self.window)
         # self.window.show()
 
-    def setupUi(self, Achievements):
+    def setup_ui(self, Achievements):
         Achievements.setObjectName("Achievements")
         Achievements.resize(800, 600)
         Achievements.setStyleSheet("background-color: rgb(231, 255, 239);\n"
@@ -33,7 +33,7 @@ class Ui_Achievements(object):
                                    "border-radius: 15px;")
         self.BackBtn.setObjectName("BackBtn")
         # Button action to come back to the MainWindow
-        self.BackBtn.clicked.connect(self.Back)
+        self.BackBtn.clicked.connect(self.back)
         self.BackBtn.clicked.connect(Achievements.close)
 
         self.AchievemjentsLbl = QtWidgets.QLabel(parent=self.frame)
@@ -74,10 +74,10 @@ class Ui_Achievements(object):
         self.DaysWithUsLabl.setObjectName("DaysWithUsLabl")
         Achievements.setCentralWidget(self.centralwidget)
 
-        self.retranslateUi(Achievements)
+        self.retranslate_ui(Achievements)
         QtCore.QMetaObject.connectSlotsByName(Achievements)
 
-    def retranslateUi(self, Achievements):
+    def retranslate_ui(self, Achievements):
         _translate = QtCore.QCoreApplication.translate
         Achievements.setWindowTitle(_translate("Achievements", "MainWindow"))
         self.BackBtn.setText(_translate("Achievements", "Back"))
@@ -92,6 +92,6 @@ if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     Achievements = QtWidgets.QMainWindow()
     ui = Ui_Achievements()
-    ui.setupUi(Achievements)
+    ui.setup_ui(Achievements)
     Achievements.show()
     sys.exit(app.exec())

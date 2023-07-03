@@ -2,18 +2,19 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 
 
 class Ui_Rating(object):
-    def Back(self):
+    def back(self):
         from MAIN_WINDOW import Ui_MainWindow
         self.window = QtWidgets.QMainWindow()
         self.ui = Ui_MainWindow()
-        self.ui.setupUi(self.window)
+        self.ui.setup_ui(self.window)
         # self.window.show()
-    def setupUi(self, MainWindow):
+
+    def setup_ui(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 600)
         MainWindow.setToolTipDuration(108)
         MainWindow.setStyleSheet("background-color: rgb(231, 255, 239);\n"
-"font: 12pt \"Arial Rounded MT Bold\";")
+                                 "font: 12pt \"Arial Rounded MT Bold\";")
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.frame = QtWidgets.QFrame(parent=self.centralwidget)
@@ -25,7 +26,7 @@ class Ui_Rating(object):
         self.RatingLbl = QtWidgets.QLabel(parent=self.frame)
         self.RatingLbl.setGeometry(QtCore.QRect(290, 60, 221, 71))
         self.RatingLbl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-"border-radius: 25px;")
+                                     "border-radius: 25px;")
         self.RatingLbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.RatingLbl.setObjectName("RatingLbl")
         self.BackBtn = QtWidgets.QPushButton(parent=self.frame)
@@ -35,10 +36,10 @@ class Ui_Rating(object):
         font.setPointSize(12)
         self.BackBtn.setFont(font)
         self.BackBtn.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-"border-radius: 15px;")
+                                   "border-radius: 15px;")
         self.BackBtn.setObjectName("BackBtn")
         # Button action to come back to the MainWindow
-        self.BackBtn.clicked.connect(self.Back)
+        self.BackBtn.clicked.connect(self.back)
         self.BackBtn.clicked.connect(MainWindow.close)
         self.scrollFast = QtWidgets.QScrollArea(parent=self.centralwidget)
         self.scrollFast.setGeometry(QtCore.QRect(100, 280, 241, 291))
@@ -61,21 +62,21 @@ class Ui_Rating(object):
         self.TimeLbl = QtWidgets.QLabel(parent=self.centralwidget)
         self.TimeLbl.setGeometry(QtCore.QRect(70, 200, 301, 71))
         self.TimeLbl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-"border-radius: 25px;")
+                                   "border-radius: 25px;")
         self.TimeLbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.TimeLbl.setObjectName("TimeLbl")
         self.DaysLbl = QtWidgets.QLabel(parent=self.centralwidget)
         self.DaysLbl.setGeometry(QtCore.QRect(440, 200, 301, 71))
         self.DaysLbl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-"border-radius: 25px;")
+                                   "border-radius: 25px;")
         self.DaysLbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.DaysLbl.setObjectName("DaysLbl")
         MainWindow.setCentralWidget(self.centralwidget)
 
-        self.retranslateUi(MainWindow)
+        self.retranslate_ui(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-    def retranslateUi(self, MainWindow):
+    def retranslate_ui(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.RatingLbl.setText(_translate("MainWindow", "Rating"))
@@ -86,9 +87,10 @@ class Ui_Rating(object):
 
 if __name__ == "__main__":
     import sys
+
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_Rating()
-    ui.setupUi(MainWindow)
+    ui.setup_ui(MainWindow)
     MainWindow.show()
     sys.exit(app.exec())

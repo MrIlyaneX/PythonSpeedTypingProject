@@ -4,28 +4,28 @@ from client_runner import *
 
 class Ui_LogIn(object):
     # function for getting text from user (username)
-    def getUsername(self):
+    def get_username(self):
         text = self.UsernameInput.text()
         return text
 
     # function for getting text from user (password)
-    def getPassword(self):
+    def get_password(self):
         text = self.UsernameInput.text()
         return text
 
     # function for getting text from user (email)
-    def getEmail(self):
+    def get_email(self):
         text = self.UsernameInput.text()
         return text
 
-    #function for closing this window
-    def Back(self):
+    # function for closing this window
+    def back(self):
         from MAIN_WINDOW import Ui_MainWindow
         self.window = QtWidgets.QMainWindow()
         self.ui = Ui_MainWindow()
-        self.ui.setupUi(self.window)
+        self.ui.setup_ui(self.window)
 
-    def setupUi(self, LogInWindow):
+    def setup_ui(self, LogInWindow):
         LogInWindow.setObjectName("LogInWindow")
         LogInWindow.resize(800, 600)
         font = QtGui.QFont()
@@ -56,7 +56,7 @@ class Ui_LogIn(object):
                                     "border-radius: 25px;")
         self.Username.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.Username.setObjectName("Username")
-        #self.Username.clicked.connect(self.getUsername)
+        # self.Username.clicked.connect(self.getUsername)
         self.Password = QtWidgets.QLabel(parent=self.centralwidget)
         self.Password.setGeometry(QtCore.QRect(300, 450, 201, 71))
         font = QtGui.QFont()
@@ -99,7 +99,7 @@ class Ui_LogIn(object):
         self.backbtn.setObjectName("backbtn")
 
         # Button action to come back to the MainWindow
-        self.backbtn.clicked.connect(self.Back)
+        self.backbtn.clicked.connect(self.back)
         self.backbtn.clicked.connect(LogInWindow.close)
 
         self.EmailLbl = QtWidgets.QLabel(parent=self.centralwidget)
@@ -119,24 +119,24 @@ class Ui_LogIn(object):
         # self.EmailTxt.clicked.connect(self.getEmail)
         LogInWindow.setCentralWidget(self.centralwidget)
 
-        self.retranslateUi(LogInWindow)
+        self.retranslate_ui(LogInWindow)
         QtCore.QMetaObject.connectSlotsByName(LogInWindow)
 
         # function call from the external file to work with another db
         if self.logIn_button.clicked:
-            get_header(self.logIn_button.clicked.connect(self.getUsername),
-                    self.logIn_button.clicked.connect(self.getPassword),
-                       self.logIn_button.clicked.connect(self.getEmail), to_login=True)
+            get_header(self.logIn_button.clicked.connect(self.get_username),
+                       self.logIn_button.clicked.connect(self.get_password),
+                       self.logIn_button.clicked.connect(self.get_email), to_login=True)
 
         # Button also will erase everything from the user input if he will leave this window
         self.logIn_button.clicked.connect(self.PasswordInput.clear)
         self.logIn_button.clicked.connect(self.UsernameInput.clear)
         self.logIn_button.clicked.connect(self.EmailTxt.clear)
 
-        self.logIn_button.clicked.connect(self.Back)
+        self.logIn_button.clicked.connect(self.back)
         self.logIn_button.clicked.connect(LogInWindow.close)
 
-    def retranslateUi(self, LogInWindow):
+    def retranslate_ui(self, LogInWindow):
         _translate = QtCore.QCoreApplication.translate
         LogInWindow.setWindowTitle(_translate("LogInWindow", "MainWindow"))
         self.LogIn.setText(_translate("LogInWindow", "Log in"))
@@ -153,6 +153,6 @@ if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     LogInWindow = QtWidgets.QMainWindow()
     ui = Ui_LogIn()
-    ui.setupUi(LogInWindow)
+    ui.setup_ui(LogInWindow)
     LogInWindow.show()
     sys.exit(app.exec())
