@@ -29,7 +29,16 @@ class Ui_CreateAccount(object):
         self.ui.setupUi(self.window)
 
     def button_clicked(self):
-        return get_header(username=self.getUsername(), password=self.getPassword(), user_email=self.getEmail(), to_signup=True)
+        user_email = self.getEmail()
+        username = self.getUsername()
+        password = self.getPassword()
+        print(user_email, username, password)
+        header = get_header(username=username, password=password, user_email=user_email, to_signup=True)
+        print(header)
+        return header
+
+    def button_checker(self):
+        print("checker")
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -120,10 +129,6 @@ class Ui_CreateAccount(object):
                                    "border-radius: 25px;")
         self.SaveBtn.setObjectName("SaveBtn")
 
-        # closing the current window after executing necessary things
-        self.SaveBtn.clicked.connect(self.Back)
-        self.SaveBtn.clicked.connect(MainWindow.close)
-
         self.BackBtn = QtWidgets.QPushButton(parent=self.centralwidget)
         self.BackBtn.setGeometry(QtCore.QRect(50, 517, 141, 51))
         font = QtGui.QFont()
@@ -134,10 +139,6 @@ class Ui_CreateAccount(object):
                                    "border-radius: 25px;\n"
                                    "")
         self.BackBtn.setObjectName("BackBtn")
-
-        # Button action to come back to the MainWindow
-        self.BackBtn.clicked.connect(self.Back)
-        self.BackBtn.clicked.connect(MainWindow.close)
 
         self.emailText = QtWidgets.QLineEdit(parent=self.centralwidget)
         self.emailText.setGeometry(QtCore.QRect(300, 400, 181, 41))
@@ -165,17 +166,16 @@ class Ui_CreateAccount(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         # function call from the external file to work with another db
-        self.BackBtn.clicked.connect(self.button_clicked)
-
-        # if self.SaveBtn.clicked:
-        #     get_header(self.SaveBtn.clicked.connect(self.getUsername),
-        #             self.SaveBtn.clicked.connect(self.getPassword),
-        #             self.SaveBtn.clicked.connect(self.getEmail), to_signup=True)
+        self.SaveBtn.clicked.connect(self.button_clicked)
 
         # Button also will erase everything from the user input if he will leave this window
         self.SaveBtn.clicked.connect(self.PasswordText.clear)
         self.SaveBtn.clicked.connect(self.NameText.clear)
         self.SaveBtn.clicked.connect(self.emailText.clear)
+
+        # Button action to come back to the MainWindow
+        self.BackBtn.clicked.connect(self.Back)
+        self.BackBtn.clicked.connect(MainWindow.close)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -198,7 +198,9 @@ if __name__ == "__main__":
 
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
+
     ui = Ui_CreateAccount()
     ui.setupUi(MainWindow)
     MainWindow.show()
+
     sys.exit(app.exec())
