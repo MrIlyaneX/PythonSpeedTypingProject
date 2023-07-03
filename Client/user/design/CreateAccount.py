@@ -1,21 +1,24 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
-from client_runner import *
+from Client.client_runner import *
 
 
 class Ui_CreateAccount(object):
     # function for getting text from user (username)
     def getUsername(self):
-        text = self.UsernameInput.text()
+        text = self.NameText.text()
+        print(text)
         return text
 
     # function for getting text from user (password)
     def getPassword(self):
-        text = self.UsernameInput.text()
+        text = self.PasswordText.text()
+        print(text)
         return text
 
     # function for getting text from user (email)
     def getEmail(self):
-        text = self.UsernameInput.text()
+        text = self.emailText.text()
+        print(text)
         return text
 
     # function for closing this window
@@ -24,6 +27,9 @@ class Ui_CreateAccount(object):
         self.window = QtWidgets.QMainWindow()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self.window)
+
+    def button_clicked(self):
+        return get_header(username=self.getUsername(), password=self.getPassword(), user_email=self.getEmail(), to_signup=True)
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -159,20 +165,17 @@ class Ui_CreateAccount(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         # function call from the external file to work with another db
-        if self.SaveBtn.clicked:
-            get_header(self.SaveBtn.clicked.connect(self.getUsername),
-                    self.SaveBtn.clicked.connect(self.getPassword),
-                    self.SaveBtn.clicked.connect(self.getEmail), to_signup=True)
+        self.BackBtn.clicked.connect(self.button_clicked)
+
+        # if self.SaveBtn.clicked:
+        #     get_header(self.SaveBtn.clicked.connect(self.getUsername),
+        #             self.SaveBtn.clicked.connect(self.getPassword),
+        #             self.SaveBtn.clicked.connect(self.getEmail), to_signup=True)
 
         # Button also will erase everything from the user input if he will leave this window
         self.SaveBtn.clicked.connect(self.PasswordText.clear)
         self.SaveBtn.clicked.connect(self.NameText.clear)
         self.SaveBtn.clicked.connect(self.emailText.clear)
-
-        # Button also will erase everything from the user input if he will leave this window
-        self.BackBtn.clicked.connect(self.PasswordText.clear)
-        self.BackBtn.clicked.connect(self.NameText.clear)
-        self.BackBtn.clicked.connect(self.emailText.clear)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
