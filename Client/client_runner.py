@@ -33,6 +33,7 @@ def get_header(username: str, password: str, user_email: str, to_login: bool | N
 
     if token is not None:
         tokens = Token(**token)
+        print({"Authorization": "Bearer " + tokens.access_token})
         return {"Authorization": "Bearer " + tokens.access_token}
     else:
         return None
@@ -72,8 +73,8 @@ def upload_user_info(header: dict, user: User) -> None:
 
 def main():
     """ Actions for testing the work of system (server+app) """
-    header = get_header(to_login=True, to_remember=False, password="123",
-                        username="loq2", user_email="123")
+    header = get_header(to_signup=True, password="123",
+                        username="loasdq2", user_email="123")
     print(header)
     user = get_user(header)
     achievements = get_achievements(header)
