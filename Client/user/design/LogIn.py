@@ -102,11 +102,6 @@ class Ui_LogIn(object):
         self.backbtn.clicked.connect(self.Back)
         self.backbtn.clicked.connect(LogInWindow.close)
 
-        # Button also will erase everything from the user input if he will leave this window
-        self.backbtn.clicked.connect(self.PasswordInput.clear)
-        self.backbtn.clicked.connect(self.UsernameInput.clear)
-        self.backbtn.clicked.connect(self.EmailTxt.clear)
-
         self.EmailLbl = QtWidgets.QLabel(parent=self.centralwidget)
         self.EmailLbl.setGeometry(QtCore.QRect(300, 320, 201, 71))
         font = QtGui.QFont()
@@ -128,17 +123,18 @@ class Ui_LogIn(object):
         QtCore.QMetaObject.connectSlotsByName(LogInWindow)
 
         # function call from the external file to work with another db
-        get_header(self.UsernameInput.clicked.connect(self.getUsername),
-                                      self.PasswordInput.clicked.connect(self.getPassword),
-                                      self.EmailTxt.clicked.connect(self.getEmail, True))
+        if self.logIn_button.clicked:
+            get_header(self.logIn_button.clicked.connect(self.getUsername),
+                    self.logIn_button.clicked.connect(self.getPassword),
+                       self.logIn_button.clicked.connect(self.getEmail), to_login=True)
 
         # Button also will erase everything from the user input if he will leave this window
-        self.LogIn.clicked.connect(self.PasswordInput.clear)
-        self.LogIn.clicked.connect(self.UsernameInput.clear)
-        self.LogIn.clicked.connect(self.EmailTxt.clear)
+        self.logIn_button.clicked.connect(self.PasswordInput.clear)
+        self.logIn_button.clicked.connect(self.UsernameInput.clear)
+        self.logIn_button.clicked.connect(self.EmailTxt.clear)
 
-        self.LogIn.clicked.connected(self.Back)
-        self.LogIn.clicked.connect(LogInWindow.close)
+        self.logIn_button.clicked.connect(self.Back)
+        self.logIn_button.clicked.connect(LogInWindow.close)
 
     def retranslateUi(self, LogInWindow):
         _translate = QtCore.QCoreApplication.translate

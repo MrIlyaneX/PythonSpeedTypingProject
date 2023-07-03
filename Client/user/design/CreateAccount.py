@@ -159,11 +159,12 @@ class Ui_CreateAccount(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         # function call from the external file to work with another db
-        get_header(self.SaveBtn.clicked.connect(self.getUsername),
-                   self.SaveBtn.clicked.connect(self.getPassword),
-                   self.SaveBtn.clicked.connect(self.getEmail), True)
-        # Button also will erase everything from the user input if he will leave this window
+        if self.SaveBtn.clicked:
+            get_header(self.SaveBtn.clicked.connect(self.getUsername),
+                    self.SaveBtn.clicked.connect(self.getPassword),
+                    self.SaveBtn.clicked.connect(self.getEmail), to_signup=True)
 
+        # Button also will erase everything from the user input if he will leave this window
         self.SaveBtn.clicked.connect(self.PasswordText.clear)
         self.SaveBtn.clicked.connect(self.NameText.clear)
         self.SaveBtn.clicked.connect(self.emailText.clear)
