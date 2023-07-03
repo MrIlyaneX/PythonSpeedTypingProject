@@ -5,15 +5,8 @@ from sqlalchemy import Column, Integer, String, Double
 from sqlalchemy.orm import declarative_base, sessionmaker
 
 Base = declarative_base()
-url = "sqlite:///database/mydb.db"
-# url = "sqlite:///mydb.db"
-
-engine = db.create_engine(url, echo=False)
-connection = engine.connect()
-Base.metadata.create_all(bind=engine)
-
-Session = sessionmaker(bind=engine)
-session = Session()
+# url = "sqlite:///database/mydb.db"
+url = "sqlite:///mydb.db"
 
 
 class UserDB(Base):
@@ -80,6 +73,12 @@ class Achievements(Base):
                f"last visit={self.last_visit}, level = {self.level}"
 
 
+engine = db.create_engine(url, echo=False)
+Base.metadata.create_all(bind=engine)
+
+Session = sessionmaker(bind=engine)
+session = Session()
+
 """ Variable for saving 10 users with the best max_scores in tuple type (username, score). """
 top = [(0, 0)]
 
@@ -109,8 +108,7 @@ def get_person_by_username(username) -> dict | None:
             "max_score": current_achievements.max_score,
             "avg_accuracy": current_achievements.avg_accuracy,
             "max_speed_accuracy": 0,
-            "last_visit": current_achievements.last_visit,
-            "max_symbols_per_day": current_achievements.max_symbols_per_day
+            "last_visit": current_achievements.last_visit
         }
     }
 
@@ -163,7 +161,6 @@ def set_achieve(data, name):
     achieve = get_achievements(name)
     achieve.avg_accuracy = max(achieve.avg_accuracy, data['avg_accuracy'])
     achieve.max_score = max(achieve.max_score, data['max_score'])
-    achieve.max_symbols_per_day = max(achieve.max_symbols_per_day, data['max_symbols_per_day'])
     achieve.time_spend = data['time_spend']
     achieve.last_visit = data['last_visit']
     session.commit()
