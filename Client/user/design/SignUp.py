@@ -120,11 +120,11 @@ class Ui_SignUp(object):
         self.WithoutAccBtn.clicked.connect(self.open_window)
         SignUpWindow.setCentralWidget(self.centralwidget)
 
-        self.retranslateUi(SignUpWindow)
+        self.retranslate_ui(SignUpWindow)
         self.SignUpBtn.clicked.connect(self.centralwidget.hide)  # type: ignore
         QtCore.QMetaObject.connectSlotsByName(SignUpWindow)
 
-    def retranslateUi(self, SignUpWindow):
+    def retranslate_ui(self, SignUpWindow):
         _translate = QtCore.QCoreApplication.translate
         SignUpWindow.setWindowTitle(_translate("SignUpWindow", "Sign Up"))
         self.SignUpMenu.setText(_translate("SignUpWindow", "Want to sign up?"))
