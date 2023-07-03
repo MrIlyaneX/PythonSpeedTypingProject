@@ -1,37 +1,30 @@
-import sqlite3
-import sqlite3
 from PyQt6 import QtCore, QtGui, QtWidgets
+from client_runner import *
+
 
 class Ui_LogIn(object):
-    def loginCheck(self):
-        username = self.UsernameInput.text()
-        password = self.PasswordInput.text()
+    # function for getting text from user (username)
+    def getUsername(self):
+        text = self.UsernameInput.text()
+        return text
 
-        # initializing database
-        # it is incorrect, should be redone for another db interface
-        connection = sqlite3.connect("login")
-        result = connection.execute("SELECT + FROM USERS WHERE USERNAME = ? AND PASSWORD = ?", (username, password))
-        # checking if the user have found
-        if len(result.fetchall()) > 0:
-            # if the user was found we will close the window and go to the MainWindow
-            from MAIN_WINDOW import Ui_MainWindow
-            self.window = QtWidgets.QMainWindow()
-            self.ui = Ui_MainWindow()
-            self.ui.setupUi(self.window)
-            self.window.show()
-        else:  # if the user was not found we will force user to try one more time and show the error btn
-            from IncorrectPassword import Ui_IncorrectPassword
-            self.window = QtWidgets.QMainWindow()
-            self.ui = Ui_IncorrectPassword()
-            self.ui.setupUi(self.window)
-            self.window.show()
+    # function for getting text from user (password)
+    def getPassword(self):
+        text = self.UsernameInput.text()
+        return text
 
+    # function for getting text from user (email)
+    def getEmail(self):
+        text = self.UsernameInput.text()
+        return text
+
+    #function for closing this window
     def Back(self):
         from MAIN_WINDOW import Ui_MainWindow
         self.window = QtWidgets.QMainWindow()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self.window)
-        # self.window.show()
+
     def setupUi(self, LogInWindow):
         LogInWindow.setObjectName("LogInWindow")
         LogInWindow.resize(800, 600)
@@ -52,6 +45,7 @@ class Ui_LogIn(object):
         self.LogIn.setStyleSheet("background-color: rgb(194, 255, 172);")
         self.LogIn.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.LogIn.setObjectName("LogIn")
+
         self.Username = QtWidgets.QLabel(parent=self.centralwidget)
         self.Username.setGeometry(QtCore.QRect(300, 180, 201, 71))
         font = QtGui.QFont()
@@ -62,6 +56,7 @@ class Ui_LogIn(object):
                                     "border-radius: 25px;")
         self.Username.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.Username.setObjectName("Username")
+        #self.Username.clicked.connect(self.getUsername)
         self.Password = QtWidgets.QLabel(parent=self.centralwidget)
         self.Password.setGeometry(QtCore.QRect(300, 450, 201, 71))
         font = QtGui.QFont()
@@ -82,11 +77,6 @@ class Ui_LogIn(object):
                                         "border-radius: 25px;\n"
                                         "")
         self.logIn_button.setObjectName("logIn_button")
-        # Button action to come back to the MainWindow
-        self.logIn_button.clicked.connect(self.loginCheck)
-
-        # self.logIn_button.clicked.connect(self.Back)
-        # self.logIn_button.clicked.connect(LogInWindow.close)
 
         self.UsernameInput = QtWidgets.QLineEdit(parent=self.centralwidget)
         self.UsernameInput.setGeometry(QtCore.QRect(310, 270, 181, 41))
@@ -96,6 +86,7 @@ class Ui_LogIn(object):
         self.PasswordInput.setGeometry(QtCore.QRect(310, 530, 181, 41))
         self.PasswordInput.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.PasswordInput.setObjectName("PasswordInput")
+        # self.PasswordInput.clicked.connect(self.getPassword)
         self.backbtn = QtWidgets.QPushButton(parent=self.centralwidget)
         self.backbtn.setGeometry(QtCore.QRect(50, 517, 141, 51))
         font = QtGui.QFont()
@@ -106,9 +97,15 @@ class Ui_LogIn(object):
                                    "border-radius: 25px;\n"
                                    "")
         self.backbtn.setObjectName("backbtn")
+
         # Button action to come back to the MainWindow
         self.backbtn.clicked.connect(self.Back)
         self.backbtn.clicked.connect(LogInWindow.close)
+
+        # Button also will erase everything from the user input if he will leave this window
+        self.backbtn.clicked.connect(self.PasswordInput.clear)
+        self.backbtn.clicked.connect(self.UsernameInput.clear)
+        self.backbtn.clicked.connect(self.EmailTxt.clear)
 
         self.EmailLbl = QtWidgets.QLabel(parent=self.centralwidget)
         self.EmailLbl.setGeometry(QtCore.QRect(300, 320, 201, 71))
@@ -124,10 +121,24 @@ class Ui_LogIn(object):
         self.EmailTxt.setGeometry(QtCore.QRect(310, 400, 181, 41))
         self.EmailTxt.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.EmailTxt.setObjectName("EmailTxt")
+        # self.EmailTxt.clicked.connect(self.getEmail)
         LogInWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(LogInWindow)
         QtCore.QMetaObject.connectSlotsByName(LogInWindow)
+
+        # function call from the external file to work with another db
+        get_header(self.UsernameInput.clicked.connect(self.getUsername),
+                                      self.PasswordInput.clicked.connect(self.getPassword),
+                                      self.EmailTxt.clicked.connect(self.getEmail, True))
+
+        # Button also will erase everything from the user input if he will leave this window
+        self.LogIn.clicked.connect(self.PasswordInput.clear)
+        self.LogIn.clicked.connect(self.UsernameInput.clear)
+        self.LogIn.clicked.connect(self.EmailTxt.clear)
+
+        self.LogIn.clicked.connected(self.Back)
+        self.LogIn.clicked.connect(LogInWindow.close)
 
     def retranslateUi(self, LogInWindow):
         _translate = QtCore.QCoreApplication.translate

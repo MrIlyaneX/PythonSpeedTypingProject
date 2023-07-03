@@ -1,36 +1,29 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
-import sqlite3
+from client_runner import *
 
 
 class Ui_CreateAccount(object):
-    def loginCheck(self):
-        username = self.UsernameInput.text()
-        password = self.PasswordInput.text()
-        # initializing database
-        # it is incorrect, should be redone for another db interface
-        connection = sqlite3.connect("createAccount")
-        result = connection.execute("SELECT + FROM USERS WHERE USERNAME = ? AND PASSWORD = ?", (username, password))
-        # checking if the user have found
-        if len(result.fetchall()) > 0:
-            # if the user was found we will close the window and go to the MainWindow
-            from MAIN_WINDOW import Ui_MainWindow
-            self.window = QtWidgets.QMainWindow()
-            self.ui = Ui_MainWindow()
-            self.ui.setupUi(self.window)
-            self.window.show()
-        else:  # if the user was not found we will force user to try one more time and show the error btn
-            from SameUsername import Ui_SameUsername
-            self.window = QtWidgets.QMainWindow()
-            self.ui = Ui_SameUsername()
-            self.ui.setupUi(self.window)
-            self.window.show()
+    # function for getting text from user (username)
+    def getUsername(self):
+        text = self.UsernameInput.text()
+        return text
 
+    # function for getting text from user (password)
+    def getPassword(self):
+        text = self.UsernameInput.text()
+        return text
+
+    # function for getting text from user (email)
+    def getEmail(self):
+        text = self.UsernameInput.text()
+        return text
+
+    # function for closing this window
     def Back(self):
         from MAIN_WINDOW import Ui_MainWindow
         self.window = QtWidgets.QMainWindow()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self.window)
-        self.window.show()
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -120,6 +113,11 @@ class Ui_CreateAccount(object):
         self.SaveBtn.setStyleSheet("background-color: rgb(235, 255, 197);\n"
                                    "border-radius: 25px;")
         self.SaveBtn.setObjectName("SaveBtn")
+
+        # closing the current window after executing necessary things
+        self.SaveBtn.clicked.connect(self.Back)
+        self.SaveBtn.clicked.connect(MainWindow.close)
+
         self.BackBtn = QtWidgets.QPushButton(parent=self.centralwidget)
         self.BackBtn.setGeometry(QtCore.QRect(50, 517, 141, 51))
         font = QtGui.QFont()
@@ -130,9 +128,11 @@ class Ui_CreateAccount(object):
                                    "border-radius: 25px;\n"
                                    "")
         self.BackBtn.setObjectName("BackBtn")
+
         # Button action to come back to the MainWindow
         self.BackBtn.clicked.connect(self.Back)
         self.BackBtn.clicked.connect(MainWindow.close)
+
         self.emailText = QtWidgets.QLineEdit(parent=self.centralwidget)
         self.emailText.setGeometry(QtCore.QRect(300, 400, 181, 41))
         font = QtGui.QFont()
@@ -157,6 +157,21 @@ class Ui_CreateAccount(object):
         self.Email_Lbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.Email_Lbl.setObjectName("Email_Lbl")
         MainWindow.setCentralWidget(self.centralwidget)
+
+        # function call from the external file to work with another db
+        get_header(self.SaveBtn.clicked.connect(self.getUsername),
+                   self.SaveBtn.clicked.connect(self.getPassword),
+                   self.SaveBtn.clicked.connect(self.getEmail), True)
+        # Button also will erase everything from the user input if he will leave this window
+
+        self.SaveBtn.clicked.connect(self.PasswordText.clear)
+        self.SaveBtn.clicked.connect(self.NameText.clear)
+        self.SaveBtn.clicked.connect(self.emailText.clear)
+
+        # Button also will erase everything from the user input if he will leave this window
+        self.BackBtn.clicked.connect(self.PasswordText.clear)
+        self.BackBtn.clicked.connect(self.NameText.clear)
+        self.BackBtn.clicked.connect(self.emailText.clear)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
