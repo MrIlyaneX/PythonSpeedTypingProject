@@ -1,21 +1,27 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtWidgets import QWidget as QWidget
-from PyQt6.QtWidgets import QStackedWidget, QMainWindow
+from PyQt6.QtWidgets import QStackedWidget
 
 
 class MainWindow(QWidget):
+    # The following functions will open necessary windows when buttons will be pushed
+    # This function will open the initial window
     def open_login(self):
-        self.stacked_widget.setCurrentIndex(2)
+        self.stacked_widget.setCurrentIndex(0)
 
+    # This function will open the window with info about this project
     def open_info(self):
         self.stacked_widget.setCurrentIndex(3)
 
+    # This function will open the window with information about the user
     def open_account(self):
         self.stacked_widget.setCurrentIndex(5)
 
+    # This function will open the window with user's achievements
     def open_achievements(self):
         self.stacked_widget.setCurrentIndex(6)
 
+    # This function will open the window with rating
     def open_rating(self):
         self.stacked_widget.setCurrentIndex(7)
 
@@ -33,9 +39,10 @@ class MainWindow(QWidget):
         self.setFont(font)
         self.setStyleSheet("background-color: rgb(231, 255, 239);\n"
                            "font: 12pt \"Arial Rounded MT Bold\";")
-        # self.setAnimated(True)
+
         self.central_widget = QtWidgets.QWidget(parent=self)
         self.central_widget.setObjectName("central_widget")
+
         self.try_your_speed_lbl = QtWidgets.QLabel(parent=self.central_widget)
         self.try_your_speed_lbl.setGeometry(QtCore.QRect(270, 210, 261, 51))
         font = QtGui.QFont()
@@ -43,17 +50,19 @@ class MainWindow(QWidget):
         font.setPointSize(12)
         self.try_your_speed_lbl.setFont(font)
         self.try_your_speed_lbl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                               "border-radius: 25px;")
+                                              "border-radius: 25px;")
         self.try_your_speed_lbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.try_your_speed_lbl.setObjectName("try_your_speed_lbl")
+
         self.our_text_for_typing = QtWidgets.QTextBrowser(parent=self.central_widget)
         self.our_text_for_typing.setGeometry(QtCore.QRect(110, 290, 591, 221))
         self.our_text_for_typing.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.our_text_for_typing.setObjectName("our_text_for_typing")
+
         self.user_text = QtWidgets.QLineEdit(parent=self.central_widget)
         self.user_text.setGeometry(QtCore.QRect(110, 290, 591, 221))
         size_policy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding,
-                                           QtWidgets.QSizePolicy.Policy.Fixed)
+                                            QtWidgets.QSizePolicy.Policy.Fixed)
         size_policy.setHorizontalStretch(0)
         size_policy.setVerticalStretch(0)
         size_policy.setHeightForWidth(self.user_text.sizePolicy().hasHeightForWidth())
@@ -63,12 +72,14 @@ class MainWindow(QWidget):
         self.user_text.setAlignment(
             QtCore.Qt.AlignmentFlag.AlignLeading | QtCore.Qt.AlignmentFlag.AlignLeft | QtCore.Qt.AlignmentFlag.AlignTop)
         self.user_text.setObjectName("user_text")
+
         self.frame = QtWidgets.QFrame(parent=self.central_widget)
         self.frame.setGeometry(QtCore.QRect(0, 0, 801, 181))
         self.frame.setStyleSheet(" background-color: rgb(194, 255, 172);")
         self.frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame.setObjectName("frame")
+
         self.account_btn = QtWidgets.QPushButton(parent=self.frame)
         self.account_btn.setGeometry(QtCore.QRect(30, 10, 171, 61))
         font = QtGui.QFont()
@@ -79,17 +90,19 @@ class MainWindow(QWidget):
         font.setWeight(50)
         self.account_btn.setFont(font)
         self.account_btn.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                        "border-radius: 25px;")
+                                       "border-radius: 25px;")
         self.account_btn.setObjectName("account_btn")
         self.account_btn.clicked.connect(self.open_account)
         self.account_btn.setAutoDefault(False)
+
         self.rating_btn = QtWidgets.QPushButton(parent=self.frame)
         self.rating_btn.setGeometry(QtCore.QRect(320, 10, 171, 61))
         self.rating_btn.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                       "border-radius: 25px;")
+                                      "border-radius: 25px;")
         self.rating_btn.setObjectName("rating_btn")
         self.rating_btn.clicked.connect(self.open_rating)
         self.rating_btn.setAutoDefault(False)
+
         self.settings_btn = QtWidgets.QPushButton(parent=self.frame)
         self.settings_btn.setGeometry(QtCore.QRect(610, 10, 171, 61))
         font = QtGui.QFont()
@@ -100,22 +113,25 @@ class MainWindow(QWidget):
         font.setWeight(50)
         self.settings_btn.setFont(font)
         self.settings_btn.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                         "border-radius: 25px;")
+                                        "border-radius: 25px;")
         self.settings_btn.setObjectName("settings_btn")
+
         self.info_btn = QtWidgets.QPushButton(parent=self.frame)
         self.info_btn.setGeometry(QtCore.QRect(470, 90, 171, 61))
         self.info_btn.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                     "border-radius: 25px;")
+                                    "border-radius: 25px;")
         self.info_btn.setObjectName("info_btn")
         self.info_btn.clicked.connect(self.open_info)
         self.info_btn.setAutoDefault(False)
+
         self.achievements_btn = QtWidgets.QPushButton(parent=self.frame)
         self.achievements_btn.setGeometry(QtCore.QRect(180, 90, 171, 61))
         self.achievements_btn.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                              "border-radius: 25px;")
+                                            "border-radius: 25px;")
         self.achievements_btn.setObjectName("achievements_btn")
         self.achievements_btn.clicked.connect(self.open_achievements)
         self.achievements_btn.setAutoDefault(False)
+
         self.start_again_btn = QtWidgets.QPushButton(parent=self.central_widget)
         self.start_again_btn.setGeometry(QtCore.QRect(650, 550, 141, 41))
         font = QtGui.QFont()
@@ -123,8 +139,9 @@ class MainWindow(QWidget):
         font.setPointSize(12)
         self.start_again_btn.setFont(font)
         self.start_again_btn.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                             "border-radius: 15px;")
+                                           "border-radius: 15px;")
         self.start_again_btn.setObjectName("start_again_btn")
+
         self.log_in_btn = QtWidgets.QPushButton(parent=self.central_widget)
         self.log_in_btn.setGeometry(QtCore.QRect(20, 550, 141, 41))
         font = QtGui.QFont()
@@ -132,10 +149,11 @@ class MainWindow(QWidget):
         font.setPointSize(12)
         self.log_in_btn.setFont(font)
         self.log_in_btn.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                         "border-radius: 15px;")
+                                      "border-radius: 15px;")
         self.log_in_btn.setObjectName("log_in_btn")
         self.log_in_btn.clicked.connect(self.open_login)
         self.log_in_btn.setAutoDefault(False)
+
         self.start_btn = QtWidgets.QPushButton(parent=self.central_widget)
         self.start_btn.setGeometry(QtCore.QRect(320, 550, 141, 41))
         font = QtGui.QFont()
@@ -143,8 +161,9 @@ class MainWindow(QWidget):
         font.setPointSize(12)
         self.start_btn.setFont(font)
         self.start_btn.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                         "border-radius: 15px;")
+                                     "border-radius: 15px;")
         self.start_btn.setObjectName("start_btn")
+
         self.try_your_speed_lbl.raise_()
         self.our_text_for_typing.raise_()
         self.user_text.raise_()
@@ -152,7 +171,9 @@ class MainWindow(QWidget):
         self.start_again_btn.raise_()
         self.log_in_btn.raise_()
         self.start_btn.raise_()
+
         self.retranslate_ui(self)
+        stacked_widget.addWidget(self.central_widget)
         QtCore.QMetaObject.connectSlotsByName(self)
 
     def retranslate_ui(self, main_window):
@@ -173,10 +194,15 @@ if __name__ == "__main__":
     import sys
 
     app = QtWidgets.QApplication(sys.argv)
+
     stacked_widget = QStackedWidget()
     stacked_widget.setFixedSize(800, 600)
+
     window = MainWindow()
+
     window.setup_ui(stacked_widget)
+
     stacked_widget.addWidget(window)
     stacked_widget.show()
+
     sys.exit(app.exec())

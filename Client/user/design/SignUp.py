@@ -3,15 +3,19 @@ from PyQt6.QtWidgets import QMainWindow, QStackedWidget, QWidget
 
 
 class SignUpWindow(QWidget):
+    # function to switch to the initial window
     def open_main(self):
         self.stacked_widget.setCurrentIndex(1)
 
+    # function to switch to the log in window
     def open_login(self):
         self.stacked_widget.setCurrentIndex(2)
 
+    # function to switch to register window
     def open_create_acc(self):
         self.stacked_widget.setCurrentIndex(4)
 
+    # function to close the program at all
     def exit_program(self):
         QtWidgets.QApplication.quit()
 

@@ -1,52 +1,74 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from Client.client_runner import *
-from PyQt6.QtWidgets import QStackedWidget, QWidget, QMainWindow
+from PyQt6.QtWidgets import QStackedWidget, QWidget
 
 
 class LogInWindow(QWidget):
+    # function to show the necessary window when we catch an error from the user's input
+    def open_error(self):
+        from IncorrectPassword import IncorrectPassword
+        self.window = QtWidgets.QMainWindow()
+        self.ui = IncorrectPassword()
+        self.ui.setupUi(self.window)
+        self.window.show()
 
+    # function to switch to the MainWindow
     def open_main(self):
         self.stacked_widget.setCurrentIndex(0)
 
+    # function to switch to the sign-up window
     def open_signup(self):
         self.stacked_widget.setCurrentIndex(3)
 
+    # function to get from user written information, here - username
     def get_username(self):
         return self.UsernameInput.text()
 
+    # function to get from user written information, here - password
     def get_password(self):
         return self.PasswordInput.text()
 
+    # function to get from user written information, here - email
     def get_email(self):
         return self.EmailTxt.text()
 
+    # when the button 'log in' is called, we use collected by the functions above information and register the user
+    # if the user give wrong information or he/she has already registered here, the 'error' window will be shown
     def log_in(self):
         username = self.get_username()
         password = self.get_password()
         user_email = self.get_email()
-        print(user_email, username, password)
-        header = get_header(username=username, password=password, user_email=user_email, to_login=True)
-        print(header)
-        return header
+        try:
+            header = get_header(username=username, password=password, user_email=user_email, to_login=True)
+            self.stacked_widget.setCurrentIndex(1)
+            return header
+        except Exception:
+            self.logIn_button.clicked.connect(self.open_error)
+
 
     def setup_ui(self, stacked_widget: QStackedWidget):
         self.stacked_widget = stacked_widget
 
         self.setObjectName("self")
         self.resize(800, 600)
+
         font = QtGui.QFont()
         font.setPointSize(12)
         self.setFont(font)
         self.setStyleSheet("background-color: rgb(231, 255, 239);")
+
         self.central_widget = QtWidgets.QWidget(self)
         self.central_widget.setObjectName("centralwidget")
+
         self.LogIn = QtWidgets.QLabel(self.central_widget)
         self.LogIn.setGeometry(QtCore.QRect(0, -10, 800, 181))
+
         font = QtGui.QFont()
         font.setFamily("Arial Rounded MT Bold")
         font.setPointSize(16)
         font.setBold(False)
         font.setWeight(50)
+
         self.LogIn.setFont(font)
         self.LogIn.setStyleSheet("background-color: rgb(194, 255, 172);")
         self.LogIn.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
@@ -123,12 +145,16 @@ class LogInWindow(QWidget):
         self.EmailTxt.setObjectName("EmailTxt")
 
         self.logIn_button.clicked.connect(self.log_in)
+        self.logIn_button.clicked.connect(self.PasswordInput.clear)
+        self.logIn_button.clicked.connect(self.UsernameInput.clear)
+        self.logIn_button.clicked.connect(self.EmailTxt.clear)
 
         # was back
         self.backbtn.clicked.connect(self.open_main)
+        self.logIn_button.clicked.connect(self.open_main)
 
-        stacked_widget.addWidget(self.central_widget)
         self.retranslate_ui()
+        stacked_widget.addWidget(self.central_widget)
 
     def retranslate_ui(self):
         _translate = QtCore.QCoreApplication.translate
@@ -145,6 +171,7 @@ if __name__ == "__main__":
     import sys
 
     app = QtWidgets.QApplication(sys.argv)
+
     stacked_widget = QStackedWidget()
     stacked_widget.setFixedSize(800, 600)
     stacked_widget.show()

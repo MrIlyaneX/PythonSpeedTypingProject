@@ -1,4 +1,4 @@
-from PyQt6 import QtCore, QtGui, QtWidgets
+from PyQt6 import QtCore, QtWidgets
 
 
 class SameUsernameWindow(object):
@@ -9,16 +9,18 @@ class SameUsernameWindow(object):
         self.central_widget.setStyleSheet("background-color: rgb(194, 255, 172);\n"
                                           "font: 12pt \"Arial Rounded MT Bold\";\n"
                                           "")
+
         self.error_lbl = QtWidgets.QLabel(parent=self.central_widget)
         self.error_lbl.setGeometry(QtCore.QRect(40, 40, 321, 61))
         self.error_lbl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                      "border-radius: 25px;")
+                                     "border-radius: 25px;")
         self.error_lbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.error_lbl.setObjectName("error_lbl")
+
         self.new_username_lbl = QtWidgets.QLabel(parent=self.central_widget)
         self.new_username_lbl.setGeometry(QtCore.QRect(10, 140, 371, 61))
         self.new_username_lbl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                             "border-radius: 25px;")
+                                            "border-radius: 25px;")
         self.new_username_lbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.new_username_lbl.setObjectName("new_username_lbl")
 
@@ -36,7 +38,9 @@ if __name__ == "__main__":
     import sys
 
     app = QtWidgets.QApplication(sys.argv)
+
     ui = SameUsernameWindow()
     ui.setup_ui()
     ui.central_widget.show()
+
     sys.exit(app.exec())

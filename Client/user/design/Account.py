@@ -15,65 +15,84 @@ class AccountWindow(QWidget):
         Account.resize(800, 600)
         Account.setStyleSheet("background-color: rgb(231, 255, 239);\n"
                               "font: 12pt \"Arial Rounded MT Bold\";")
+
         self.central_widget = QtWidgets.QWidget(parent=Account)
         self.central_widget.setObjectName("centralwidget")
+
         self.frame = QtWidgets.QFrame(parent=self.central_widget)
         self.frame.setGeometry(QtCore.QRect(0, 0, 801, 181))
         self.frame.setStyleSheet(" background-color: rgb(194, 255, 172);")
         self.frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame.setObjectName("frame")
-        self.AccountLbl = QtWidgets.QLabel(parent=self.frame)
-        self.AccountLbl.setGeometry(QtCore.QRect(300, 50, 221, 81))
-        self.AccountLbl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                      "border-radius: 25px;")
-        self.AccountLbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.AccountLbl.setObjectName("AccountLbl")
-        self.UsernameTxt = QtWidgets.QTextBrowser(parent=self.central_widget)
-        self.UsernameTxt.setGeometry(QtCore.QRect(60, 290, 301, 61))
-        self.UsernameTxt.setStyleSheet("background-color: rgb(255, 255, 255);")
-        self.UsernameTxt.setObjectName("UsernameTxt")
-        self.DaysTxt = QtWidgets.QTextBrowser(parent=self.central_widget)
-        self.DaysTxt.setGeometry(QtCore.QRect(80, 500, 81, 51))
-        self.DaysTxt.setStyleSheet("background-color: rgb(255, 255, 255);")
-        self.DaysTxt.setObjectName("DaysTxt")
-        self.TimeTxt = QtWidgets.QTextBrowser(parent=self.central_widget)
-        self.TimeTxt.setGeometry(QtCore.QRect(530, 370, 171, 61))
-        self.TimeTxt.setStyleSheet("background-color: rgb(255, 255, 255);")
-        self.TimeTxt.setObjectName("TimeTxt")
-        self.backBtn = QtWidgets.QPushButton(parent=self.central_widget)
-        self.backBtn.setGeometry(QtCore.QRect(630, 530, 151, 51))
-        self.backBtn.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                   "border-radius: 25px;")
-        self.backBtn.setObjectName("backBtn")
-        # Button action to come back to the MainWindow
-        self.backBtn.clicked.connect(self.open_main)
 
-        self.UsernameLbl = QtWidgets.QLabel(parent=self.central_widget)
-        self.UsernameLbl.setGeometry(QtCore.QRect(40, 220, 331, 61))
-        self.UsernameLbl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
+        self.account_lbl = QtWidgets.QLabel(parent=self.frame)
+        self.account_lbl.setGeometry(QtCore.QRect(300, 50, 221, 81))
+        self.account_lbl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
+                                      "border-radius: 25px;")
+        self.account_lbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.account_lbl.setObjectName("AccountLbl")
+
+        self.username_txt = QtWidgets.QTextBrowser(parent=self.central_widget)
+        self.username_txt.setGeometry(QtCore.QRect(60, 290, 301, 61))
+        self.username_txt.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.username_txt.setObjectName("UsernameTxt")
+
+        self.days_txt = QtWidgets.QTextBrowser(parent=self.central_widget)
+        self.days_txt.setGeometry(QtCore.QRect(80, 500, 81, 51))
+        self.days_txt.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.days_txt.setObjectName("DaysTxt")
+
+        self.time_txt = QtWidgets.QTextBrowser(parent=self.central_widget)
+        self.time_txt.setGeometry(QtCore.QRect(530, 370, 171, 61))
+        self.time_txt.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.time_txt.setObjectName("TimeTxt")
+
+        self.back_btn = QtWidgets.QPushButton(parent=self.frame)
+        self.back_btn.setGeometry(QtCore.QRect(30, 20, 141, 41))
+        font = QtGui.QFont()
+        font.setFamily("Arial Rounded MT Bold")
+        font.setPointSize(12)
+        self.back_btn.setFont(font)
+        self.back_btn.setStyleSheet("background-color: rgb(235, 255, 197);\n"
+                                    "border-radius: 15px;")
+        self.back_btn.setObjectName("BackBtn")
+
+        # Button action to come back to the MainWindow
+        self.back_btn.clicked.connect(self.open_main)
+
+        self.username_lbl = QtWidgets.QLabel(parent=self.central_widget)
+        self.username_lbl.setGeometry(QtCore.QRect(40, 220, 331, 61))
+        self.username_lbl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
                                        "border-radius: 25px;")
-        self.UsernameLbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.UsernameLbl.setObjectName("UsernameLbl")
-        self.TimeLbl = QtWidgets.QLabel(parent=self.central_widget)
-        self.TimeLbl.setGeometry(QtCore.QRect(500, 300, 221, 61))
-        self.TimeLbl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
+        self.username_lbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.username_lbl.setObjectName("UsernameLbl")
+
+        self.time_lbl = QtWidgets.QLabel(parent=self.central_widget)
+        self.time_lbl.setGeometry(QtCore.QRect(500, 300, 221, 61))
+        self.time_lbl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
                                    "border-radius: 25px;")
-        self.TimeLbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.TimeLbl.setObjectName("TimeLbl")
-        self.DaysLbl = QtWidgets.QLabel(parent=self.central_widget)
-        self.DaysLbl.setGeometry(QtCore.QRect(170, 500, 121, 61))
-        self.DaysLbl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
+        self.time_lbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.time_lbl.setObjectName("TimeLbl")
+
+        self.days_lbl = QtWidgets.QLabel(parent=self.central_widget)
+        self.days_lbl.setGeometry(QtCore.QRect(170, 500, 121, 61))
+        self.days_lbl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
                                    "border-radius: 25px;")
-        self.DaysLbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.DaysLbl.setObjectName("DaysLbl")
-        self.WithUsLbl = QtWidgets.QLabel(parent=self.central_widget)
-        self.WithUsLbl.setGeometry(QtCore.QRect(40, 430, 271, 61))
-        self.WithUsLbl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
+        self.days_lbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.days_lbl.setObjectName("DaysLbl")
+
+        self.with_us_lbl = QtWidgets.QLabel(parent=self.central_widget)
+        self.with_us_lbl.setGeometry(QtCore.QRect(40, 430, 271, 61))
+        self.with_us_lbl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
                                      "border-radius: 25px;")
-        self.WithUsLbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.WithUsLbl.setObjectName("WithUsLbl")
+        self.with_us_lbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.with_us_lbl.setObjectName("WithUsLbl")
+
         Account.setCentralWidget(self.central_widget)
+
+        # Button action to come back to the MainWindow
+        self.back_btn.clicked.connect(self.open_main)
 
         stacked_widget.addWidget(self.central_widget)
         self.retranslate_ui(self)
@@ -81,12 +100,12 @@ class AccountWindow(QWidget):
     def retranslate_ui(self, Account):
         _translate = QtCore.QCoreApplication.translate
         Account.setWindowTitle(_translate("Account", "MainWindow"))
-        self.AccountLbl.setText(_translate("Account", "Account"))
-        self.backBtn.setText(_translate("Account", "Back"))
-        self.UsernameLbl.setText(_translate("Account", "Username"))
-        self.TimeLbl.setText(_translate("Account", "Your best time"))
-        self.DaysLbl.setText(_translate("Account", "days"))
-        self.WithUsLbl.setText(_translate("Account", "You are with us already"))
+        self.account_lbl.setText(_translate("Account", "Account"))
+        self.back_btn.setText(_translate("Account", "Back"))
+        self.username_lbl.setText(_translate("Account", "Username"))
+        self.time_lbl.setText(_translate("Account", "Your best time"))
+        self.days_lbl.setText(_translate("Account", "days"))
+        self.with_us_lbl.setText(_translate("Account", "You are with us already"))
 
 
 if __name__ == "__main__":

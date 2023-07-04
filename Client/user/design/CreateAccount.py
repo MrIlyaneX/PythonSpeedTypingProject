@@ -1,31 +1,46 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
-from Client.client_runner import *
+from Client.client_runner import get_header
 from PyQt6.QtWidgets import QStackedWidget
 from PyQt6.QtWidgets import QWidget as QWidget
 
 
 class CreateAccountWindow(QWidget):
-
+    # function to switch to the MainWindow
     def open_main(self):
         self.stacked_widget.setCurrentIndex(0)
 
+    # function to open the necessary window when we catch an error from user's input
+    def open_error(self):
+        from SameUsername import SameUsernameWindow
+        self.window = QtWidgets.QMainWindow()
+        self.ui = SameUsernameWindow()
+        self.ui.setupUi(self.window)
+        self.window.show()
+
+    # function to get from user written information, here - username
     def get_username(self):
         return self.name_text.text()
 
+    # function to get from user written information, here - password
     def get_password(self):
         return self.password_text.text()
 
+    # function to get from user written information, here - email
     def get_email(self):
         return self.email_text.text()
 
+    # when the button 'save' is called, we use collected by the functions above information and register the user
+    # if the user give wrong information or he/she has already registered here, the 'error' window will be shown
     def button_clicked(self):
         user_email = self.get_email()
         username = self.get_username()
         password = self.get_password()
-        print(user_email, username, password)
-        header = get_header(username=username, password=password, user_email=user_email, to_signup=True)
-        print(header)
-        return header
+        try:
+            header = get_header(username=username, password=password, user_email=user_email, to_signup=True)
+            self.stacked_widget.setCurrentIndex(1)
+            return header
+        except Exception:
+            self.save_btn.clicked.connect(self.open_error)
 
     def setup_ui(self, stacked_widget: QStackedWidget):
         self.stacked_widget = stacked_widget
