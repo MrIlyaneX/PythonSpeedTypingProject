@@ -1,8 +1,8 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
-from PyQt6.QtWidgets import QMainWindow, QStackedWidget
+from PyQt6.QtWidgets import QMainWindow, QStackedWidget, QWidget
 
 
-class SignUpWindow(object):
+class SignUpWindow(QWidget):
     def open_main(self):
         self.stacked_widget.setCurrentIndex(1)
 

@@ -40,8 +40,8 @@ def setup_windows():
     stacked_widget.addWidget(info_window.info)
 
     # 4
-    create_account_window = CreateAccountWindow(stacked_widget)
-    create_account_window.setup_ui()
+    create_account_window = CreateAccountWindow()
+    create_account_window.setup_ui(stacked_widget)
     stacked_widget.addWidget(create_account_window.central_widget)
 
     # 5

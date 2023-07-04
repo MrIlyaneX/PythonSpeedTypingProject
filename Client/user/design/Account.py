@@ -48,7 +48,6 @@ class AccountWindow(QWidget):
         self.backBtn.setObjectName("backBtn")
         # Button action to come back to the MainWindow
         self.backBtn.clicked.connect(self.open_main)
-        self.backBtn.clicked.connect(Account.close)
 
         self.UsernameLbl = QtWidgets.QLabel(parent=self.central_widget)
         self.UsernameLbl.setGeometry(QtCore.QRect(40, 220, 331, 61))

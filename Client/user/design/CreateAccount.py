@@ -5,10 +5,6 @@ from PyQt6.QtWidgets import QWidget as QWidget
 
 
 class CreateAccountWindow(QWidget):
-    def __init__(self, stacked_widget):
-        super().__init__()
-        self.stacked_widget = stacked_widget
-        self.setup_ui()
 
     def open_main(self):
         self.stacked_widget.setCurrentIndex(0)
@@ -31,7 +27,8 @@ class CreateAccountWindow(QWidget):
         print(header)
         return header
 
-    def setup_ui(self):
+    def setup_ui(self, stacked_widget: QStackedWidget):
+        self.stacked_widget = stacked_widget
         self.setObjectName("self")
         self.resize(800, 600)
         font = QtGui.QFont()
@@ -139,7 +136,7 @@ class CreateAccountWindow(QWidget):
         # self.back_btn.clicked.connect(self.close)
 
         self.retranslate_ui()
-        QtCore.QMetaObject.connectSlotsByName(self)
+        stacked_widget.addWidget(self.central_widget)
 
     def retranslate_ui(self):
         _translate = QtCore.QCoreApplication.translate
@@ -161,7 +158,8 @@ if __name__ == "__main__":
     stacked_widget.setFixedSize(800, 600)
     stacked_widget.show()
 
-    login_window = CreateAccountWindow(stacked_widget)
+    login_window = CreateAccountWindow()
+    login_window.setup_ui(stacked_widget)
     stacked_widget.addWidget(login_window)
 
     sys.exit(app.exec())
