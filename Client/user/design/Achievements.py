@@ -1,23 +1,24 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
+from PyQt6.QtWidgets import QStackedWidget
+from PyQt6.QtWidgets import QWidget
 
 
-class Ui_Achievements(object):
-    def back(self):
-        from MAIN_WINDOW import Ui_MainWindow
-        self.window = QtWidgets.QMainWindow()
-        self.ui = Ui_MainWindow()
-        self.ui.setup_ui(self.window)
-        # self.window.show()
+class AchievementsWindow(QWidget):
+    def open_main(self):
+        self.stacked_widget.setCurrentIndex(1)
 
-    def setup_ui(self, Achievements):
+    def setup_ui(self, stacked_widget: QStackedWidget):
+        self.stacked_widget = stacked_widget
+
+        Achievements = QtWidgets.QMainWindow()
         Achievements.setObjectName("Achievements")
         Achievements.resize(800, 600)
         Achievements.setStyleSheet("background-color: rgb(231, 255, 239);\n"
                                    "font: 12pt \"Arial Rounded MT Bold\";\n"
                                    "")
-        self.centralwidget = QtWidgets.QWidget(parent=Achievements)
-        self.centralwidget.setObjectName("centralwidget")
-        self.frame = QtWidgets.QFrame(parent=self.centralwidget)
+        self.central_widget = QtWidgets.QWidget(parent=Achievements)
+        self.central_widget.setObjectName("centralwidget")
+        self.frame = QtWidgets.QFrame(parent=self.central_widget)
         self.frame.setGeometry(QtCore.QRect(0, 0, 800, 181))
         self.frame.setStyleSheet(" background-color: rgb(194, 255, 172);")
         self.frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
@@ -33,7 +34,7 @@ class Ui_Achievements(object):
                                    "border-radius: 15px;")
         self.BackBtn.setObjectName("BackBtn")
         # Button action to come back to the MainWindow
-        self.BackBtn.clicked.connect(self.back)
+        self.BackBtn.clicked.connect(self.open_main)
         self.BackBtn.clicked.connect(Achievements.close)
 
         self.AchievemjentsLbl = QtWidgets.QLabel(parent=self.frame)
@@ -42,7 +43,7 @@ class Ui_Achievements(object):
                                             "border-radius: 25px;")
         self.AchievemjentsLbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.AchievemjentsLbl.setObjectName("AchievemjentsLbl")
-        self.scrollTime = QtWidgets.QScrollArea(parent=self.centralwidget)
+        self.scrollTime = QtWidgets.QScrollArea(parent=self.central_widget)
         self.scrollTime.setGeometry(QtCore.QRect(100, 280, 241, 291))
         self.scrollTime.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.scrollTime.setWidgetResizable(True)
@@ -51,7 +52,7 @@ class Ui_Achievements(object):
         self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 239, 289))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.scrollTime.setWidget(self.scrollAreaWidgetContents)
-        self.scrollDays = QtWidgets.QScrollArea(parent=self.centralwidget)
+        self.scrollDays = QtWidgets.QScrollArea(parent=self.central_widget)
         self.scrollDays.setGeometry(QtCore.QRect(470, 280, 241, 291))
         self.scrollDays.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.scrollDays.setWidgetResizable(True)
@@ -60,26 +61,26 @@ class Ui_Achievements(object):
         self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 239, 289))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.scrollDays.setWidget(self.scrollAreaWidgetContents_2)
-        self.BestTimeLbl = QtWidgets.QLabel(parent=self.centralwidget)
+        self.BestTimeLbl = QtWidgets.QLabel(parent=self.central_widget)
         self.BestTimeLbl.setGeometry(QtCore.QRect(70, 200, 301, 71))
         self.BestTimeLbl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
                                        "border-radius: 25px;")
         self.BestTimeLbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.BestTimeLbl.setObjectName("BestTimeLbl")
-        self.DaysWithUsLabl = QtWidgets.QLabel(parent=self.centralwidget)
+        self.DaysWithUsLabl = QtWidgets.QLabel(parent=self.central_widget)
         self.DaysWithUsLabl.setGeometry(QtCore.QRect(440, 200, 301, 71))
         self.DaysWithUsLabl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
                                           "border-radius: 25px;")
         self.DaysWithUsLabl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.DaysWithUsLabl.setObjectName("DaysWithUsLabl")
-        Achievements.setCentralWidget(self.centralwidget)
+        Achievements.setCentralWidget(self.central_widget)
 
-        self.retranslate_ui(Achievements)
-        QtCore.QMetaObject.connectSlotsByName(Achievements)
+        stacked_widget.addWidget(self.central_widget)
+        self.retranslate_ui()
 
-    def retranslate_ui(self, Achievements):
+    def retranslate_ui(self):
         _translate = QtCore.QCoreApplication.translate
-        Achievements.setWindowTitle(_translate("Achievements", "MainWindow"))
+        self.setWindowTitle(_translate("Achievements", "MainWindow"))
         self.BackBtn.setText(_translate("Achievements", "Back"))
         self.AchievemjentsLbl.setText(_translate("Achievements", "Achievements"))
         self.BestTimeLbl.setText(_translate("Achievements", "Your best time of typing"))
@@ -90,8 +91,15 @@ if __name__ == "__main__":
     import sys
 
     app = QtWidgets.QApplication(sys.argv)
-    Achievements = QtWidgets.QMainWindow()
-    ui = Ui_Achievements()
-    ui.setup_ui(Achievements)
-    Achievements.show()
+
+    stacked_widget = QStackedWidget()
+    stacked_widget.setFixedSize(800, 600)
+
+    achievements_window = AchievementsWindow()
+    achievements_window.setup_ui(stacked_widget)
+
+    main_window = QtWidgets.QMainWindow()
+    main_window.setCentralWidget(stacked_widget)
+    main_window.show()
+
     sys.exit(app.exec())

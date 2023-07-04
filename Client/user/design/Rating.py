@@ -1,25 +1,26 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
+from PyQt6.QtWidgets import QWidget as QWidget
+from PyQt6.QtWidgets import QStackedWidget
 
 
-class Ui_Rating(object):
-    def back(self):
-        from MAIN_WINDOW import Ui_MainWindow
-        self.window = QtWidgets.QMainWindow()
-        self.ui = Ui_MainWindow()
-        self.ui.setup_ui(self.window)
-        # self.window.show()
+class RatingWindow(QWidget):
 
-    def setup_ui(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(800, 600)
-        MainWindow.setToolTipDuration(108)
-        MainWindow.setStyleSheet("background-color: rgb(231, 255, 239);\n"
-                                 "font: 12pt \"Arial Rounded MT Bold\";")
-        self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
-        self.centralwidget.setObjectName("centralwidget")
-        self.frame = QtWidgets.QFrame(parent=self.centralwidget)
+    def open_main(self):
+        self.stacked_widget.setCurrentIndex(1)
+
+    def setup_ui(self, stacked_widget: QStackedWidget):
+        self.stacked_widget = stacked_widget
+
+        self.setObjectName("MainWindow")
+        self.resize(800, 600)
+        self.setToolTipDuration(108)
+        self.setStyleSheet("background-color: rgb(231, 255, 239);\n"
+                           "font: 12pt \"Arial Rounded MT Bold\";")
+        self.central_widget = QtWidgets.QWidget(parent=self)
+        self.central_widget.setObjectName("centralwidget")
+        self.frame = QtWidgets.QFrame(parent=self.central_widget)
         self.frame.setGeometry(QtCore.QRect(0, 0, 801, 181))
-        self.frame.setStyleSheet(" background-color: rgb(194, 255, 172);")
+        self.frame.setStyleSheet("background-color: rgb(194, 255, 172);")
         self.frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame.setObjectName("frame")
@@ -39,9 +40,9 @@ class Ui_Rating(object):
                                    "border-radius: 15px;")
         self.BackBtn.setObjectName("BackBtn")
         # Button action to come back to the MainWindow
-        self.BackBtn.clicked.connect(self.back)
-        self.BackBtn.clicked.connect(MainWindow.close)
-        self.scrollFast = QtWidgets.QScrollArea(parent=self.centralwidget)
+        self.BackBtn.clicked.connect(self.open_main)
+        # self.BackBtn.clicked.connect(self.close)
+        self.scrollFast = QtWidgets.QScrollArea(parent=self.central_widget)
         self.scrollFast.setGeometry(QtCore.QRect(100, 280, 241, 291))
         self.scrollFast.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.scrollFast.setWidgetResizable(True)
@@ -50,7 +51,7 @@ class Ui_Rating(object):
         self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 239, 289))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.scrollFast.setWidget(self.scrollAreaWidgetContents)
-        self.scrollDays = QtWidgets.QScrollArea(parent=self.centralwidget)
+        self.scrollDays = QtWidgets.QScrollArea(parent=self.central_widget)
         self.scrollDays.setGeometry(QtCore.QRect(470, 280, 241, 291))
         self.scrollDays.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.scrollDays.setWidgetResizable(True)
@@ -59,26 +60,25 @@ class Ui_Rating(object):
         self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 239, 289))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.scrollDays.setWidget(self.scrollAreaWidgetContents_2)
-        self.TimeLbl = QtWidgets.QLabel(parent=self.centralwidget)
+        self.TimeLbl = QtWidgets.QLabel(parent=self.central_widget)
         self.TimeLbl.setGeometry(QtCore.QRect(70, 200, 301, 71))
         self.TimeLbl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
                                    "border-radius: 25px;")
         self.TimeLbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.TimeLbl.setObjectName("TimeLbl")
-        self.DaysLbl = QtWidgets.QLabel(parent=self.centralwidget)
+        self.DaysLbl = QtWidgets.QLabel(parent=self.central_widget)
         self.DaysLbl.setGeometry(QtCore.QRect(440, 200, 301, 71))
         self.DaysLbl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
                                    "border-radius: 25px;")
         self.DaysLbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.DaysLbl.setObjectName("DaysLbl")
-        MainWindow.setCentralWidget(self.centralwidget)
 
-        self.retranslate_ui(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        stacked_widget.addWidget(self.central_widget)
+        self.retranslate_ui()
 
-    def retranslate_ui(self, MainWindow):
+    def retranslate_ui(self):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        self.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.RatingLbl.setText(_translate("MainWindow", "Rating"))
         self.BackBtn.setText(_translate("MainWindow", "Back"))
         self.TimeLbl.setText(_translate("MainWindow", "\"The fastest typers\""))
@@ -87,10 +87,16 @@ class Ui_Rating(object):
 
 if __name__ == "__main__":
     import sys
+    from PyQt6.QtWidgets import QApplication
 
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_Rating()
-    ui.setup_ui(MainWindow)
-    MainWindow.show()
+    app = QApplication(sys.argv)
+
+    stacked_widget = QStackedWidget()
+    stacked_widget.setFixedSize(800, 600)
+    stacked_widget.show()
+
+    login_window = RatingWindow()
+    login_window.setup_ui(stacked_widget)
+    stacked_widget.addWidget(login_window.central_widget)
+
     sys.exit(app.exec())

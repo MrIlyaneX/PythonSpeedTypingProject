@@ -1,40 +1,46 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
-from client_runner import *
+from Client.client_runner import *
+from PyQt6.QtWidgets import QStackedWidget, QWidget, QMainWindow
 
 
-class Ui_LogIn(object):
-    # function for getting text from user (username)
+class LogInWindow(QWidget):
+
+    def open_main(self):
+        self.stacked_widget.setCurrentIndex(0)
+
+    def open_signup(self):
+        self.stacked_widget.setCurrentIndex(3)
+
     def get_username(self):
-        text = self.UsernameInput.text()
-        return text
+        return self.UsernameInput.text()
 
-    # function for getting text from user (password)
     def get_password(self):
-        text = self.UsernameInput.text()
-        return text
+        return self.PasswordInput.text()
 
-    # function for getting text from user (email)
     def get_email(self):
-        text = self.UsernameInput.text()
-        return text
+        return self.EmailTxt.text()
 
-    # function for closing this window
-    def back(self):
-        from MAIN_WINDOW import Ui_MainWindow
-        self.window = QtWidgets.QMainWindow()
-        self.ui = Ui_MainWindow()
-        self.ui.setup_ui(self.window)
+    def log_in(self):
+        username = self.get_username()
+        password = self.get_password()
+        user_email = self.get_email()
+        print(user_email, username, password)
+        header = get_header(username=username, password=password, user_email=user_email, to_login=True)
+        print(header)
+        return header
 
-    def setup_ui(self, LogInWindow):
-        LogInWindow.setObjectName("LogInWindow")
-        LogInWindow.resize(800, 600)
+    def setup_ui(self, stacked_widget: QStackedWidget):
+        self.stacked_widget = stacked_widget
+
+        self.setObjectName("self")
+        self.resize(800, 600)
         font = QtGui.QFont()
         font.setPointSize(12)
-        LogInWindow.setFont(font)
-        LogInWindow.setStyleSheet("background-color: rgb(231, 255, 239);")
-        self.centralwidget = QtWidgets.QWidget(parent=LogInWindow)
-        self.centralwidget.setObjectName("centralwidget")
-        self.LogIn = QtWidgets.QLabel(parent=self.centralwidget)
+        self.setFont(font)
+        self.setStyleSheet("background-color: rgb(231, 255, 239);")
+        self.central_widget = QtWidgets.QWidget(self)
+        self.central_widget.setObjectName("centralwidget")
+        self.LogIn = QtWidgets.QLabel(self.central_widget)
         self.LogIn.setGeometry(QtCore.QRect(0, -10, 800, 181))
         font = QtGui.QFont()
         font.setFamily("Arial Rounded MT Bold")
@@ -46,7 +52,7 @@ class Ui_LogIn(object):
         self.LogIn.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.LogIn.setObjectName("LogIn")
 
-        self.Username = QtWidgets.QLabel(parent=self.centralwidget)
+        self.Username = QtWidgets.QLabel(self.central_widget)
         self.Username.setGeometry(QtCore.QRect(300, 180, 201, 71))
         font = QtGui.QFont()
         font.setFamily("Arial Rounded MT Bold")
@@ -56,8 +62,8 @@ class Ui_LogIn(object):
                                     "border-radius: 25px;")
         self.Username.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.Username.setObjectName("Username")
-        # self.Username.clicked.connect(self.getUsername)
-        self.Password = QtWidgets.QLabel(parent=self.centralwidget)
+
+        self.Password = QtWidgets.QLabel(self.central_widget)
         self.Password.setGeometry(QtCore.QRect(300, 450, 201, 71))
         font = QtGui.QFont()
         font.setFamily("Arial Rounded MT Bold")
@@ -67,7 +73,8 @@ class Ui_LogIn(object):
                                     "border-radius: 25px;")
         self.Password.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.Password.setObjectName("Password")
-        self.logIn_button = QtWidgets.QPushButton(parent=self.centralwidget)
+
+        self.logIn_button = QtWidgets.QPushButton(self.central_widget)
         self.logIn_button.setGeometry(QtCore.QRect(622, 517, 141, 51))
         font = QtGui.QFont()
         font.setFamily("Arial Rounded MT Bold")
@@ -78,16 +85,17 @@ class Ui_LogIn(object):
                                         "")
         self.logIn_button.setObjectName("logIn_button")
 
-        self.UsernameInput = QtWidgets.QLineEdit(parent=self.centralwidget)
+        self.UsernameInput = QtWidgets.QLineEdit(self.central_widget)
         self.UsernameInput.setGeometry(QtCore.QRect(310, 270, 181, 41))
         self.UsernameInput.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.UsernameInput.setObjectName("UsernameInput")
-        self.PasswordInput = QtWidgets.QLineEdit(parent=self.centralwidget)
+
+        self.PasswordInput = QtWidgets.QLineEdit(self.central_widget)
         self.PasswordInput.setGeometry(QtCore.QRect(310, 530, 181, 41))
         self.PasswordInput.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.PasswordInput.setObjectName("PasswordInput")
-        # self.PasswordInput.clicked.connect(self.getPassword)
-        self.backbtn = QtWidgets.QPushButton(parent=self.centralwidget)
+
+        self.backbtn = QtWidgets.QPushButton(self.central_widget)
         self.backbtn.setGeometry(QtCore.QRect(50, 517, 141, 51))
         font = QtGui.QFont()
         font.setFamily("Arial Rounded MT Bold")
@@ -98,11 +106,7 @@ class Ui_LogIn(object):
                                    "")
         self.backbtn.setObjectName("backbtn")
 
-        # Button action to come back to the MainWindow
-        self.backbtn.clicked.connect(self.back)
-        self.backbtn.clicked.connect(LogInWindow.close)
-
-        self.EmailLbl = QtWidgets.QLabel(parent=self.centralwidget)
+        self.EmailLbl = QtWidgets.QLabel(self.central_widget)
         self.EmailLbl.setGeometry(QtCore.QRect(300, 320, 201, 71))
         font = QtGui.QFont()
         font.setFamily("Arial Rounded MT Bold")
@@ -112,47 +116,40 @@ class Ui_LogIn(object):
                                     "border-radius: 25px;")
         self.EmailLbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.EmailLbl.setObjectName("EmailLbl")
-        self.EmailTxt = QtWidgets.QLineEdit(parent=self.centralwidget)
+
+        self.EmailTxt = QtWidgets.QLineEdit(self.central_widget)
         self.EmailTxt.setGeometry(QtCore.QRect(310, 400, 181, 41))
         self.EmailTxt.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.EmailTxt.setObjectName("EmailTxt")
-        # self.EmailTxt.clicked.connect(self.getEmail)
-        LogInWindow.setCentralWidget(self.centralwidget)
 
-        self.retranslate_ui(LogInWindow)
-        QtCore.QMetaObject.connectSlotsByName(LogInWindow)
+        self.logIn_button.clicked.connect(self.log_in)
 
-        # function call from the external file to work with another db
-        if self.logIn_button.clicked:
-            get_header(self.logIn_button.clicked.connect(self.get_username),
-                       self.logIn_button.clicked.connect(self.get_password),
-                       self.logIn_button.clicked.connect(self.get_email), to_login=True)
+        # was back
+        self.backbtn.clicked.connect(self.open_main)
 
-        # Button also will erase everything from the user input if he will leave this window
-        self.logIn_button.clicked.connect(self.PasswordInput.clear)
-        self.logIn_button.clicked.connect(self.UsernameInput.clear)
-        self.logIn_button.clicked.connect(self.EmailTxt.clear)
+        stacked_widget.addWidget(self.central_widget)
+        self.retranslate_ui()
 
-        self.logIn_button.clicked.connect(self.back)
-        self.logIn_button.clicked.connect(LogInWindow.close)
-
-    def retranslate_ui(self, LogInWindow):
+    def retranslate_ui(self):
         _translate = QtCore.QCoreApplication.translate
-        LogInWindow.setWindowTitle(_translate("LogInWindow", "MainWindow"))
-        self.LogIn.setText(_translate("LogInWindow", "Log in"))
-        self.Username.setText(_translate("LogInWindow", "Username"))
-        self.Password.setText(_translate("LogInWindow", "Password"))
-        self.logIn_button.setText(_translate("LogInWindow", "Log in"))
-        self.backbtn.setText(_translate("LogInWindow", "Back"))
-        self.EmailLbl.setText(_translate("LogInWindow", "E-mail"))
+        self.setWindowTitle(_translate("self", "MainWindow"))
+        self.LogIn.setText(_translate("self", "Log in"))
+        self.Username.setText(_translate("self", "Username"))
+        self.Password.setText(_translate("self", "Password"))
+        self.logIn_button.setText(_translate("self", "Log in"))
+        self.backbtn.setText(_translate("self", "Back"))
+        self.EmailLbl.setText(_translate("self", "E-mail"))
 
 
 if __name__ == "__main__":
     import sys
 
     app = QtWidgets.QApplication(sys.argv)
-    LogInWindow = QtWidgets.QMainWindow()
-    ui = Ui_LogIn()
-    ui.setup_ui(LogInWindow)
-    LogInWindow.show()
+    stacked_widget = QStackedWidget()
+    stacked_widget.setFixedSize(800, 600)
+    stacked_widget.show()
+
+    login_window = LogInWindow(stacked_widget)
+    stacked_widget.addWidget(login_window)
+
     sys.exit(app.exec())

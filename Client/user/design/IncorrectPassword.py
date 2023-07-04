@@ -1,8 +1,15 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
+from PyQt6.QtWidgets import QStackedWidget
 
 
 class Ui_IncorrectPassword(object):
-    def setup_ui(self, IncorrectPassword):
+    def open_main(self):
+        self.stacked_widget.setCurrentIndex(0)
+
+    def setup_ui(self, stacked_widget: QStackedWidget):
+        self.stacked_widget = stacked_widget
+
+        IncorrectPassword = QtWidgets.QWidget()
         IncorrectPassword.setObjectName("IncorrectPassword")
         IncorrectPassword.resize(396, 229)
         IncorrectPassword.setStyleSheet(" background-color: rgb(194, 255, 172);\n"
@@ -23,6 +30,8 @@ class Ui_IncorrectPassword(object):
         self.retranslate_ui(IncorrectPassword)
         QtCore.QMetaObject.connectSlotsByName(IncorrectPassword)
 
+        stacked_widget.addWidget(IncorrectPassword)
+
     def retranslate_ui(self, IncorrectPassword):
         _translate = QtCore.QCoreApplication.translate
         IncorrectPassword.setWindowTitle(_translate("IncorrectPassword", "Form"))
@@ -34,8 +43,15 @@ if __name__ == "__main__":
     import sys
 
     app = QtWidgets.QApplication(sys.argv)
-    IncorrectPassword = QtWidgets.QWidget()
-    ui = Ui_IncorrectPassword()
-    ui.setup_ui(IncorrectPassword)
-    IncorrectPassword.show()
+
+    stacked_widget = QStackedWidget()
+    stacked_widget.setFixedSize(396, 229)
+
+    incorrect_password_window = Ui_IncorrectPassword()
+    incorrect_password_window.setup_ui(stacked_widget)
+
+    main_window = QtWidgets.QMainWindow()
+    main_window.setCentralWidget(stacked_widget)
+    main_window.show()
+
     sys.exit(app.exec())

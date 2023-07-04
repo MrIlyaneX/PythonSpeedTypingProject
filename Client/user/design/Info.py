@@ -1,69 +1,54 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
+from PyQt6.QtWidgets import QStackedWidget, QMainWindow
 
 
-class Ui_Info(object):
-    def back(self):
-        from MAIN_WINDOW import Ui_MainWindow
-        self.window = QtWidgets.QMainWindow()
-        self.ui = Ui_MainWindow()
-        self.ui.setup_ui(self.window)
-        # self.window.show()
+class InfoWindow(object):
+    def open_main(self):
+        self.stacked_widget.setCurrentIndex(1)
 
-    def setup_ui(self, Back):
-        Back.setObjectName("Back")
-        Back.resize(800, 600)
-        Back.setStyleSheet("background-color: rgb(231, 255, 239);\n"
-                           "font: 12pt \"Arial Rounded MT Bold\";")
-        self.centralwidget = QtWidgets.QWidget(parent=Back)
-        self.centralwidget.setObjectName("centralwidget")
-        self.frame = QtWidgets.QFrame(parent=self.centralwidget)
-        self.frame.setGeometry(QtCore.QRect(0, 0, 801, 181))
-        self.frame.setStyleSheet(" background-color: rgb(194, 255, 172);")
-        self.frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame.setObjectName("frame")
-        self.InfoLbl = QtWidgets.QLabel(parent=self.frame)
-        self.InfoLbl.setGeometry(QtCore.QRect(300, 60, 201, 71))
-        self.InfoLbl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
+    def setup_ui(self, stacked_widget: QStackedWidget):
+        self.stacked_widget = stacked_widget
+
+        self.info = QtWidgets.QWidget()
+        self.info.setObjectName("info")
+        self.info.setStyleSheet("background-color: rgb(231, 255, 239);\n"
+                                "font: 12pt \"Arial Rounded MT Bold\";")
+        self.info_lbl = QtWidgets.QLabel(self.info)
+        self.info_lbl.setGeometry(QtCore.QRect(300, 60, 201, 71))
+        self.info_lbl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
                                    "border-radius: 25px;")
-        self.InfoLbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.InfoLbl.setObjectName("InfoLbl")
-        self.backBtn = QtWidgets.QPushButton(parent=self.centralwidget)
-        self.backBtn.setGeometry(QtCore.QRect(610, 520, 171, 61))
-        self.backBtn.setStyleSheet("background-color: rgb(235, 255, 197);\n"
+        self.info_lbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.info_lbl.setObjectName("info_lbl")
+        self.back_btn = QtWidgets.QPushButton(self.info)
+        self.back_btn.setGeometry(QtCore.QRect(610, 520, 171, 61))
+        self.back_btn.setStyleSheet("background-color: rgb(235, 255, 197);\n"
                                    "border-radius: 25px;")
-        self.backBtn.setObjectName("backBtn")
-        # Button action to come back to the MainWindow
-        self.backBtn.clicked.connect(self.back)
-        self.backBtn.clicked.connect(Back.close)
-        self.DescriptionText = QtWidgets.QLabel(parent=self.centralwidget)
-        self.DescriptionText.setGeometry(QtCore.QRect(60, 230, 671, 241))
-        font = QtGui.QFont()
-        font.setFamily("Arial Rounded MT Bold")
-        font.setPointSize(12)
-        font.setBold(False)
-        font.setItalic(False)
-        font.setWeight(50)
-        self.DescriptionText.setFont(font)
-        self.DescriptionText.setStyleSheet("background-color: rgb(235, 255, 197);\n"
+        self.back_btn.setObjectName("back_btn")
+        self.back_btn.clicked.connect(self.open_main)
+
+        self.description_text = QtWidgets.QLabel(self.info)
+        self.description_text.setGeometry(QtCore.QRect(60, 230, 671, 241))
+        self.description_text.setFont(QtGui.QFont("Arial Rounded MT Bold", 12))
+        self.description_text.setStyleSheet("background-color: rgb(235, 255, 197);\n"
                                            "border-radius: 25px;\n"
                                            "\n"
                                            "\n"
                                            "")
-        self.DescriptionText.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.DescriptionText.setWordWrap(True)
-        self.DescriptionText.setObjectName("DescriptionText")
-        Back.setCentralWidget(self.centralwidget)
+        self.description_text.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.description_text.setWordWrap(True)
+        self.description_text.setObjectName("description_text")
 
-        self.retranslate_ui(Back)
-        QtCore.QMetaObject.connectSlotsByName(Back)
+        self.retranslate_ui(self.info)
+        QtCore.QMetaObject.connectSlotsByName(self.info)
 
-    def retranslate_ui(self, Back):
+        stacked_widget.addWidget(self.info)
+
+    def retranslate_ui(self, info):
         _translate = QtCore.QCoreApplication.translate
-        Back.setWindowTitle(_translate("Back", "MainWindow"))
-        self.InfoLbl.setText(_translate("Back", "Information"))
-        self.backBtn.setText(_translate("Back", "Back"))
-        self.DescriptionText.setText(_translate("Back",
+        info.setWindowTitle(_translate("Info", "MainWindow"))
+        self.info_lbl.setText(_translate("Info", "Information"))
+        self.back_btn.setText(_translate("Info", "Back"))
+        self.description_text.setText(_translate("Info",
                                                 "<html><head/><body><p align=\"center\"><span style=\" font-size:14pt; color:#262626;\">Our typing speed application project is designed for entertainment purposes, without a strong scientific focus. While similar resources already exist on the Internet, they are often imperfect, with users complaining about limited functionality, excessive advertising, a complex interface, and inflexible settings.</span></p></body></html>"))
 
 
@@ -71,8 +56,17 @@ if __name__ == "__main__":
     import sys
 
     app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_Info()
-    ui.setup_ui(MainWindow)
-    MainWindow.show()
+
+    stacked_widget = QStackedWidget()
+    stacked_widget.setFixedSize(800, 600)
+
+    info_window = InfoWindow()
+    info_window.setup_ui(stacked_widget)
+
+    stacked_widget.addWidget(info_window.info)
+
+    main_window = QMainWindow()
+    main_window.setCentralWidget(stacked_widget)
+    main_window.show()
+
     sys.exit(app.exec())

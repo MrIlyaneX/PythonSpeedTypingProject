@@ -1,144 +1,86 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
-from MAIN_WINDOW import Ui_MainWindow
-from LogIn import Ui_LogIn
-from CreateAccount import Ui_CreateAccount
-
-from PyQt6.QtWidgets import QStackedWidget
+from PyQt6.QtWidgets import QMainWindow, QStackedWidget
 
 
-# comments
+class SignUpWindow(object):
+    def open_main(self):
+        self.stacked_widget.setCurrentIndex(1)
 
-class Ui_SignUp(object):
-    def open_window(self):
-        self.window = QtWidgets.QMainWindow()
-        self.ui = Ui_MainWindow()
-        self.ui.setup_ui(self.window)
-        SignUpWindow.hide()
-        self.window.show()
+    def open_login(self):
+        self.stacked_widget.setCurrentIndex(2)
 
-    def create_acc(self):
-        self.window = QtWidgets.QMainWindow()
-        self.ui = Ui_CreateAccount()
-        self.ui.setup_ui(self.window)
-        SignUpWindow.hide()
-        self.window.show()
+    def open_create_acc(self):
+        self.stacked_widget.setCurrentIndex(4)
 
-    def open_log_in(self):
-        self.window = QtWidgets.QMainWindow()
-        self.ui = Ui_LogIn()
-        self.ui.setup_ui(self.window)
-        SignUpWindow.hide()
-        self.window.show()
+    def exit_program(self):
+        QtWidgets.QApplication.quit()
 
-    def setup_ui(self, SignUpWindow):
-        SignUpWindow.setObjectName("SignUpWindow")
-        SignUpWindow.setWindowModality(QtCore.Qt.WindowModality.NonModal)
-        SignUpWindow.resize(800, 600)
-        font = QtGui.QFont()
-        font.setPointSize(7)
-        font.setKerning(True)
-        SignUpWindow.setFont(font)
-        SignUpWindow.setStyleSheet("background-color: rgb(231, 255, 239);")
-        SignUpWindow.setAnimated(True)
-        SignUpWindow.setTabShape(QtWidgets.QTabWidget.TabShape.Rounded)
-        self.centralwidget = QtWidgets.QWidget(parent=SignUpWindow)
-        self.centralwidget.setObjectName("centralwidget")
-        self.SignUpMenu = QtWidgets.QLabel(parent=self.centralwidget)
-        self.SignUpMenu.setGeometry(QtCore.QRect(0, -10, 801, 181))
-        font = QtGui.QFont()
-        font.setFamily("Arial Rounded MT Bold")
-        font.setPointSize(16)
-        font.setBold(False)
-        font.setWeight(50)
-        self.SignUpMenu.setFont(font)
-        self.SignUpMenu.setStyleSheet("background-color: rgb(194, 255, 172);\n"
-                                      "border-radius: 10px;")
-        self.SignUpMenu.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
-        self.SignUpMenu.setFrameShadow(QtWidgets.QFrame.Shadow.Plain)
-        self.SignUpMenu.setTextFormat(QtCore.Qt.TextFormat.AutoText)
-        self.SignUpMenu.setScaledContents(False)
-        self.SignUpMenu.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.SignUpMenu.setWordWrap(False)
-        self.SignUpMenu.setIndent(-1)
-        self.SignUpMenu.setOpenExternalLinks(False)
-        self.SignUpMenu.setObjectName("SignUpMenu")
-        self.SignUpBtn = QtWidgets.QPushButton(parent=self.centralwidget)
-        self.SignUpBtn.setGeometry(QtCore.QRect(260, 200, 291, 101))
-        self.SignUpBtn.clicked.connect(self.create_acc)
-        font = QtGui.QFont()
-        font.setFamily("Arial Rounded MT Bold")
-        font.setPointSize(12)
-        font.setKerning(False)
-        self.SignUpBtn.setFont(font)
-        self.SignUpBtn.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                     "border-radius: 25px;\n"
-                                     "")
-        self.SignUpBtn.setCheckable(True)
-        self.SignUpBtn.setFlat(False)
-        self.SignUpBtn.setObjectName("SignUpBtn")
-        self.LogInBtn = QtWidgets.QPushButton(parent=self.centralwidget)
-        self.LogInBtn.setGeometry(QtCore.QRect(260, 320, 291, 101))
-        font = QtGui.QFont()
-        self.LogInBtn.clicked.connect(self.open_log_in)
-        font.setFamily("Arial Rounded MT Bold")
-        font.setPointSize(12)
-        self.LogInBtn.setFont(font)
-        self.LogInBtn.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                    "border-radius: 25px;\n"
-                                    "")
-        self.LogInBtn.setObjectName("LogInBtn")
-        self.WithoutAccBtn = QtWidgets.QPushButton(parent=self.centralwidget)
-        self.WithoutAccBtn.setEnabled(True)
-        self.WithoutAccBtn.setGeometry(QtCore.QRect(260, 440, 291, 101))
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.WithoutAccBtn.sizePolicy().hasHeightForWidth())
-        self.WithoutAccBtn.setSizePolicy(sizePolicy)
-        self.WithoutAccBtn.setMaximumSize(QtCore.QSize(16777215, 16777215))
-        font = QtGui.QFont()
-        font.setFamily("Arial Rounded MT Bold")
-        font.setPointSize(12)
-        font.setBold(False)
-        font.setItalic(False)
-        font.setWeight(50)
-        font.setKerning(False)
-        self.WithoutAccBtn.setFont(font)
-        self.WithoutAccBtn.setMouseTracking(False)
-        self.WithoutAccBtn.setTabletTracking(False)
-        self.WithoutAccBtn.setFocusPolicy(QtCore.Qt.FocusPolicy.ClickFocus)
-        self.WithoutAccBtn.setAcceptDrops(False)
-        self.WithoutAccBtn.setLayoutDirection(QtCore.Qt.LayoutDirection.LeftToRight)
-        self.WithoutAccBtn.setAutoFillBackground(False)
-        self.WithoutAccBtn.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                         "border-radius: 25px;\n"
-                                         "")
-        self.WithoutAccBtn.setShortcut("")
-        self.WithoutAccBtn.setAutoRepeat(False)
-        self.WithoutAccBtn.setAutoExclusive(False)
-        self.WithoutAccBtn.setObjectName("WithoutAccBtn")
-        self.WithoutAccBtn.clicked.connect(self.open_window)
-        SignUpWindow.setCentralWidget(self.centralwidget)
+    def setup_ui(self, stacked_widget: QStackedWidget):
+        self.stacked_widget = stacked_widget
 
-        self.retranslate_ui(SignUpWindow)
-        self.SignUpBtn.clicked.connect(self.centralwidget.hide)  # type: ignore
-        QtCore.QMetaObject.connectSlotsByName(SignUpWindow)
+        self.central_widget = QtWidgets.QWidget(parent=stacked_widget)
+        self.central_widget.setObjectName("central_widget")
 
-    def retranslate_ui(self, SignUpWindow):
+        self.sign_up_widget = QtWidgets.QLabel(parent=self.central_widget)
+        self.sign_up_widget.setGeometry(QtCore.QRect(0, -10, 801, 181))
+        self.sign_up_widget.setFont(QtGui.QFont("Arial Rounded MT Bold", 16))
+        self.sign_up_widget.setStyleSheet("background-color: rgb(194, 255, 172);\n"
+                                          "border-radius: 10px;")
+        self.sign_up_widget.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.sign_up_widget.setObjectName("sign_up_widget")
+
+        self.sign_up_button = QtWidgets.QPushButton(parent=self.central_widget)
+        self.sign_up_button.setGeometry(QtCore.QRect(260, 200, 291, 101))
+        self.sign_up_button.setFont(QtGui.QFont("Arial Rounded MT Bold", 12))
+        self.sign_up_button.setStyleSheet("background-color: rgb(235, 255, 197);\n"
+                                          "border-radius: 25px;")
+        self.sign_up_button.setObjectName("sign_up_button")
+        self.sign_up_button.clicked.connect(self.open_create_acc)
+
+        self.login_button = QtWidgets.QPushButton(parent=self.central_widget)
+        self.login_button.setGeometry(QtCore.QRect(260, 320, 291, 101))
+        self.login_button.setFont(QtGui.QFont("Arial Rounded MT Bold", 12))
+        self.login_button.setStyleSheet("background-color: rgb(235, 255, 197);\n"
+                                        "border-radius: 25px;")
+        self.login_button.setObjectName("login_button")
+        self.login_button.clicked.connect(self.open_login)
+
+        self.without_account_button = QtWidgets.QPushButton(parent=self.central_widget)
+        self.without_account_button.setGeometry(QtCore.QRect(260, 440, 291, 101))
+        self.without_account_button.setFont(QtGui.QFont("Arial Rounded MT Bold", 12))
+        self.without_account_button.setStyleSheet("background-color: rgb(235, 255, 197);\n"
+                                                  "border-radius: 25px;")
+        self.without_account_button.setObjectName("without_account_button")
+        self.without_account_button.clicked.connect(self.open_main)
+
+        stacked_widget.addWidget(self.central_widget)
+        self.retranslate_ui()
+
+    def retranslate_ui(self):
         _translate = QtCore.QCoreApplication.translate
-        SignUpWindow.setWindowTitle(_translate("SignUpWindow", "Sign Up"))
-        self.SignUpMenu.setText(_translate("SignUpWindow", "Want to sign up?"))
-        self.SignUpBtn.setText(_translate("SignUpWindow", "Sign Up"))
-        self.LogInBtn.setText(_translate("SignUpWindow", "Log in"))
-        self.WithoutAccBtn.setText(_translate("SignUpWindow", "Continue without an account"))
+        self.central_widget.setWindowTitle(_translate("SignUpWindow", "Sign Up"))
+        self.sign_up_widget.setText(_translate("SignUpWindow", "Want to sign up?"))
+        self.sign_up_button.setText(_translate("SignUpWindow", "Sign Up"))
+        self.login_button.setText(_translate("SignUpWindow", "Log in"))
+        self.without_account_button.setText(_translate("SignUpWindow", "Continue without an account"))
 
 
 if __name__ == "__main__":
     import sys
+    from PyQt6.QtWidgets import QApplication
 
-    app = QtWidgets.QApplication(sys.argv)
-    SignUpWindow = QtWidgets.QMainWindow()
-    ui = Ui_SignUp()
-    ui.setup_ui(SignUpWindow)
-    SignUpWindow.show()
+    app = QApplication(sys.argv)
+
+    stacked_widget = QStackedWidget()
+    stacked_widget.setFixedSize(800, 600)
+
+    sign_up_window = SignUpWindow()
+    sign_up_window.setup_ui(stacked_widget)
+
+    stacked_widget.setCurrentIndex(0)
+
+    main_window = QMainWindow()
+    main_window.setCentralWidget(stacked_widget)
+    main_window.show()
+
     sys.exit(app.exec())
