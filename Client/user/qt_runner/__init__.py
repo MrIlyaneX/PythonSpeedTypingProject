@@ -11,10 +11,10 @@ from Client.user.design.Achievements import AchievementsWindow
 from Client.user.design.Rating import RatingWindow
 from Client.user.design.SameUsername import SameUsernameWindow
 
-app = QApplication(sys.argv)
-
 
 def setup_windows():
+    app = QApplication(sys.argv)
+
     stacked_widget = QStackedWidget()
     stacked_widget.setFixedSize(800, 600)
     stacked_widget.show()
