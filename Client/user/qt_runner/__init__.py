@@ -1,15 +1,16 @@
 import sys
 from PyQt6.QtWidgets import QApplication, QMainWindow, QStackedWidget
 
+from PyQt6 import QtCore, QtGui, QtWidgets
+
 from Client.user.design.SignUp import SignUpWindow
-from Client.user.design.MAIN_WINDOW import MainWindow
+from Client.user.design.MainWindow import MainWindow
 from Client.user.design.LogIn import LogInWindow
 from Client.user.design.Info import InfoWindow
 from Client.user.design.CreateAccount import CreateAccountWindow
 from Client.user.design.Account import AccountWindow
 from Client.user.design.Achievements import AchievementsWindow
 from Client.user.design.Rating import RatingWindow
-from Client.user.design.SameUsername import SameUsernameWindow
 
 
 def setup_windows():
@@ -17,6 +18,9 @@ def setup_windows():
 
     stacked_widget = QStackedWidget()
     stacked_widget.setFixedSize(800, 600)
+    stacked_widget.setStyleSheet("background-color: rgb(231, 255, 239);\n"
+                                 "font: 12pt \"Arial Rounded MT Bold\";")
+
     stacked_widget.show()
 
     # 0
@@ -59,16 +63,9 @@ def setup_windows():
     rating_window.setup_ui(stacked_widget)
     stacked_widget.addWidget(rating_window.central_widget)
 
-    # 8
-    # same_username_window = SameUsernameWindow()
-    # same_username_window.setup_ui()
-    # stacked_widget.addWidget(same_username_window)
 
     stacked_widget.setCurrentIndex(0)
-
-    mains_window = QMainWindow()
-    mains_window.setCentralWidget(stacked_widget)
-    mains_window.show()
+    stacked_widget.show()
 
     sys.exit(app.exec())
 
