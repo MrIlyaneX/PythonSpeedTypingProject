@@ -4,6 +4,10 @@ from PyQt6.QtWidgets import QWidget as QWidget
 
 
 class AccountWindow(QWidget):
+    def __init__(self, shared_data):
+        super().__init__()
+        self.shared_data = shared_data
+
     def open_main(self):
         """
         Opens the Main window by setting the current index of the stacked widget to 1.

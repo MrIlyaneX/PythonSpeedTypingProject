@@ -5,6 +5,10 @@ from PyQt6.QtWidgets import QWidget as QWidget
 
 
 class CreateAccountWindow(QWidget):
+    def __init__(self, shared_data):
+        super().__init__()
+        self.shared_data = shared_data
+
     def open_main(self):
         """
         Opens the initial window by setting the current index of the stacked widget to 0.
@@ -68,7 +72,6 @@ class CreateAccountWindow(QWidget):
         password = self.get_password()
         try:
             header = get_header(username=username, password=password, user_email=user_email, to_signup=True)
-            self.stacked_widget.setCurrentIndex(1)
             self.stacked_widget.setCurrentIndex(0)
             return header
         except Exception as e:
@@ -76,7 +79,7 @@ class CreateAccountWindow(QWidget):
             from SameUsername import SameUsernameWindow
             window = QtWidgets.QMainWindow()
             ui = SameUsernameWindow()
-            ui.setupUi(window)
+            ui.setup_ui()
             window.show()
 
     def setup_ui(self, stacked_widget: QStackedWidget):
@@ -189,7 +192,6 @@ class CreateAccountWindow(QWidget):
         self.save_btn.clicked.connect(self.password_text.clear)
         self.save_btn.clicked.connect(self.name_text.clear)
         self.save_btn.clicked.connect(self.email_text.clear)
-
 
         self.retranslate_ui()
         stacked_widget.addWidget(self.central_widget)

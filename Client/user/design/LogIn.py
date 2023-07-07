@@ -4,6 +4,10 @@ from PyQt6.QtWidgets import QStackedWidget, QWidget
 
 
 class LogInWindow(QWidget):
+    def __init__(self, shared_data):
+        super().__init__()
+        self.shared_data = shared_data
+
     def open_main(self):
         """
         Opens the initial window by setting the current index of the stacked widget to 0.
@@ -76,6 +80,8 @@ class LogInWindow(QWidget):
         user_email = self.get_email()
         try:
             header = get_header(username=username, password=password, user_email=user_email, to_login=True)
+            with open("../data/token.txt", "w") as token:
+                token.write(header["Authorization"])
             self.stacked_widget.setCurrentIndex(1)
             return header
         except Exception:
@@ -197,7 +203,6 @@ class LogInWindow(QWidget):
 
         # was back
         self.back_btn.clicked.connect(self.open_main)
-        self.logIn_button.clicked.connect(self.open_main)
 
         self.retranslate_ui()
         stacked_widget.addWidget(self.central_widget)

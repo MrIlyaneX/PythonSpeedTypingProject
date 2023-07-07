@@ -13,8 +13,14 @@ from Client.user.design.Achievements import AchievementsWindow
 from Client.user.design.Rating import RatingWindow
 
 
+class SharedData:
+    def __init__(self):
+        self.header = None
+
+
 def setup_windows():
     app = QApplication(sys.argv)
+    shared_data = SharedData()
 
     stacked_widget = QStackedWidget()
     stacked_widget.setFixedSize(800, 600)
@@ -24,46 +30,45 @@ def setup_windows():
     stacked_widget.show()
 
     # 0
-    signup_window = SignUpWindow()
+    signup_window = SignUpWindow(shared_data)
     signup_window.setup_ui(stacked_widget)
     stacked_widget.addWidget(signup_window.central_widget)
 
     # 1
-    main_window = MainWindow()
+    main_window = MainWindow(shared_data)
     main_window.setup_ui(stacked_widget)
     main_window.display_text("Try your speed typing...")
     stacked_widget.addWidget(main_window.central_widget)
 
     # 2
-    login_window = LogInWindow()
+    login_window = LogInWindow(shared_data)
     login_window.setup_ui(stacked_widget)
     stacked_widget.addWidget(login_window.central_widget)
 
     # 3
-    info_window = InfoWindow()
+    info_window = InfoWindow(shared_data)
     info_window.setup_ui(stacked_widget)
     stacked_widget.addWidget(info_window.info)
 
     # 4
-    create_account_window = CreateAccountWindow()
+    create_account_window = CreateAccountWindow(shared_data)
     create_account_window.setup_ui(stacked_widget)
     stacked_widget.addWidget(create_account_window.central_widget)
 
     # 5
-    account_window = AccountWindow()
+    account_window = AccountWindow(shared_data)
     account_window.setup_ui(stacked_widget)
     stacked_widget.addWidget(account_window.central_widget)
 
     # 6
-    achievements_window = AchievementsWindow()
+    achievements_window = AchievementsWindow(shared_data)
     achievements_window.setup_ui(stacked_widget)
     stacked_widget.addWidget(achievements_window.central_widget)
 
     # 7
-    rating_window = RatingWindow()
+    rating_window = RatingWindow(shared_data)
     rating_window.setup_ui(stacked_widget)
     stacked_widget.addWidget(rating_window.central_widget)
-
 
     stacked_widget.setCurrentIndex(0)
     stacked_widget.show()

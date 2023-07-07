@@ -4,6 +4,9 @@ from PyQt6.QtWidgets import QStackedWidget
 
 
 class RatingWindow(QWidget):
+    def __init__(self, shared_data):
+        super().__init__()
+        self.shared_data = shared_data
 
     def open_main(self):
         """
