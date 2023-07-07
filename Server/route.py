@@ -52,7 +52,7 @@ async def read_users_me(
     return current_user
 
 
-@router.post("/users/me/upload")
+@router.post("/users/me/upload", response_model=dict)
 async def upload_own_data(
         current_user: Annotated[User, Depends(get_current_active_user)], user: User
 ) -> dict:
@@ -98,7 +98,7 @@ async def signup(username: str, user_email: str, password: str) -> User:
     return User(**get_person_by_username(username=username))
 
 
-@router.get("/files/words/{language}")
+@router.get("/files/words/{language}", response_model=FileResponse)
 async def send_words(language: Language) -> FileResponse:
     """
     Retrieve words for a specific language.
@@ -113,7 +113,10 @@ async def send_words(language: Language) -> FileResponse:
     elif language == Language.ru:
         return FileResponse("Server/words/en.json", media_type="application/json", filename="en.json")
     else:
-        raise HTTPException(status_code=400, detail="Invalid language")
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid language"
+        )
 
 
 @router.post("/leaderboard", response_model=dict)
@@ -121,8 +124,7 @@ async def post_leaderboard() -> dict:
     return get_leaderboard()
 
 
-@router.get("/download")
-@router.get("/")
-async def app_download():
+@router.get("/download", response_model=FileResponse)
+async def app_download() -> FileResponse:
     file_path = "static/setup_wizard.py"
     return FileResponse(file_path, media_type="application/octet-stream", filename="setup_wizard.py")

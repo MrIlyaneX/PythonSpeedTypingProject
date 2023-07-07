@@ -3,7 +3,8 @@ import json
 
 async def convert_to_json(file_path: str, output_file_path: str):
     """
-    Converter from txt to json, since json is more usable for fastapi requests
+    Converter from txt to json, since json is more usable for FastAPI requests
+    Works in async mode for handling FastAPi request
     
     :param file_path: 
     :param output_file_path: 
@@ -29,6 +30,6 @@ async def reading_from_file(path: str):
             text = file.read()
         return text
     except FileNotFoundError:
-        return None
+        raise FileNotFoundError
     except Exception as e:
-        return None
+        raise Exception from e

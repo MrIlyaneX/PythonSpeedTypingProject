@@ -1,6 +1,6 @@
-from database.db import *
+from database.db import get_person_by_username, set_achieve, get_top, add_person
 
-from db.data_classes import *
+from db.data_classes import UserInDB, User
 
 
 def get_user(username: str) -> UserInDB | None:
@@ -25,4 +25,9 @@ def update_user_achievements(user: User):
 
 
 def get_leaderboard():
+    """
+    Retrieves the leaderboard.
+
+    :return: get_top() from database.db
+    """
     return get_top()

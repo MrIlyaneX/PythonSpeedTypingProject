@@ -93,7 +93,7 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]) -> Use
 
 
 async def get_current_active_user(
-        current_user: Annotated[User, Depends(get_current_user)]
+        current_user: Annotated[UserInDB, Depends(get_current_user)]
 ) -> UserInDB:
     """
     Retrieves the current active user based on the provided current user.

@@ -3,8 +3,6 @@
 from Client.client import signup, login, get_file, upload_info, get_info, get_leaderboard
 from db.data_classes import User, Token
 
-server_url = "http://127.0.0.1:8000"
-
 
 def get_header(username: str, password: str, user_email: str, to_login: bool | None = None,
                to_signup: bool | None = None, to_remember: bool | None = None) -> dict | None:
