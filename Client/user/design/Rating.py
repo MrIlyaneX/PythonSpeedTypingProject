@@ -6,9 +6,22 @@ from PyQt6.QtWidgets import QStackedWidget
 class RatingWindow(QWidget):
 
     def open_main(self):
+        """
+        Opens the Main window by setting the current index of the stacked widget to 1.
+
+        :param self: The instance of the class that this function belongs to.
+        :return: None
+        """
         self.stacked_widget.setCurrentIndex(1)
 
     def setup_ui(self, stacked_widget: QStackedWidget):
+        """
+        Sets up the user interface for the main window.
+
+        :param self: The instance of the class that this function belongs to.
+        :param stacked_widget: QStackedWidget object representing the stacked widget to be used in the main window.
+        :return: None
+        """
         self.stacked_widget = stacked_widget
 
         self.setObjectName("MainWindow")
@@ -30,7 +43,7 @@ class RatingWindow(QWidget):
         self.rating_lbl = QtWidgets.QLabel(parent=self.frame)
         self.rating_lbl.setGeometry(QtCore.QRect(290, 60, 221, 71))
         self.rating_lbl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                     "border-radius: 25px;")
+                                      "border-radius: 25px;")
         self.rating_lbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.rating_lbl.setObjectName("RatingLbl")
 
@@ -41,7 +54,7 @@ class RatingWindow(QWidget):
         font.setPointSize(12)
         self.back_btn.setFont(font)
         self.back_btn.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                   "border-radius: 15px;")
+                                    "border-radius: 15px;")
         self.back_btn.setObjectName("BackBtn")
 
         # Button action to come back to the MainWindow
@@ -74,14 +87,14 @@ class RatingWindow(QWidget):
         self.time_lbl = QtWidgets.QLabel(parent=self.central_widget)
         self.time_lbl.setGeometry(QtCore.QRect(70, 200, 301, 71))
         self.time_lbl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                   "border-radius: 25px;")
+                                    "border-radius: 25px;")
         self.time_lbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.time_lbl.setObjectName("TimeLbl")
 
         self.days_lbl = QtWidgets.QLabel(parent=self.central_widget)
         self.days_lbl.setGeometry(QtCore.QRect(440, 200, 301, 71))
         self.days_lbl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                   "border-radius: 25px;")
+                                    "border-radius: 25px;")
         self.days_lbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.days_lbl.setObjectName("DaysLbl")
 
@@ -89,26 +102,14 @@ class RatingWindow(QWidget):
         self.retranslate_ui()
 
     def retranslate_ui(self):
+        """
+        This function sets the translated text for various UI elements in the main window.
+
+        :return: None
+        """
         _translate = QtCore.QCoreApplication.translate
         self.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.rating_lbl.setText(_translate("MainWindow", "Rating"))
         self.back_btn.setText(_translate("MainWindow", "Back"))
         self.time_lbl.setText(_translate("MainWindow", "\"The fastest typers\""))
         self.days_lbl.setText(_translate("MainWindow", "People that are with us"))
-
-
-if __name__ == "__main__":
-    import sys
-    from PyQt6.QtWidgets import QApplication
-
-    app = QApplication(sys.argv)
-
-    stacked_widget = QStackedWidget()
-    stacked_widget.setFixedSize(800, 600)
-    stacked_widget.show()
-
-    login_window = RatingWindow()
-    login_window.setup_ui(stacked_widget)
-    stacked_widget.addWidget(login_window.central_widget)
-
-    sys.exit(app.exec())

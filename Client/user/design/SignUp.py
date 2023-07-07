@@ -3,23 +3,49 @@ from PyQt6.QtWidgets import QMainWindow, QStackedWidget, QWidget
 
 
 class SignUpWindow(QWidget):
-    # function to switch to the initial window
     def open_main(self):
+        """
+        Opens the Main window by setting the current index of the stacked widget to 1.
+
+        :param self: The instance of the class that this method belongs to.
+        :return: None
+        """
         self.stacked_widget.setCurrentIndex(1)
 
-    # function to switch to the log in window
     def open_login(self):
+        """
+        Opens the LogIn window by setting the current index of the stacked widget to 2.
+
+        :param self: The instance of the class that this method belongs to.
+        :return: None
+        """
         self.stacked_widget.setCurrentIndex(2)
 
-    # function to switch to register window
     def open_create_acc(self):
+        """
+        Opens the CreateAccount window by setting the current index of the stacked widget to 4.
+
+        :param self: The instance of the class that this method belongs to.
+        :return: None
+        """
         self.stacked_widget.setCurrentIndex(4)
 
-    # function to close the program at all
     def exit_program(self):
+        """
+        This function closes the program.
+
+        :param self: The instance of the class that this method belongs to.
+        :return: None
+        """
         QtWidgets.QApplication.quit()
 
     def setup_ui(self, stacked_widget: QStackedWidget):
+        """
+        Sets up the user interface for the main window.
+
+        :param self: The instance of the class that this function belongs to.
+        :return: None
+        """
         self.stacked_widget = stacked_widget
 
         self.central_widget = QtWidgets.QWidget(parent=stacked_widget)
@@ -61,30 +87,14 @@ class SignUpWindow(QWidget):
         self.retranslate_ui()
 
     def retranslate_ui(self):
+        """
+        This function sets the translated text for various UI elements in the main window.
+
+        :return: None
+        """
         _translate = QtCore.QCoreApplication.translate
         self.central_widget.setWindowTitle(_translate("SignUpWindow", "Sign Up"))
         self.sign_up_widget.setText(_translate("SignUpWindow", "Want to sign up?"))
         self.sign_up_button.setText(_translate("SignUpWindow", "Sign Up"))
         self.login_button.setText(_translate("SignUpWindow", "Log in"))
         self.without_account_button.setText(_translate("SignUpWindow", "Continue without an account"))
-
-
-if __name__ == "__main__":
-    import sys
-    from PyQt6.QtWidgets import QApplication
-
-    app = QApplication(sys.argv)
-
-    stacked_widget = QStackedWidget()
-    stacked_widget.setFixedSize(800, 600)
-
-    sign_up_window = SignUpWindow()
-    sign_up_window.setup_ui(stacked_widget)
-
-    stacked_widget.setCurrentIndex(0)
-
-    main_window = QMainWindow()
-    main_window.setCentralWidget(stacked_widget)
-    main_window.show()
-
-    sys.exit(app.exec())

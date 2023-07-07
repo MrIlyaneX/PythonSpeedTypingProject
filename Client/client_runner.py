@@ -33,7 +33,6 @@ def get_header(username: str, password: str, user_email: str, to_login: bool | N
 
     if token is not None:
         tokens = Token(**token)
-        print({"Authorization": "Bearer " + tokens.access_token})
         return {"Authorization": "Bearer " + tokens.access_token}
     else:
         return None

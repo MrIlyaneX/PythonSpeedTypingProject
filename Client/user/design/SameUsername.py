@@ -3,6 +3,12 @@ from PyQt6 import QtCore, QtWidgets
 
 class SameUsernameWindow(object):
     def setup_ui(self):
+        """
+        Sets up the user interface for the main window.
+
+        :param self: The instance of the class that this function belongs to.
+        :return: None
+        """
         self.central_widget = QtWidgets.QWidget()
         self.central_widget.setObjectName("same_username")
         self.central_widget.resize(396, 229)
@@ -28,19 +34,12 @@ class SameUsernameWindow(object):
         QtCore.QMetaObject.connectSlotsByName(self.central_widget)
 
     def retranslate_ui(self):
+        """
+        This function sets the translated text for various UI elements in the main window.
+
+        :return: None
+        """
         _translate = QtCore.QCoreApplication.translate
         self.central_widget.setWindowTitle(_translate("same_username", "Form"))
         self.error_lbl.setText(_translate("same_username", "This Username already exists"))
         self.new_username_lbl.setText(_translate("same_username", "Please, insert new Username"))
-
-
-if __name__ == "__main__":
-    import sys
-
-    app = QtWidgets.QApplication(sys.argv)
-
-    ui = SameUsernameWindow()
-    ui.setup_ui()
-    ui.central_widget.show()
-
-    sys.exit(app.exec())

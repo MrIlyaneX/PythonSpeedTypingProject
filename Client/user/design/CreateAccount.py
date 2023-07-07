@@ -5,33 +5,64 @@ from PyQt6.QtWidgets import QWidget as QWidget
 
 
 class CreateAccountWindow(QWidget):
-    # function to switch to the MainWindow
     def open_main(self):
+        """
+        Opens the initial window by setting the current index of the stacked widget to 0.
+
+        :param self: The instance of the class that this method belongs to.
+        :return: None
+        """
         self.stacked_widget.setCurrentIndex(0)
 
-    # function to open the necessary window when we catch an error from user's input
-    def open_error(self):
-        from SameUsername import SameUsernameWindow
-        self.window = QtWidgets.QMainWindow()
-        self.ui = SameUsernameWindow()
-        self.ui.setupUi(self.window)
-        self.window.show()
-
-    # function to get from user written information, here - username
     def get_username(self):
+        """
+        Retrieves the username entered by the user.
+        This function retrieves the text entered the username_input QLineEdit widget, which is
+        assumed to be a username provided by the user.
+
+        :param self: The instance of the class that this method belongs to.
+        :return: The username entered by the user as a string.
+        """
         return self.name_text.text()
 
-    # function to get from user written information, here - password
     def get_password(self):
+        """
+        Retrieves the password entered by the user.
+        This function retrieves the text entered the password_input QLineEdit widget, which is
+        assumed to be a username provided by the user.
+
+        :param self: The instance of the class that this method belongs to.
+        :return: The password entered by the user as a string.
+        """
         return self.password_text.text()
 
-    # function to get from user written information, here - email
     def get_email(self):
+        """
+        Retrieves the email entered by the user.
+        This function retrieves the text entered the email_txt QLineEdit widget, which is
+        assumed to be a username provided by the user.
+
+        :param self: The instance of the class that this method belongs to.
+        :return: The password entered by the user as a string.
+        """
         return self.email_text.text()
 
-    # when the button 'save' is called, we use collected by the functions above information and register the user
-    # if the user give wrong information or he/she has already registered here, the 'error' window will be shown
     def button_clicked(self):
+        """
+        Registers the user using the collected information when the 'sign_up' button is clicked.
+
+        This function retrieves the username, password, and user email by calling the get_username,
+        get_password, and get_email functions, respectively. It then tries to get the header using
+        the collected information by calling the get_header function with the appropriate arguments.
+        If the header is successfully obtained, the current index of the stacked_widget is set to 1,
+        which corresponds to a successful login page. The header is returned.
+
+        If an exception occurs during the process, such as the user providing wrong information or
+        already being registered, the 'error' window will be shown.
+
+        :param self: The instance of the class that this method belongs to.
+        :return: The header obtained from the get_header function if the login is successful.
+        """
         user_email = self.get_email()
         username = self.get_username()
         password = self.get_password()
@@ -40,9 +71,19 @@ class CreateAccountWindow(QWidget):
             self.stacked_widget.setCurrentIndex(1)
             return header
         except Exception:
-            self.save_btn.clicked.connect(self.open_error)
+            from SameUsername import SameUsernameWindow
+            self.window = QtWidgets.QMainWindow()
+            self.ui = SameUsernameWindow()
+            self.ui.setupUi(self.window)
+            self.window.show()
 
     def setup_ui(self, stacked_widget: QStackedWidget):
+        """
+        Sets up the user interface for the main window.
+
+        :param self: The instance of the class that this function belongs to.
+        :return: None
+        """
         self.stacked_widget = stacked_widget
         self.setObjectName("self")
         self.resize(800, 600)
@@ -148,12 +189,16 @@ class CreateAccountWindow(QWidget):
         self.save_btn.clicked.connect(self.email_text.clear)
 
         self.back_btn.clicked.connect(self.open_main)
-        # self.back_btn.clicked.connect(self.close)
 
         self.retranslate_ui()
         stacked_widget.addWidget(self.central_widget)
 
     def retranslate_ui(self):
+        """
+        This function sets the translated text for various UI elements in the main window.
+
+        :return: None
+        """
         _translate = QtCore.QCoreApplication.translate
         self.setWindowTitle(_translate("self", "self"))
         self.create_account.setText(_translate("self", "Create an account"))
@@ -162,19 +207,3 @@ class CreateAccountWindow(QWidget):
         self.save_btn.setText(_translate("self", "Save"))
         self.back_btn.setText(_translate("self", "Back"))
         self.email_lbl.setText(_translate("self", "Write your e-mail"))
-
-
-if __name__ == "__main__":
-    import sys
-
-    app = QtWidgets.QApplication(sys.argv)
-
-    stacked_widget = QStackedWidget()
-    stacked_widget.setFixedSize(800, 600)
-    stacked_widget.show()
-
-    login_window = CreateAccountWindow()
-    login_window.setup_ui(stacked_widget)
-    stacked_widget.addWidget(login_window)
-
-    sys.exit(app.exec())

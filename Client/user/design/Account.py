@@ -5,9 +5,21 @@ from PyQt6.QtWidgets import QWidget as QWidget
 
 class AccountWindow(QWidget):
     def open_main(self):
+        """
+        Opens the Main window by setting the current index of the stacked widget to 1.
+
+        :param self: The instance of the class that this function belongs to.
+        :return: None
+        """
         self.stacked_widget.setCurrentIndex(1)
 
     def setup_ui(self, stacked_widget: QStackedWidget):
+        """
+        Sets up the user interface for the main window.
+
+        :param self: The instance of the class that this function belongs to.
+        :return: None
+        """
         self.stacked_widget = stacked_widget
 
         Account = QtWidgets.QMainWindow()
@@ -29,7 +41,7 @@ class AccountWindow(QWidget):
         self.account_lbl = QtWidgets.QLabel(parent=self.frame)
         self.account_lbl.setGeometry(QtCore.QRect(300, 50, 221, 81))
         self.account_lbl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                      "border-radius: 25px;")
+                                       "border-radius: 25px;")
         self.account_lbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.account_lbl.setObjectName("AccountLbl")
 
@@ -64,28 +76,28 @@ class AccountWindow(QWidget):
         self.username_lbl = QtWidgets.QLabel(parent=self.central_widget)
         self.username_lbl.setGeometry(QtCore.QRect(40, 220, 331, 61))
         self.username_lbl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                       "border-radius: 25px;")
+                                        "border-radius: 25px;")
         self.username_lbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.username_lbl.setObjectName("UsernameLbl")
 
         self.time_lbl = QtWidgets.QLabel(parent=self.central_widget)
         self.time_lbl.setGeometry(QtCore.QRect(500, 300, 221, 61))
         self.time_lbl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                   "border-radius: 25px;")
+                                    "border-radius: 25px;")
         self.time_lbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.time_lbl.setObjectName("TimeLbl")
 
         self.days_lbl = QtWidgets.QLabel(parent=self.central_widget)
         self.days_lbl.setGeometry(QtCore.QRect(170, 500, 121, 61))
         self.days_lbl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                   "border-radius: 25px;")
+                                    "border-radius: 25px;")
         self.days_lbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.days_lbl.setObjectName("DaysLbl")
 
         self.with_us_lbl = QtWidgets.QLabel(parent=self.central_widget)
         self.with_us_lbl.setGeometry(QtCore.QRect(40, 430, 271, 61))
         self.with_us_lbl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                     "border-radius: 25px;")
+                                       "border-radius: 25px;")
         self.with_us_lbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.with_us_lbl.setObjectName("WithUsLbl")
 
@@ -98,6 +110,11 @@ class AccountWindow(QWidget):
         self.retranslate_ui(self)
 
     def retranslate_ui(self, Account):
+        """
+        This function sets the translated text for various UI elements in the main window.
+
+        :return: None
+        """
         _translate = QtCore.QCoreApplication.translate
         Account.setWindowTitle(_translate("Account", "MainWindow"))
         self.account_lbl.setText(_translate("Account", "Account"))
@@ -106,21 +123,3 @@ class AccountWindow(QWidget):
         self.time_lbl.setText(_translate("Account", "Your best time"))
         self.days_lbl.setText(_translate("Account", "days"))
         self.with_us_lbl.setText(_translate("Account", "You are with us already"))
-
-
-if __name__ == "__main__":
-    import sys
-
-    app = QtWidgets.QApplication(sys.argv)
-
-    stacked_widget = QStackedWidget()
-    stacked_widget.setFixedSize(800, 600)
-
-    account_window = AccountWindow()
-    account_window.setup_ui(stacked_widget)
-
-    main_window = QtWidgets.QMainWindow()
-    main_window.setCentralWidget(stacked_widget)
-    main_window.show()
-
-    sys.exit(app.exec())

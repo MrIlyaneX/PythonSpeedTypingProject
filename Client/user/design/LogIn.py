@@ -6,10 +6,7 @@ from PyQt6.QtWidgets import QStackedWidget, QWidget
 class LogInWindow(QWidget):
     def open_main(self):
         """
-        Switches to the MainWindow view.
-        This function changes the current index of the stacked_widget to 0, which corresponds to
-        the MainWindow view. By setting the current index, the function effectively switches the
-        displayed view to the MainWindow.
+        Opens the initial window by setting the current index of the stacked widget to 0.
 
         :param self: The instance of the class that this method belongs to.
         :return: None
@@ -18,10 +15,7 @@ class LogInWindow(QWidget):
 
     def open_signup(self):
         """
-        Switches to the MainWindow view.
-        This function changes the current index of the stacked_widget to 3, which corresponds to
-        the Sign_up view. By setting the current index, the function effectively switches the
-        displayed view to the SignUp window.
+        Opens the SignUp window by setting the current index of the stacked widget to 0.
 
         :param self: The instance of the class that this method belongs to.
         :return: None
@@ -63,7 +57,7 @@ class LogInWindow(QWidget):
 
     def log_in(self):
         """
-        Registers the user using the collected information when the 'log in' button is clicked.
+        Enters the user's account using the collected information when the 'log in' button is clicked.
 
         This function retrieves the username, password, and user email by calling the get_username,
         get_password, and get_email functions, respectively. It then tries to get the header using
@@ -72,8 +66,7 @@ class LogInWindow(QWidget):
         which corresponds to a successful login page. The header is returned.
 
         If an exception occurs during the process, such as the user providing wrong information or
-        already being registered, the 'error' window will be shown by connecting the 'log_in_button'
-        clicked signal to the open_error function.
+        already being registered, the 'error' window will be shown.
 
         :param self: The instance of the class that this method belongs to.
         :return: The header obtained from the get_header function if the login is successful.
@@ -177,8 +170,8 @@ class LogInWindow(QWidget):
         font.setPointSize(12)
         self.back_btn.setFont(font)
         self.back_btn.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                   "border-radius: 25px;\n"
-                                   "")
+                                    "border-radius: 25px;\n"
+                                    "")
         self.back_btn.setObjectName("backbtn")
 
         self.email_lbl = QtWidgets.QLabel(self.central_widget)
@@ -188,7 +181,7 @@ class LogInWindow(QWidget):
         font.setPointSize(12)
         self.email_lbl.setFont(font)
         self.email_lbl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                    "border-radius: 25px;")
+                                     "border-radius: 25px;")
         self.email_lbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.email_lbl.setObjectName("EmailLbl")
 

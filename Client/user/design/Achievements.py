@@ -4,11 +4,22 @@ from PyQt6.QtWidgets import QWidget
 
 
 class AchievementsWindow(QWidget):
-    # function to switch to the MainWindow
     def open_main(self):
+        """
+        Opens the Main window by setting the current index of the stacked widget to 1.
+
+        :param self: The instance of the class that this function belongs to.
+        :return: None
+        """
         self.stacked_widget.setCurrentIndex(1)
 
     def setup_ui(self, stacked_widget: QStackedWidget):
+        """
+        Sets up the user interface for the main window.
+
+        :param self: The instance of the class that this function belongs to.
+        :return: None
+        """
         self.stacked_widget = stacked_widget
 
         Achievements = QtWidgets.QMainWindow()
@@ -35,10 +46,9 @@ class AchievementsWindow(QWidget):
         font.setPointSize(12)
         self.back_btn.setFont(font)
         self.back_btn.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                   "border-radius: 15px;")
+                                    "border-radius: 15px;")
         self.back_btn.setObjectName("back_btn")
 
-        # Button action to come back to the MainWindow
         self.back_btn.clicked.connect(self.open_main)
 
         self.achievements_lbl = QtWidgets.QLabel(parent=self.frame)
@@ -75,14 +85,14 @@ class AchievementsWindow(QWidget):
         self.best_time_lbl = QtWidgets.QLabel(parent=self.central_widget)
         self.best_time_lbl.setGeometry(QtCore.QRect(70, 200, 301, 71))
         self.best_time_lbl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                       "border-radius: 25px;")
+                                         "border-radius: 25px;")
         self.best_time_lbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.best_time_lbl.setObjectName("BestTimeLbl")
 
         self.days_with_us_labl = QtWidgets.QLabel(parent=self.central_widget)
         self.days_with_us_labl.setGeometry(QtCore.QRect(440, 200, 301, 71))
         self.days_with_us_labl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                          "border-radius: 25px;")
+                                             "border-radius: 25px;")
         self.days_with_us_labl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.days_with_us_labl.setObjectName("DaysWithUsLabl")
 
@@ -92,27 +102,14 @@ class AchievementsWindow(QWidget):
         self.retranslate_ui()
 
     def retranslate_ui(self):
+        """
+        This function sets the translated text for various UI elements in the main window.
+
+        :return: None
+        """
         _translate = QtCore.QCoreApplication.translate
         self.setWindowTitle(_translate("Achievements", "MainWindow"))
         self.back_btn.setText(_translate("Achievements", "Back"))
         self.achievements_lbl.setText(_translate("Achievements", "Achievements"))
         self.best_time_lbl.setText(_translate("Achievements", "Your best time of typing"))
         self.days_with_us_labl.setText(_translate("Achievements", "Your days spent with us"))
-
-
-if __name__ == "__main__":
-    import sys
-
-    app = QtWidgets.QApplication(sys.argv)
-
-    stacked_widget = QStackedWidget()
-    stacked_widget.setFixedSize(800, 600)
-
-    achievements_window = AchievementsWindow()
-    achievements_window.setup_ui(stacked_widget)
-
-    main_window = QtWidgets.QMainWindow()
-    main_window.setCentralWidget(stacked_widget)
-    main_window.show()
-
-    sys.exit(app.exec())
