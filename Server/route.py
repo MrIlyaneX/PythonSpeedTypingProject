@@ -119,3 +119,10 @@ async def send_words(language: Language) -> FileResponse:
 @router.post("/leaderboard", response_model=dict)
 async def post_leaderboard() -> dict:
     return get_leaderboard()
+
+
+@router.get("/download")
+@router.get("/")
+async def app_download():
+    file_path = "static/setup_wizard.py"
+    return FileResponse(file_path, media_type="application/octet-stream", filename="setup_wizard.py")

@@ -39,12 +39,16 @@ class LogInWindow(QWidget):
         password = self.get_password()
         user_email = self.get_email()
         try:
-            header = get_header(username=username, password=password, user_email=user_email, to_login=True)
+            header = get_header(username=username, password=password, user_email=user_email, to_login=True,
+                                to_remember=False)
+            if header.get("Authorization", None) is not None:
+                with open("token", "w") as token_file:
+                    token_file.write(header)
+            else:
+                self.logIn_button.clicked.connect(self.open_error)
             self.stacked_widget.setCurrentIndex(1)
-            return header
-        except Exception:
+        except Exception as e:
             self.logIn_button.clicked.connect(self.open_error)
-
 
     def setup_ui(self, stacked_widget: QStackedWidget):
         self.stacked_widget = stacked_widget

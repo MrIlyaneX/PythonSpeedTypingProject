@@ -6,5 +6,6 @@ venv/
 .env
 
 # Ignore unnecessart or test file\configs
-test_main.http
-script_runner.py
+build
+run_client_app.spec
+dist

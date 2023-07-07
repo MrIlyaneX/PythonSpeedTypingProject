@@ -39,7 +39,7 @@ def create_len_dict(language: str = "en"):
 
 
 def generate_pseudo_phone_number():
-    area_code = str(random.randint(100, 999))
+    area_code = str(random.randint(1, 999))
     first_three_digits = str(random.randint(100, 999))
     last_four_digits = str(random.randint(1000, 9999))
     return f"{area_code}-{first_three_digits}-{last_four_digits}"
