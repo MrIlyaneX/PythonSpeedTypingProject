@@ -31,6 +31,7 @@ def setup_windows():
     # 1
     main_window = MainWindow()
     main_window.setup_ui(stacked_widget)
+    main_window.display_text("Try your speed typing...")
     stacked_widget.addWidget(main_window.central_widget)
 
     # 2

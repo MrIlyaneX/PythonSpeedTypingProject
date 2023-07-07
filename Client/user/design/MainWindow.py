@@ -9,6 +9,7 @@ class MainWindow(QWidget):
         """
         Opens the initial window by setting the current index of the stacked widget to 0.
 
+        :param self: The instance of the class that this function belongs to.
         :return: None
         """
         self.stacked_widget.setCurrentIndex(0)
@@ -17,6 +18,7 @@ class MainWindow(QWidget):
         """
         Opens the window with info about the project by setting the current index of the stacked widget to 3
 
+        :param self: The instance of the class that this function belongs to.
         :return: None
         """
         self.stacked_widget.setCurrentIndex(3)
@@ -25,6 +27,7 @@ class MainWindow(QWidget):
         """
         Opens the window with information about the user by setting the current index of the stacked widget to 5
 
+        :param self: The instance of the class that this function belongs to.
         :return: None
         """
         self.stacked_widget.setCurrentIndex(5)
@@ -34,7 +37,7 @@ class MainWindow(QWidget):
         Opens the window with information about the user's achievements by setting the current index of the stacked
         widget to 6
 
-        :param: self (object): The instance of the class that this function belongs to.
+        :param self: The instance of the class that this function belongs to.
         :return: None
         """
         self.stacked_widget.setCurrentIndex(6)
@@ -43,7 +46,7 @@ class MainWindow(QWidget):
         """
         Opens the window with user's rating by setting the current index of the stacked widget to 7
 
-        :param: self (object): The instance of the class that this function belongs to.
+        :param self: The instance of the class that this function belongs to.
         :return: None
         """
         self.stacked_widget.setCurrentIndex(7)
@@ -53,7 +56,7 @@ class MainWindow(QWidget):
         This function allows the user to erase their input and start again. It Clears the text in the
         'our_text_for_typing' input field and in the 'user_text' input field.
 
-        :param: self (object): The instance of the class that this function belongs to.
+        :param self: The instance of the class that this function belongs to.
         :return: None
         """
         self.our_text_for_typing.clear()
@@ -64,8 +67,8 @@ class MainWindow(QWidget):
         This function sets the text to be displayed for the user's typing. Function sets the text of the
         'our_text_for_typing' widget to the provided text.
 
-        :param: self (object): The instance of the class that this function belongs to.
-        :param: text (str): The text to be displayed for the user's typing.
+        :param self: The instance of the class that this function belongs to.
+        :param: text: The text to be displayed for the user's typing.
         :return: None
         """
         self.our_text_for_typing.setText(text)
@@ -75,7 +78,7 @@ class MainWindow(QWidget):
         This function updates the text display based on the user's input. It updates the text display of the
         'our_text_for_typing' widget with color highlighting.
 
-        :param: self (object): The instance of the class that this function belongs to.
+        :param self: The instance of the class that this function belongs to.
         :return: None
         """
         user_text = self.user_text.text()
@@ -98,7 +101,8 @@ class MainWindow(QWidget):
         """
         Sets up the user interface for the main window.
 
-        :param: stacked_widget: QStackedWidget object representing the stacked widget to be used in the main window.
+        :param self: The instance of the class that this function belongs to.
+        :param stacked_widget: QStackedWidget object representing the stacked widget to be used in the main window.
         :return: None
         """
         self.stacked_widget = stacked_widget
@@ -274,8 +278,6 @@ class MainWindow(QWidget):
         """
         This function sets the translated text for various UI elements in the main window.
 
-        :param: self (object): The instance of the class that this function belongs to.
-        :param: main_window (object): The main window object to be modified.
         :return: None
         """
         _translate = QtCore.QCoreApplication.translate
@@ -289,38 +291,3 @@ class MainWindow(QWidget):
         self.start_again_btn.setText(_translate("MainWindow", "Start again"))
         self.log_in_btn.setText(_translate("MainWindow", "Log in"))
         self.start_btn.setText(_translate("MainWindow", "Start"))
-
-
-if __name__ == "__main__":
-    """
-    The main entry point of the application.
-    This function initializes the application, sets up the main window and its user interface, and starts the event loop.
-
-    :param: None
-    :return: None
-    
-    Side effects:
-    - Imports the sys module.
-    - Creates a QApplication object named app to manage the application's GUI.
-    - Creates a QStackedWidget object named stacked_widget and sets its fixed size to 800x600 pixels.
-    - Creates a MainWindow object named window.
-    - Calls the setup_ui method of the window object, passing the stacked_widget as a parameter to set up the user interface.
-    - Adds the window to the stacked_widget using the addWidget method.
-    - Shows the stacked_widget using the show method.
-    - Exits the application's event loop by calling sys.exit(app.exec()).
-    
-    """
-    import sys
-
-    app = QtWidgets.QApplication(sys.argv)
-
-    stacked_widget = QStackedWidget()
-    stacked_widget.setFixedSize(800, 600)
-
-    window = MainWindow()
-    window.setup_ui(stacked_widget)
-
-    stacked_widget.addWidget(window)
-    stacked_widget.show()
-
-    sys.exit(app.exec())
