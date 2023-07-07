@@ -1,5 +1,3 @@
-from db.data_classes import User
-from Client.client import *
 from pathlib import Path
 
 users_path = Path(Path.cwd()).parent

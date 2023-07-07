@@ -1,7 +1,8 @@
 """ DataBase class represents user data, statistics for exchange between Client-Server """
-from enum import Enum
-from pydantic import BaseModel
 from datetime import datetime
+from enum import Enum
+
+from pydantic import BaseModel
 
 
 class Stats(BaseModel):

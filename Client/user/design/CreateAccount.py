@@ -1,13 +1,20 @@
+import traceback
+
 from PyQt6 import QtCore, QtGui, QtWidgets
-from Client.client_runner import get_header
 from PyQt6.QtWidgets import QStackedWidget
 from PyQt6.QtWidgets import QWidget as QWidget
 
+from Client import SharedData
+from Client.user.design.SameUsername import SameUsernameWindow
+from Client.client_runner import get_header
+
 
 class CreateAccountWindow(QWidget):
-    def __init__(self, shared_data):
+    def __init__(self, shared_data: SharedData):
         super().__init__()
         self.shared_data = shared_data
+        self.error_window = None
+        self.error_ui = None
 
     def open_main(self):
         """
@@ -72,15 +79,24 @@ class CreateAccountWindow(QWidget):
         password = self.get_password()
         try:
             header = get_header(username=username, password=password, user_email=user_email, to_signup=True)
-            self.stacked_widget.setCurrentIndex(0)
-            return header
+            print(header)
+            if header.get("Authorization", None) is None:
+                self.shared_data.header = header
+                self.stacked_widget.setCurrentIndex(0)
+            else:
+                print("Here")
+
         except Exception as e:
-            print("gfhgfgh")
-            from SameUsername import SameUsernameWindow
-            window = QtWidgets.QMainWindow()
-            ui = SameUsernameWindow()
-            ui.setup_ui()
-            window.show()
+            traceback.print_exc()
+            self.show_error_window()
+
+    def show_error_window(self):
+        if self.error_window is None:
+            self.error_window = QtWidgets.QMainWindow()
+            self.error_ui = SameUsernameWindow()
+            self.error_ui.setup_ui()
+            self.error_window.setCentralWidget(self.error_ui)
+        self.error_window.show()
 
     def setup_ui(self, stacked_widget: QStackedWidget):
         """

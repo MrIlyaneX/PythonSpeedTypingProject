@@ -1,8 +1,3 @@
-from Client.client import signup
-from Client.user.scripts.user_updater import *
-from db.data_classes import User
-
-
 # def signup_user(username: str, email: str, password: str) -> User:
 #     def create_password():
 #         path = Path(users_path.joinpath(Path("Client/user/data/password.json")))

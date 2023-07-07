@@ -1,7 +1,8 @@
-import sqlalchemy as db
-from sqlalchemy import DATETIME, Boolean
 from datetime import datetime
+
+import sqlalchemy as db
 from sqlalchemy import Column, Integer, String, Double
+from sqlalchemy import DATETIME, Boolean
 from sqlalchemy.orm import declarative_base, sessionmaker
 
 Base = declarative_base()

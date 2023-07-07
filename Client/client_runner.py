@@ -1,6 +1,6 @@
 """ Works with client data exchange to server and inner data """
 
-from Client.client import signup, login, get_file, upload_info, get_info, get_leaderboard
+from Client.client import signup, login, upload_info, get_info
 from db.data_classes import User, Token
 
 server_url = "http://127.0.0.1:8000"

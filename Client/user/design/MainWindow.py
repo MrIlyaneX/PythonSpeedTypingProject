@@ -1,10 +1,12 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
-from PyQt6.QtWidgets import QWidget as QWidget
 from PyQt6.QtWidgets import QStackedWidget
+from PyQt6.QtWidgets import QWidget as QWidget
+
+from Client import SharedData
 
 
 class MainWindow(QWidget):
-    def __init__(self, shared_data):
+    def __init__(self, shared_data: SharedData):
         super().__init__()
         self.shared_data = shared_data
 
@@ -289,8 +291,11 @@ class MainWindow(QWidget):
         font.setFamily("Arial Rounded MT Bold")
         font.setPointSize(12)
         self.start_btn.setFont(font)
-        self.start_btn.setStyleSheet("""QPushButton:hover{background-color: rgb(235, 255, 197); 
-                                     border: 1px solid black;border-radius: 25px;}
+        self.start_btn.setStyleSheet("""QPushButton:hover{
+                                                        background-color: rgb(235, 255, 197); 
+                                                        border: 1px solid black;
+                                                        border-radius: 25px;
+                                                        }
                                      QPushButton:!hover{background-color: rgb(235, 255, 197);
                                      border-radius: 25px;}""")
         self.start_btn.setObjectName("start_btn")

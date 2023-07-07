@@ -1,10 +1,12 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
-from Client.client_runner import *
 from PyQt6.QtWidgets import QStackedWidget, QWidget
+
+from Client import SharedData
+from Client.client_runner import *
 
 
 class LogInWindow(QWidget):
-    def __init__(self, shared_data):
+    def __init__(self, shared_data: SharedData):
         super().__init__()
         self.shared_data = shared_data
 
@@ -80,10 +82,11 @@ class LogInWindow(QWidget):
         user_email = self.get_email()
         try:
             header = get_header(username=username, password=password, user_email=user_email, to_login=True)
-            with open("../data/token.txt", "w") as token:
-                token.write(header["Authorization"])
-            self.stacked_widget.setCurrentIndex(1)
-            return header
+            if header is not None:
+                self.shared_data.header = header
+                self.stacked_widget.setCurrentIndex(0)
+            else:
+                raise Exception
         except Exception:
             from IncorrectPassword import IncorrectPassword
             window = QtWidgets.QMainWindow()

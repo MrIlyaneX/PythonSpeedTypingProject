@@ -1,9 +1,11 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
-from PyQt6.QtWidgets import QMainWindow, QStackedWidget, QWidget
+from PyQt6.QtWidgets import QStackedWidget, QWidget
+
+from Client import SharedData
 
 
 class SignUpWindow(QWidget):
-    def __init__(self, shared_data):
+    def __init__(self, shared_data: SharedData):
         super().__init__()
         self.shared_data = shared_data
 

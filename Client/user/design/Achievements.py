@@ -2,9 +2,11 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtWidgets import QStackedWidget
 from PyQt6.QtWidgets import QWidget
 
+from Client import SharedData
+
 
 class AchievementsWindow(QWidget):
-    def __init__(self, shared_data):
+    def __init__(self, shared_data: SharedData):
         super().__init__()
         self.shared_data = shared_data
 

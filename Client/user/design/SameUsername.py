@@ -1,7 +1,8 @@
 from PyQt6 import QtCore, QtWidgets
+from PyQt6.QtWidgets import QMainWindow
 
 
-class SameUsernameWindow(object):
+class SameUsernameWindow(QMainWindow):
     def setup_ui(self):
         """
         Sets up the user interface for the main window.
@@ -9,37 +10,42 @@ class SameUsernameWindow(object):
         :param self: The instance of the class that this function belongs to.
         :return: None
         """
-        self.central_widget = QtWidgets.QWidget()
-        self.central_widget.setObjectName("same_username")
-        self.central_widget.resize(396, 229)
-        self.central_widget.setStyleSheet("background-color: rgb(194, 255, 172);\n"
-                                          "font: 12pt \"Arial Rounded MT Bold\";\n"
-                                          "")
+        self.setObjectName("same_username")
+        self.resize(396, 229)
+        self.setStyleSheet("background-color: rgb(194, 255, 172);\n"
+                           "font: 12pt \"Arial Rounded MT Bold\";\n")
 
-        self.error_lbl = QtWidgets.QLabel(parent=self.central_widget)
-        self.error_lbl.setGeometry(QtCore.QRect(40, 40, 321, 61))
-        self.error_lbl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                     "border-radius: 25px;")
-        self.error_lbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.error_lbl.setObjectName("error_lbl")
+        central_widget = QtWidgets.QWidget(self)
+        central_widget.setObjectName("central_widget")
 
-        self.new_username_lbl = QtWidgets.QLabel(parent=self.central_widget)
-        self.new_username_lbl.setGeometry(QtCore.QRect(10, 140, 371, 61))
-        self.new_username_lbl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                            "border-radius: 25px;")
-        self.new_username_lbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.new_username_lbl.setObjectName("new_username_lbl")
+        error_lbl = QtWidgets.QLabel(parent=central_widget)
+        error_lbl.setGeometry(QtCore.QRect(40, 40, 321, 61))
+        error_lbl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
+                                "border-radius: 25px;")
+        error_lbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        error_lbl.setObjectName("error_lbl")
+
+        new_username_lbl = QtWidgets.QLabel(parent=central_widget)
+        new_username_lbl.setGeometry(QtCore.QRect(10, 140, 371, 61))
+        new_username_lbl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
+                                       "border-radius: 25px;")
+        new_username_lbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        new_username_lbl.setObjectName("new_username_lbl")
+
+        self.setCentralWidget(central_widget)
 
         self.retranslate_ui()
-        QtCore.QMetaObject.connectSlotsByName(self.central_widget)
 
-    def retranslate_ui(self):
-        """
-        This function sets the translated text for various UI elements in the main window.
 
-        :return: None
-        """
-        _translate = QtCore.QCoreApplication.translate
-        self.central_widget.setWindowTitle(_translate("same_username", "Form"))
-        self.error_lbl.setText(_translate("same_username", "This Username already exists"))
-        self.new_username_lbl.setText(_translate("same_username", "Please, insert new Username"))
+def retranslate_ui(self):
+    """
+    This function sets the translated text for various UI elements in the main window.
+
+    :return: None
+    """
+    _translate = QtCore.QCoreApplication.translate
+    self.setWindowTitle(_translate("same_username", "Form"))
+    self.centralWidget().findChild(QtWidgets.QLabel, "error_lbl").setText(
+        _translate("same_username", "This Username already exists"))
+    self.centralWidget().findChild(QtWidgets.QLabel, "new_username_lbl").setText(
+        _translate("same_username", "Please, insert new Username"))

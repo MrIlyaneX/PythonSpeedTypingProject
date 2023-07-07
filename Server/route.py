@@ -5,8 +5,8 @@ from fastapi import Depends, HTTPException, status, APIRouter
 from fastapi.responses import FileResponse
 from fastapi.security import OAuth2PasswordRequestForm
 
-from Server.config import ACCESS_TOKEN_EXPIRE_MINUTES
 from Server.auth_functions import create_access_token, authenticate_user, get_current_active_user, get_password_hash
+from Server.config import ACCESS_TOKEN_EXPIRE_MINUTES
 from Server.db_access import get_person_by_username, update_user_achievements, add_person, get_leaderboard
 from db.data_classes import Token, User, Language
 
