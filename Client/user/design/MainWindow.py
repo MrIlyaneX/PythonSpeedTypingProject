@@ -188,16 +188,24 @@ class MainWindow(QWidget):
         font.setItalic(False)
         font.setWeight(50)
         self.account_btn.setFont(font)
-        self.account_btn.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                       "border-radius: 25px;")
+        self.account_btn.setStyleSheet("""QPushButton:hover{background-color: rgb(235, 255, 197); 
+                                                            border: 1px solid black;
+                                                            border-radius: 25px;}
+                                                         QPushButton:!hover{background-color: rgb(235, 255, 197);
+                                                          border-radius: 25px;}
+                                                            """)
         self.account_btn.setObjectName("account_btn")
         self.account_btn.clicked.connect(self.open_account)
         self.account_btn.setAutoDefault(False)
 
         self.rating_btn = QtWidgets.QPushButton(parent=self.frame)
         self.rating_btn.setGeometry(QtCore.QRect(320, 10, 171, 61))
-        self.rating_btn.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                      "border-radius: 25px;")
+        self.rating_btn.setStyleSheet("""QPushButton:hover{background-color: rgb(235, 255, 197); 
+                                                            border: 1px solid black;
+                                                            border-radius: 25px;}
+                                                         QPushButton:!hover{background-color: rgb(235, 255, 197);
+                                                          border-radius: 25px;}
+                                                            """)
         self.rating_btn.setObjectName("rating_btn")
         self.rating_btn.clicked.connect(self.open_rating)
         self.rating_btn.setAutoDefault(False)
@@ -211,22 +219,34 @@ class MainWindow(QWidget):
         font.setItalic(False)
         font.setWeight(50)
         self.settings_btn.setFont(font)
-        self.settings_btn.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                        "border-radius: 25px;")
+        self.settings_btn.setStyleSheet("""QPushButton:hover{background-color: rgb(235, 255, 197); 
+                                                            border: 1px solid black;
+                                                            border-radius: 25px;}
+                                                         QPushButton:!hover{background-color: rgb(235, 255, 197);
+                                                          border-radius: 25px;}
+                                                            """)
         self.settings_btn.setObjectName("settings_btn")
 
         self.info_btn = QtWidgets.QPushButton(parent=self.frame)
         self.info_btn.setGeometry(QtCore.QRect(470, 90, 171, 61))
-        self.info_btn.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                    "border-radius: 25px;")
+        self.info_btn.setStyleSheet("""QPushButton:hover{background-color: rgb(235, 255, 197); 
+                                                            border: 1px solid black;
+                                                            border-radius: 25px;}
+                                                         QPushButton:!hover{background-color: rgb(235, 255, 197);
+                                                          border-radius: 25px;}
+                                                            """)
         self.info_btn.setObjectName("info_btn")
         self.info_btn.clicked.connect(self.open_info)
         self.info_btn.setAutoDefault(False)
 
         self.achievements_btn = QtWidgets.QPushButton(parent=self.frame)
         self.achievements_btn.setGeometry(QtCore.QRect(180, 90, 171, 61))
-        self.achievements_btn.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                            "border-radius: 25px;")
+        self.achievements_btn.setStyleSheet("""QPushButton:hover{background-color: rgb(235, 255, 197); 
+                                                            border: 1px solid black;
+                                                            border-radius: 25px;}
+                                                         QPushButton:!hover{background-color: rgb(235, 255, 197);
+                                                          border-radius: 25px;}
+                                                            """)
         self.achievements_btn.setObjectName("achievements_btn")
         self.achievements_btn.clicked.connect(self.open_achievements)
         self.achievements_btn.setAutoDefault(False)
@@ -237,8 +257,12 @@ class MainWindow(QWidget):
         font.setFamily("Arial Rounded MT Bold")
         font.setPointSize(12)
         self.start_again_btn.setFont(font)
-        self.start_again_btn.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                           "border-radius: 15px;")
+        self.start_again_btn.setStyleSheet("""QPushButton:hover{background-color: rgb(235, 255, 197); 
+                                                            border: 1px solid black;
+                                                            border-radius: 25px;}
+                                                         QPushButton:!hover{background-color: rgb(235, 255, 197);
+                                                          border-radius: 25px;}
+                                                            """)
         self.start_again_btn.setObjectName("start_again_btn")
 
         self.start_again_btn.clicked.connect(self.start_again)
@@ -249,8 +273,12 @@ class MainWindow(QWidget):
         font.setFamily("Arial Rounded MT Bold")
         font.setPointSize(12)
         self.log_in_btn.setFont(font)
-        self.log_in_btn.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                      "border-radius: 15px;")
+        self.log_in_btn.setStyleSheet("""QPushButton:hover{background-color: rgb(235, 255, 197); 
+                                                            border: 1px solid black;
+                                                            border-radius: 25px;}
+                                                         QPushButton:!hover{background-color: rgb(235, 255, 197);
+                                                          border-radius: 25px;}
+                                                            """)
         self.log_in_btn.setObjectName("log_in_btn")
         self.log_in_btn.clicked.connect(self.open_login)
         self.log_in_btn.setAutoDefault(False)
@@ -261,8 +289,10 @@ class MainWindow(QWidget):
         font.setFamily("Arial Rounded MT Bold")
         font.setPointSize(12)
         self.start_btn.setFont(font)
-        self.start_btn.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                     "border-radius: 15px;")
+        self.start_btn.setStyleSheet("""QPushButton:hover{background-color: rgb(235, 255, 197); 
+                                     border: 1px solid black;border-radius: 25px;}
+                                     QPushButton:!hover{background-color: rgb(235, 255, 197);
+                                     border-radius: 25px;}""")
         self.start_btn.setObjectName("start_btn")
 
         self.try_your_speed_lbl.raise_()

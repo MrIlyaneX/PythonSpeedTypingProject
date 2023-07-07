@@ -66,16 +66,24 @@ class SignUpWindow(QWidget):
         self.sign_up_button = QtWidgets.QPushButton(parent=self.central_widget)
         self.sign_up_button.setGeometry(QtCore.QRect(260, 200, 291, 101))
         self.sign_up_button.setFont(QtGui.QFont("Arial Rounded MT Bold", 12))
-        self.sign_up_button.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                          "border-radius: 25px;")
+        self.sign_up_button.setStyleSheet("""QPushButton:hover{background-color: rgb(235, 255, 197); 
+                                                            border: 1px solid black;
+                                                            border-radius: 25px;}
+                                                         QPushButton:!hover{background-color: rgb(235, 255, 197);
+                                                          border-radius: 25px;}
+                                                            """)
         self.sign_up_button.setObjectName("sign_up_button")
         self.sign_up_button.clicked.connect(self.open_create_acc)
 
         self.login_button = QtWidgets.QPushButton(parent=self.central_widget)
         self.login_button.setGeometry(QtCore.QRect(260, 320, 291, 101))
         self.login_button.setFont(QtGui.QFont("Arial Rounded MT Bold", 12))
-        self.login_button.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                        "border-radius: 25px;")
+        self.login_button.setStyleSheet("""QPushButton:hover{background-color: rgb(235, 255, 197); 
+                                                            border: 1px solid black;
+                                                            border-radius: 25px;}
+                                                         QPushButton:!hover{background-color: rgb(235, 255, 197);
+                                                          border-radius: 25px;}
+                                                            """)
         self.login_button.setObjectName("login_button")
         self.login_button.clicked.connect(self.open_login)
 
@@ -85,6 +93,12 @@ class SignUpWindow(QWidget):
         self.without_account_button.setStyleSheet("background-color: rgb(235, 255, 197);\n"
                                                   "border-radius: 25px;")
         self.without_account_button.setObjectName("without_account_button")
+        self.without_account_button.setStyleSheet("""QPushButton:hover{background-color: rgb(235, 255, 197); 
+                                                    border: 1px solid black;
+                                                    border-radius: 25px;}
+                                                 QPushButton:!hover{background-color: rgb(235, 255, 197);
+                                                  border-radius: 25px;}
+                                                    """)
         self.without_account_button.clicked.connect(self.open_main)
 
         stacked_widget.addWidget(self.central_widget)

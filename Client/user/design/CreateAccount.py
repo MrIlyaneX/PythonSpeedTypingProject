@@ -155,8 +155,12 @@ class CreateAccountWindow(QWidget):
         font.setFamily("Arial Rounded MT Bold")
         font.setPointSize(12)
         self.save_btn.setFont(font)
-        self.save_btn.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                    "border-radius: 25px;")
+        self.save_btn.setStyleSheet("""QPushButton:hover{background-color: rgb(235, 255, 197); 
+                                                                    border: 1px solid black;
+                                                                    border-radius: 25px;}
+                                                                 QPushButton:!hover{background-color: rgb(235, 255, 197);
+                                                                  border-radius: 25px;}
+                                                                    """)
         self.save_btn.setObjectName("save_btn")
 
         self.back_btn = QtWidgets.QPushButton(self.central_widget)
@@ -165,9 +169,14 @@ class CreateAccountWindow(QWidget):
         font.setFamily("Arial Rounded MT Bold")
         font.setPointSize(12)
         self.back_btn.setFont(font)
-        self.back_btn.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                    "border-radius: 25px;\n")
+        self.back_btn.setStyleSheet("""QPushButton:hover{background-color: rgb(235, 255, 197); 
+                                                                    border: 1px solid black;
+                                                                    border-radius: 25px;}
+                                                                 QPushButton:!hover{background-color: rgb(235, 255, 197);
+                                                                  border-radius: 25px;}
+                                                                    """)
         self.back_btn.setObjectName("back_btn")
+        self.back_btn.clicked.connect(self.open_main)
 
         self.email_text = QtWidgets.QLineEdit(self.central_widget)
         self.email_text.setGeometry(QtCore.QRect(300, 400, 181, 41))

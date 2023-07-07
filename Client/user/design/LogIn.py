@@ -148,16 +148,19 @@ class LogInWindow(QWidget):
         self.password.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.password.setObjectName("Password")
 
-        self.logIn_button = QtWidgets.QPushButton(self.central_widget)
-        self.logIn_button.setGeometry(QtCore.QRect(622, 517, 141, 51))
+        self.log_in_button = QtWidgets.QPushButton(self.central_widget)
+        self.log_in_button.setGeometry(QtCore.QRect(622, 517, 141, 51))
         font = QtGui.QFont()
         font.setFamily("Arial Rounded MT Bold")
         font.setPointSize(12)
-        self.logIn_button.setFont(font)
-        self.logIn_button.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                        "border-radius: 25px;\n"
-                                        "")
-        self.logIn_button.setObjectName("logIn_button")
+        self.log_in_button.setFont(font)
+        self.log_in_button.setStyleSheet("""QPushButton:hover{background-color: rgb(235, 255, 197); 
+                                                                    border: 1px solid black;
+                                                                    border-radius: 25px;}
+                                                                 QPushButton:!hover{background-color: rgb(235, 255, 197);
+                                                                  border-radius: 25px;}
+                                                                    """)
+        self.log_in_button.setObjectName("logIn_button")
 
         self.username_input = QtWidgets.QLineEdit(self.central_widget)
         self.username_input.setGeometry(QtCore.QRect(310, 270, 181, 41))
@@ -175,9 +178,12 @@ class LogInWindow(QWidget):
         font.setFamily("Arial Rounded MT Bold")
         font.setPointSize(12)
         self.back_btn.setFont(font)
-        self.back_btn.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                    "border-radius: 25px;\n"
-                                    "")
+        self.back_btn.setStyleSheet("""QPushButton:hover{background-color: rgb(235, 255, 197); 
+                                                                    border: 1px solid black;
+                                                                    border-radius: 25px;}
+                                                                 QPushButton:!hover{background-color: rgb(235, 255, 197);
+                                                                  border-radius: 25px;}
+                                                                    """)
         self.back_btn.setObjectName("backbtn")
 
         self.email_lbl = QtWidgets.QLabel(self.central_widget)
@@ -196,10 +202,10 @@ class LogInWindow(QWidget):
         self.email_txt.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.email_txt.setObjectName("EmailTxt")
 
-        self.logIn_button.clicked.connect(self.log_in)
-        self.logIn_button.clicked.connect(self.password_input.clear)
-        self.logIn_button.clicked.connect(self.username_input.clear)
-        self.logIn_button.clicked.connect(self.email_txt.clear)
+        self.log_in_button.clicked.connect(self.log_in)
+        self.log_in_button.clicked.connect(self.password_input.clear)
+        self.log_in_button.clicked.connect(self.username_input.clear)
+        self.log_in_button.clicked.connect(self.email_txt.clear)
 
         # was back
         self.back_btn.clicked.connect(self.open_main)
@@ -223,6 +229,6 @@ class LogInWindow(QWidget):
         self.LogIn.setText(_translate("self", "Log in"))
         self.username.setText(_translate("self", "Username"))
         self.password.setText(_translate("self", "Password"))
-        self.logIn_button.setText(_translate("self", "Log in"))
+        self.log_in_button.setText(_translate("self", "Log in"))
         self.back_btn.setText(_translate("self", "Back"))
         self.email_lbl.setText(_translate("self", "E-mail"))

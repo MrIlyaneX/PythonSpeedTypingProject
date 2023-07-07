@@ -70,8 +70,12 @@ class AccountWindow(QWidget):
         font.setFamily("Arial Rounded MT Bold")
         font.setPointSize(12)
         self.back_btn.setFont(font)
-        self.back_btn.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                    "border-radius: 15px;")
+        self.back_btn.setStyleSheet("""QPushButton:hover{background-color: rgb(235, 255, 197); 
+                                                                    border: 1px solid black;
+                                                                    border-radius: 25px;}
+                                                                 QPushButton:!hover{background-color: rgb(235, 255, 197);
+                                                                  border-radius: 25px;}
+                                                                    """)
         self.back_btn.setObjectName("BackBtn")
 
         # Button action to come back to the MainWindow
