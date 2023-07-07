@@ -80,10 +80,10 @@ class LogInWindow(QWidget):
             return header
         except Exception:
             from IncorrectPassword import IncorrectPassword
-            self.window = QtWidgets.QMainWindow()
-            self.ui = IncorrectPassword()
-            self.ui.setupUi(self.window)
-            self.window.show()
+            window = QtWidgets.QMainWindow()
+            ui = IncorrectPassword()
+            ui.setupUi(window)
+            window.show()
 
     def setup_ui(self, stacked_widget: QStackedWidget):
         """

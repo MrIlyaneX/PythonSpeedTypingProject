@@ -69,13 +69,15 @@ class CreateAccountWindow(QWidget):
         try:
             header = get_header(username=username, password=password, user_email=user_email, to_signup=True)
             self.stacked_widget.setCurrentIndex(1)
+            self.stacked_widget.setCurrentIndex(0)
             return header
-        except Exception:
+        except Exception as e:
+            print("gfhgfgh")
             from SameUsername import SameUsernameWindow
-            self.window = QtWidgets.QMainWindow()
-            self.ui = SameUsernameWindow()
-            self.ui.setupUi(self.window)
-            self.window.show()
+            window = QtWidgets.QMainWindow()
+            ui = SameUsernameWindow()
+            ui.setupUi(window)
+            window.show()
 
     def setup_ui(self, stacked_widget: QStackedWidget):
         """
@@ -188,7 +190,6 @@ class CreateAccountWindow(QWidget):
         self.save_btn.clicked.connect(self.name_text.clear)
         self.save_btn.clicked.connect(self.email_text.clear)
 
-        self.back_btn.clicked.connect(self.open_main)
 
         self.retranslate_ui()
         stacked_widget.addWidget(self.central_widget)
