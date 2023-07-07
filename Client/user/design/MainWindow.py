@@ -4,28 +4,103 @@ from PyQt6.QtWidgets import QStackedWidget
 
 
 class MainWindow(QWidget):
-    # The following functions will open necessary windows when buttons will be pushed
-    # This function will open the initial window
+
     def open_login(self):
+        """
+        Opens the initial window by setting the current index of the stacked widget to 0.
+
+        :return: None
+        """
         self.stacked_widget.setCurrentIndex(0)
 
-    # This function will open the window with info about this project
     def open_info(self):
+        """
+        Opens the window with info about the project by setting the current index of the stacked widget to 3
+
+        :return: None
+        """
         self.stacked_widget.setCurrentIndex(3)
 
-    # This function will open the window with information about the user
     def open_account(self):
+        """
+        Opens the window with information about the user by setting the current index of the stacked widget to 5
+
+        :return: None
+        """
         self.stacked_widget.setCurrentIndex(5)
 
-    # This function will open the window with user's achievements
     def open_achievements(self):
+        """
+        Opens the window with information about the user's achievements by setting the current index of the stacked
+        widget to 6
+
+        :param: self (object): The instance of the class that this function belongs to.
+        :return: None
+        """
         self.stacked_widget.setCurrentIndex(6)
 
-    # This function will open the window with rating
     def open_rating(self):
+        """
+        Opens the window with user's rating by setting the current index of the stacked widget to 7
+
+        :param: self (object): The instance of the class that this function belongs to.
+        :return: None
+        """
         self.stacked_widget.setCurrentIndex(7)
 
+    def start_again(self):
+        """
+        This function allows the user to erase their input and start again. It Clears the text in the
+        'our_text_for_typing' input field and in the 'user_text' input field.
+
+        :param: self (object): The instance of the class that this function belongs to.
+        :return: None
+        """
+        self.our_text_for_typing.clear()
+        self.user_text.clear()
+
+    def display_text(self, text):
+        """
+        This function sets the text to be displayed for the user's typing. Function sets the text of the
+        'our_text_for_typing' widget to the provided text.
+
+        :param: self (object): The instance of the class that this function belongs to.
+        :param: text (str): The text to be displayed for the user's typing.
+        :return: None
+        """
+        self.our_text_for_typing.setText(text)
+
+    def on_text_changed(self):
+        """
+        This function updates the text display based on the user's input. It updates the text display of the
+        'our_text_for_typing' widget with color highlighting.
+
+        :param: self (object): The instance of the class that this function belongs to.
+        :return: None
+        """
+        user_text = self.user_text.text()
+        user_text_length = len(user_text)
+        our_text = self.our_text_for_typing.toPlainText()
+        colored_text = ""
+
+        for i in range(len(our_text)):
+            if i < user_text_length:
+                # Set color for matched character
+                colored_text += f"<font color='white'>{our_text[i]}</font>"
+                # colored_text += f"<font color='white'>{user_text[i]}</font>"
+            else:
+                # Set default color for remaining characters
+                colored_text += our_text[i]
+
+        self.our_text_for_typing.setHtml(colored_text)
+
     def setup_ui(self, stacked_widget: QStackedWidget):
+        """
+        Sets up the user interface for the main window.
+
+        :param: stacked_widget: QStackedWidget object representing the stacked widget to be used in the main window.
+        :return: None
+        """
         self.stacked_widget = stacked_widget
         self.setObjectName("MainWindow")
         self.setEnabled(True)
@@ -56,22 +131,39 @@ class MainWindow(QWidget):
 
         self.our_text_for_typing = QtWidgets.QTextBrowser(parent=self.central_widget)
         self.our_text_for_typing.setGeometry(QtCore.QRect(110, 290, 591, 221))
-        self.our_text_for_typing.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.our_text_for_typing.setStyleSheet("background-color: rgb(255, 255, 255);"
+                                               "border: none;\n"
+                                               "color:gray;"
+                                               "font-size:16px;")
+        self.our_text_for_typing.setObjectName("our_text_for_typing")
+        self.our_text_for_typing.setAlignment(
+            QtCore.Qt.AlignmentFlag.AlignLeading | QtCore.Qt.AlignmentFlag.AlignLeft | QtCore.Qt.AlignmentFlag.AlignTop)
         self.our_text_for_typing.setObjectName("our_text_for_typing")
 
         self.user_text = QtWidgets.QLineEdit(parent=self.central_widget)
-        self.user_text.setGeometry(QtCore.QRect(110, 290, 591, 221))
+        self.user_text.setGeometry(QtCore.QRect(112, 293, 591, 221))
         size_policy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding,
                                             QtWidgets.QSizePolicy.Policy.Fixed)
         size_policy.setHorizontalStretch(0)
         size_policy.setVerticalStretch(0)
         size_policy.setHeightForWidth(self.user_text.sizePolicy().hasHeightForWidth())
         self.user_text.setSizePolicy(size_policy)
-        self.user_text.setStyleSheet("background-color: rgb(255, 255, 255, 0);\n"
-                                     "border: none;")
+        self.user_text.setGeometry(QtCore.QRect(112, 293, 591, 221))
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.user_text.sizePolicy().hasHeightForWidth())
+        self.user_text.setSizePolicy(sizePolicy)
+        self.user_text.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
+                                     "border: none;\n"
+                                     "color:black;"
+                                     "font-size:16px;\n"
+                                     )
         self.user_text.setAlignment(
             QtCore.Qt.AlignmentFlag.AlignLeading | QtCore.Qt.AlignmentFlag.AlignLeft | QtCore.Qt.AlignmentFlag.AlignTop)
         self.user_text.setObjectName("user_text")
+        self.user_text.setGraphicsEffect(QtWidgets.QGraphicsOpacityEffect())
+        self.user_text.textChanged.connect(self.on_text_changed)
 
         self.frame = QtWidgets.QFrame(parent=self.central_widget)
         self.frame.setGeometry(QtCore.QRect(0, 0, 801, 181))
@@ -142,6 +234,8 @@ class MainWindow(QWidget):
                                            "border-radius: 15px;")
         self.start_again_btn.setObjectName("start_again_btn")
 
+        self.start_again_btn.clicked.connect(self.start_again)
+
         self.log_in_btn = QtWidgets.QPushButton(parent=self.central_widget)
         self.log_in_btn.setGeometry(QtCore.QRect(20, 550, 141, 41))
         font = QtGui.QFont()
@@ -177,6 +271,13 @@ class MainWindow(QWidget):
         QtCore.QMetaObject.connectSlotsByName(self)
 
     def retranslate_ui(self, main_window):
+        """
+        This function sets the translated text for various UI elements in the main window.
+
+        :param: self (object): The instance of the class that this function belongs to.
+        :param: main_window (object): The main window object to be modified.
+        :return: None
+        """
         _translate = QtCore.QCoreApplication.translate
         main_window.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.try_your_speed_lbl.setText(_translate("MainWindow", "Try your speed"))
@@ -191,6 +292,24 @@ class MainWindow(QWidget):
 
 
 if __name__ == "__main__":
+    """
+    The main entry point of the application.
+    This function initializes the application, sets up the main window and its user interface, and starts the event loop.
+
+    :param: None
+    :return: None
+    
+    Side effects:
+    - Imports the sys module.
+    - Creates a QApplication object named app to manage the application's GUI.
+    - Creates a QStackedWidget object named stacked_widget and sets its fixed size to 800x600 pixels.
+    - Creates a MainWindow object named window.
+    - Calls the setup_ui method of the window object, passing the stacked_widget as a parameter to set up the user interface.
+    - Adds the window to the stacked_widget using the addWidget method.
+    - Shows the stacked_widget using the show method.
+    - Exits the application's event loop by calling sys.exit(app.exec()).
+    
+    """
     import sys
 
     app = QtWidgets.QApplication(sys.argv)
@@ -199,7 +318,6 @@ if __name__ == "__main__":
     stacked_widget.setFixedSize(800, 600)
 
     window = MainWindow()
-
     window.setup_ui(stacked_widget)
 
     stacked_widget.addWidget(window)
