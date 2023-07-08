@@ -10,6 +10,7 @@ import time
 class MainWindow(QWidget):
     def __init__(self, shared_data: SharedData):
         super().__init__()
+        self.endTime = None
         self.shared_data = shared_data
 
     def open_login(self):
@@ -66,6 +67,9 @@ class MainWindow(QWidget):
         :param self: The instance of the class that this function belongs to.
         :return: None
         """
+        self.endTime = time.time()
+        self.typingAccuracy()
+        self.typingSpeed()
         self.our_text_for_typing.clear()
         self.user_text.clear()
         text = generate_text()
@@ -73,14 +77,12 @@ class MainWindow(QWidget):
         for i in range(len(text)):
             display += text[i]
         self.display_text(display)
-        self.startTime = time.time()
-
+        # self.startTime = time.time()
 
     def start(self):
         self.our_text_for_typing.clear()
         self.user_text.clear()
         self.our_text_for_typing.setText("Try your speed typing...")
-
 
     def display_text(self, text):
         """
@@ -125,14 +127,18 @@ class MainWindow(QWidget):
         else:
             length = len(ourText)
         matchCount = 0
+        # if len(userText) == len(ourText) and len(ourText)!=0:
         for i in range(length):
             if userText[i] == ourText[i]:
                 matchCount += 1
 
-        return matchCount / len(ourText) * 100
+        # print("Accuracy: ", int(matchCount / len(ourText) * 100), "%")
+        return int(matchCount / len(ourText) * 100)
 
-        # def typingSpeed(self):
-        #
+    def typingSpeed(self):
+        typingTime = self.endTime - self.startTime
+        print("Time: ", int(typingTime / len(self.user_text.text())))
+        return int(typingTime / len(self.user_text.text()))
 
     def setup_ui(self, stacked_widget: QStackedWidget):
         """
@@ -206,7 +212,7 @@ class MainWindow(QWidget):
         self.user_text.setObjectName("user_text")
         self.user_text.setGraphicsEffect(QtWidgets.QGraphicsOpacityEffect())
         self.user_text.textChanged.connect(self.on_text_changed)
-
+        # self.user_text.setMaxLength(len(self.our_text_for_typing.toPlainText()))
         self.frame = QtWidgets.QFrame(parent=self.central_widget)
         self.frame.setGeometry(QtCore.QRect(0, 0, 801, 181))
         self.frame.setStyleSheet(" background-color: rgb(194, 255, 172);")
@@ -333,6 +339,10 @@ class MainWindow(QWidget):
                                      QPushButton:!hover{background-color: rgb(235, 255, 197);
                                      border-radius: 25px;}""")
         self.start_btn.setObjectName("start_btn")
+
+        if len(self.user_text.text()) == len(self.our_text_for_typing.toPlainText()):
+            self.endTime = time.time()
+
 
         self.try_your_speed_lbl.raise_()
         self.our_text_for_typing.raise_()
