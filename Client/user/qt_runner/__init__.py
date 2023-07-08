@@ -72,6 +72,3 @@ def setup_windows():
 
     sys.exit(app.exec())
 
-
-if __name__ == "__main__":
-    setup_windows()
