@@ -1,6 +1,7 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
-from Client.client_runner import *
 from PyQt6.QtWidgets import QStackedWidget, QWidget
+
+from Client.client_runner import *
 
 
 class LogInWindow(QWidget):

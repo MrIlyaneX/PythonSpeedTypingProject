@@ -1,6 +1,6 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
-from PyQt6.QtWidgets import QWidget as QWidget
 from PyQt6.QtWidgets import QStackedWidget
+from PyQt6.QtWidgets import QWidget as QWidget
 
 
 class RatingWindow(QWidget):

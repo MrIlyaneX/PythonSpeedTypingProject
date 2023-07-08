@@ -4,9 +4,9 @@ from typing import Annotated
 from fastapi import Depends, HTTPException, status
 from jose import JWTError, jwt
 
-from db.data_classes import *
 from Server.config import pwd_context, SECRET_KEY, ALGORITHM, oauth2_scheme
-from Server.db_access import get_user
+from Server.models.db_access import get_user
+from Server.models.data_classes import *
 
 
 def verify_password(plain_password, hashed_password) -> bool:

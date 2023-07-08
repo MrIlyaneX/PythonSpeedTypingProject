@@ -1,7 +1,7 @@
 """ Works with client data exchange to server and inner data """
 
-from Client.client import signup, login, get_file, upload_info, get_info, get_leaderboard
-from db.data_classes import User, Token
+from Client.client import signup, login, upload_info, get_info
+from Client.models.data_classes import User, Token
 
 
 def get_header(username: str, password: str, user_email: str, to_login: bool | None = None,

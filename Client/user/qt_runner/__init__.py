@@ -1,16 +1,15 @@
 import sys
-from PyQt6.QtWidgets import QApplication, QMainWindow, QStackedWidget
 
-from PyQt6 import QtCore, QtGui, QtWidgets
+from PyQt6.QtWidgets import QApplication, QStackedWidget
 
-from Client.user.design.SignUp import SignUpWindow
-from Client.user.design.MainWindow import MainWindow
-from Client.user.design.LogIn import LogInWindow
-from Client.user.design.Info import InfoWindow
-from Client.user.design.CreateAccount import CreateAccountWindow
 from Client.user.design.Account import AccountWindow
 from Client.user.design.Achievements import AchievementsWindow
+from Client.user.design.CreateAccount import CreateAccountWindow
+from Client.user.design.Info import InfoWindow
+from Client.user.design.LogIn import LogInWindow
+from Client.user.design.MainWindow import MainWindow
 from Client.user.design.Rating import RatingWindow
+from Client.user.design.SignUp import SignUpWindow
 
 
 def setup_windows():

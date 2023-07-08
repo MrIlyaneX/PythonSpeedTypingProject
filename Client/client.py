@@ -3,7 +3,7 @@ import json
 
 import requests
 
-from db.data_classes import *
+from Client.models.data_classes import *
 
 
 def user_to_dict(user: User) -> dict:

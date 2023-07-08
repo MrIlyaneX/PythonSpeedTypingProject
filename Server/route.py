@@ -4,11 +4,13 @@ from typing import Annotated
 from fastapi import Depends, HTTPException, status, APIRouter
 from fastapi.responses import FileResponse
 from fastapi.security import OAuth2PasswordRequestForm
+from starlette.responses import HTMLResponse
 
-from Server.config import ACCESS_TOKEN_EXPIRE_MINUTES
 from Server.auth_functions import create_access_token, authenticate_user, get_current_active_user, get_password_hash
-from Server.db_access import get_person_by_username, update_user_achievements, add_person, get_leaderboard
-from db.data_classes import Token, User, Language
+from Server.config import ACCESS_TOKEN_EXPIRE_MINUTES
+from Server.models.db_access import get_person_by_username, update_user_achievements, get_leaderboard
+from Server.models.data_classes import Token, User, Language
+from Server.models.db import add_person
 
 router = APIRouter()
 
@@ -98,7 +100,7 @@ async def signup(username: str, user_email: str, password: str) -> User:
     return User(**get_person_by_username(username=username))
 
 
-@router.get("/files/words/{language}", response_model=FileResponse)
+@router.get("/files/words/{language}")
 async def send_words(language: Language) -> FileResponse:
     """
     Retrieve words for a specific language.
@@ -124,7 +126,14 @@ async def post_leaderboard() -> dict:
     return get_leaderboard()
 
 
-@router.get("/download", response_model=FileResponse)
+@router.get("/download")
 async def app_download() -> FileResponse:
-    file_path = "static/setup_wizard.py"
-    return FileResponse(file_path, media_type="application/octet-stream", filename="setup_wizard.py")
+    file_path = "Server/static/run_client_app.exe"
+    return FileResponse(file_path, media_type="application/octet-stream", filename="ty-typing.exe")
+
+
+@router.get("/")
+async def index() -> HTMLResponse:
+    with open("Server/static/html/download.html", "r") as file:
+        html_content = file.read()
+    return HTMLResponse(content=html_content, status_code=200)
