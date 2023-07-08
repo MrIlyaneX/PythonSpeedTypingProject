@@ -2,6 +2,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtWidgets import QStackedWidget, QWidget
 
 from Client import SharedData
+from Client.user.design import IncorrectPassword
 from Client.client_runner import *
 
 
@@ -9,6 +10,8 @@ class LogInWindow(QWidget):
     def __init__(self, shared_data: SharedData):
         super().__init__()
         self.shared_data = shared_data
+        self.error_window = None
+        self.error_ui = None
 
     def open_main(self):
         """
@@ -77,32 +80,28 @@ class LogInWindow(QWidget):
         :param self: The instance of the class that this method belongs to.
         :return: The header obtained from the get_header function if the login is successful.
         """
+        user_email = self.get_email()
         username = self.get_username()
         password = self.get_password()
-        user_email = self.get_email()
         try:
             header = get_header(username=username, password=password, user_email=user_email, to_login=True)
+            print(header)
             if header is not None:
                 self.shared_data.header = header
                 self.stacked_widget.setCurrentIndex(0)
             else:
-                raise Exception
-        except Exception:
-            from IncorrectPassword import IncorrectPassword
-            window = QtWidgets.QMainWindow()
-            ui = IncorrectPassword()
-            ui.setupUi(window)
-            window.show()
-            header = get_header(username=username, password=password, user_email=user_email, to_login=True,
-                                to_remember=False)
-            if header.get("Authorization", None) is not None:
-                with open("token", "w") as token_file:
-                    token_file.write(header)
-            else:
-                self.logIn_button.clicked.connect(self.open_error)
-            self.stacked_widget.setCurrentIndex(1)
+                self.show_error_window()
         except Exception as e:
-            self.logIn_button.clicked.connect(self.open_error)
+            traceback.print_exc()
+            self.show_error_window()
+
+    def show_error_window(self):
+        if self.error_window is None:
+            self.error_window = QtWidgets.QMainWindow()
+            self.error_ui = IncorrectPassword()
+            self.error_ui.setup_ui()
+            self.error_window.setCentralWidget(self.error_ui)
+        self.error_window.show()
 
     def setup_ui(self, stacked_widget: QStackedWidget):
         """
