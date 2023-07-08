@@ -54,11 +54,7 @@ class AccountWindow(QWidget):
         self.username_txt = QtWidgets.QTextBrowser(parent=self.central_widget)
         self.username_txt.setGeometry(QtCore.QRect(60, 290, 301, 61))
         self.username_txt.setStyleSheet("background-color: rgb(255, 255, 255);")
-        self.username_txt.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.username_txt.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
-        self.username_txt.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
-        self.username_txt.setTextInteractionFlags(QtCore.Qt.TextInteractionFlag.NoTextInteraction)
-        # self.username_txt.setFrameStyle(QtWidgets.QFrame.NoFrame)
+
         self.username_txt.setObjectName("UsernameTxt")
 
         self.days_txt = QtWidgets.QTextBrowser(parent=self.central_widget)
@@ -141,5 +137,11 @@ class AccountWindow(QWidget):
         self.days_lbl.setText(_translate("Account", "days"))
         self.with_us_lbl.setText(_translate("Account", "You are with us already"))
         self.username_txt.setText("Username")
+        self.username_txt.setAlignment(QtCore.Qt.AlignmentFlag.AlignVCenter
+                                       | QtCore.Qt.AlignmentFlag.AlignHCenter)
         self.days_txt.setText("23")
-        self.time_txt.setText("l,ls")
+        self.days_txt.setAlignment(QtCore.Qt.AlignmentFlag.AlignVCenter
+                                   | QtCore.Qt.AlignmentFlag.AlignHCenter)
+        self.time_txt.setText("14 seconds")
+        self.time_txt.setAlignment(QtCore.Qt.AlignmentFlag.AlignVCenter
+                                   | QtCore.Qt.AlignmentFlag.AlignHCenter)

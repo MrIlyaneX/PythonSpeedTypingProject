@@ -3,7 +3,8 @@ from PyQt6.QtWidgets import QStackedWidget
 from PyQt6.QtWidgets import QWidget as QWidget
 
 from Client import SharedData
-
+from Client import user
+# import scripts.te
 
 class MainWindow(QWidget):
     def __init__(self, shared_data: SharedData):
@@ -66,6 +67,7 @@ class MainWindow(QWidget):
         """
         self.our_text_for_typing.clear()
         self.user_text.clear()
+        self.display_text()
 
     def display_text(self, text):
         """
@@ -102,10 +104,10 @@ class MainWindow(QWidget):
 
         self.our_text_for_typing.setHtml(colored_text)
 
-    def typingAccuracy(self):
-
-
-    def typingSpeed(self):
+    # def typingAccuracy(self):
+    #
+    #
+    # def typingSpeed(self):
 
 
 
