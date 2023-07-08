@@ -53,9 +53,9 @@ class AchievementsWindow(QWidget):
         self.back_btn.setFont(font)
         self.back_btn.setStyleSheet("""QPushButton:hover{background-color: rgb(235, 255, 197); 
                                                                     border: 1px solid black;
-                                                                    border-radius: 25px;}
+                                                                    border-radius: 15px;}
                                                                  QPushButton:!hover{background-color: rgb(235, 255, 197);
-                                                                  border-radius: 25px;}
+                                                                  border-radius: 15px;}
                                                                     """)
         self.back_btn.setObjectName("back_btn")
 

@@ -1,8 +1,10 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtWidgets import QStackedWidget, QTextEdit
 from PyQt6.QtWidgets import QWidget as QWidget
+<<<<<<< HEAD
 
 from Client import SharedData
+<<<<<<< HEAD
 from Client.user.scripts.text_generator import generate_text
 import time
 
@@ -300,9 +302,9 @@ class MainWindow(QWidget):
         self.start_again_btn.setFont(font)
         self.start_again_btn.setStyleSheet("""QPushButton:hover{background-color: rgb(235, 255, 197); 
                                                             border: 1px solid black;
-                                                            border-radius: 25px;}
+                                                            border-radius: 15px;}
                                                          QPushButton:!hover{background-color: rgb(235, 255, 197);
-                                                          border-radius: 25px;}
+                                                          border-radius: 15px;}
                                                             """)
         self.start_again_btn.setObjectName("start_again_btn")
 
@@ -316,14 +318,15 @@ class MainWindow(QWidget):
         self.log_in_btn.setFont(font)
         self.log_in_btn.setStyleSheet("""QPushButton:hover{background-color: rgb(235, 255, 197); 
                                                             border: 1px solid black;
-                                                            border-radius: 25px;}
+                                                            border-radius: 15px;}
                                                          QPushButton:!hover{background-color: rgb(235, 255, 197);
-                                                          border-radius: 25px;}
+                                                          border-radius: 15px;}
                                                             """)
         self.log_in_btn.setObjectName("log_in_btn")
         self.log_in_btn.clicked.connect(self.open_login)
         self.log_in_btn.setAutoDefault(False)
 
+<<<<<<< HEAD
         self.start_btn = QtWidgets.QPushButton(parent=self.central_widget)
         self.start_btn.setGeometry(QtCore.QRect(320, 550, 141, 41))
         self.start_btn.clicked.connect(self.start)
@@ -339,6 +342,8 @@ class MainWindow(QWidget):
                                      QPushButton:!hover{background-color: rgb(235, 255, 197);
                                      border-radius: 25px;}""")
         self.start_btn.setObjectName("start_btn")
+=======
+>>>>>>> 9a741a77c1d48972817bd6fef99ef5c47b589f4a
 
         if len(self.user_text.text()) == len(self.our_text_for_typing.toPlainText()):
             self.endTime = time.time()
@@ -350,7 +355,6 @@ class MainWindow(QWidget):
         self.frame.raise_()
         self.start_again_btn.raise_()
         self.log_in_btn.raise_()
-        self.start_btn.raise_()
 
         self.retranslate_ui(self)
         stacked_widget.addWidget(self.central_widget)
@@ -373,4 +377,3 @@ class MainWindow(QWidget):
         self.achievements_btn.setText(_translate("MainWindow", "Achievements"))
         self.start_again_btn.setText(_translate("MainWindow", "Start again"))
         self.log_in_btn.setText(_translate("MainWindow", "Log in"))
-        self.start_btn.setText(_translate("MainWindow", "Start"))
