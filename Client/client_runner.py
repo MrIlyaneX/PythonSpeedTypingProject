@@ -1,13 +1,10 @@
 """ Works with client data exchange to server and inner data """
 
 from Client.client import signup, login, upload_info, get_info
-<<<<<<< HEAD
-from db.data_classes import User, Token
+from Client.models.data_classes import User, Token
 
 server_url = "http://127.0.0.1:8000"
-=======
 from Client.models.data_classes import User, Token
->>>>>>> feature-setup-wizard
 
 
 def get_header(username: str, password: str, user_email: str, to_login: bool | None = None,

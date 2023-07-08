@@ -4,7 +4,6 @@ from PyQt6.QtWidgets import QWidget as QWidget
 
 from Client import SharedData
 
-
 class AccountWindow(QWidget):
     def __init__(self, shared_data: SharedData):
         super().__init__()

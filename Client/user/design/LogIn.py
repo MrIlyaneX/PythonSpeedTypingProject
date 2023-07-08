@@ -1,10 +1,7 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtWidgets import QStackedWidget, QWidget
 
-<<<<<<< HEAD
 from Client import SharedData
-=======
->>>>>>> feature-setup-wizard
 from Client.client_runner import *
 
 
@@ -84,7 +81,6 @@ class LogInWindow(QWidget):
         password = self.get_password()
         user_email = self.get_email()
         try:
-<<<<<<< HEAD
             header = get_header(username=username, password=password, user_email=user_email, to_login=True)
             if header is not None:
                 self.shared_data.header = header
@@ -97,7 +93,6 @@ class LogInWindow(QWidget):
             ui = IncorrectPassword()
             ui.setupUi(window)
             window.show()
-=======
             header = get_header(username=username, password=password, user_email=user_email, to_login=True,
                                 to_remember=False)
             if header.get("Authorization", None) is not None:
@@ -108,7 +103,6 @@ class LogInWindow(QWidget):
             self.stacked_widget.setCurrentIndex(1)
         except Exception as e:
             self.logIn_button.clicked.connect(self.open_error)
->>>>>>> feature-setup-wizard
 
     def setup_ui(self, stacked_widget: QStackedWidget):
         """
