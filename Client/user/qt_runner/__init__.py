@@ -1,11 +1,8 @@
 import sys
 
 from PyQt6.QtWidgets import QApplication, QStackedWidget
-
-<<<<<<< HEAD
 from Client import SharedData
-=======
->>>>>>> feature-setup-wizard
+
 from Client.user.design.Account import AccountWindow
 from Client.user.design.Achievements import AchievementsWindow
 from Client.user.design.CreateAccount import CreateAccountWindow

@@ -5,7 +5,6 @@ from PyQt6.QtWidgets import QWidget as QWidget
 from Client import SharedData
 from Client.client_runner import get_user, get_header
 
-
 class AccountWindow(QWidget):
     def __init__(self, shared_data: SharedData):
         super().__init__()

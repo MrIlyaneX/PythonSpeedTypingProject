@@ -1,4 +1,4 @@
-from db.data_classes import User
+from Client.models.data_classes import User
 
 
 class SharedData:

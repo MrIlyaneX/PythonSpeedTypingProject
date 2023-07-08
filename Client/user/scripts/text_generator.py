@@ -102,4 +102,3 @@ if __name__ == '__main__':
     # create_len_dict("en")
     for _ in range(10):
         print(generate_text("en", use_punctuation=True, digits=False, phone_number=False))
-
