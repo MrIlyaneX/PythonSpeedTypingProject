@@ -108,10 +108,21 @@ class MainWindow(QWidget):
 
         self.our_text_for_typing.setHtml(colored_text)
 
-    # def typingAccuracy(self):
-    #
-    #
-    # def typingSpeed(self):
+    def typingAccuracy(self):
+        userText = self.user_text.text()
+        ourText = self.our_text_for_typing.toPlainText()
+        if len(userText) < len(ourText):
+            length = len(userText)
+        else:
+            length = len(ourText)
+        matchCount = 0
+        for i in range(length):
+            if userText[i] == ourText[i]:
+                matchCount += 1
+
+        return matchCount / len(ourText) * 100
+
+        # def typingSpeed(self):
 
     def setup_ui(self, stacked_widget: QStackedWidget):
         """
