@@ -3,9 +3,7 @@ import json
 
 import requests
 
-from db.data_classes import *
-
-server_url = "http://127.0.0.1:8000"
+from Client.models.data_classes import *
 
 
 def user_to_dict(user: User) -> dict:
@@ -26,13 +24,18 @@ def user_to_dict(user: User) -> dict:
     return user_copy
 
 
-def signup(username: str, user_email: str, password: str) -> User | dict:
+def signup(username: str,
+           user_email: str,
+           password: str,
+           server_url: str = "http://127.0.0.1:8000"
+           ) -> User | dict:
     """
     Creates user on the server
 
     :param username: username
     :param user_email: user email 
     :param password: user password
+    :param server_url: url of the server
     :return: User
     """
 
@@ -46,12 +49,17 @@ def signup(username: str, user_email: str, password: str) -> User | dict:
     return User(**response.json())
 
 
-def login(username: str, password: str) -> Token | dict:
+def login(
+        username: str,
+        password: str,
+        server_url: str = "http://127.0.0.1:8000"
+) -> Token | dict:
     """
     Gets token for future authentication related actions
 
     :param username: username
     :param password: password
+    :param server_url: url of the server
     :return: token
     """
     url = f"{server_url}/token"
@@ -67,11 +75,15 @@ def login(username: str, password: str) -> Token | dict:
     return response.json()
 
 
-def get_info(header) -> User | dict:
+def get_info(
+        header,
+        server_url: str = "http://127.0.0.1:8000"
+) -> User | dict:
     """
     Gets info from the server about user
 
     :param header: header with token
+    :param server_url: url of the server
     :return: user info in User format
     """
     url = f"{server_url}/users/me/"
@@ -85,12 +97,17 @@ def get_info(header) -> User | dict:
     return User(**response.json())
 
 
-def upload_info(user_info: User, header: dict) -> User | dict:
+def upload_info(
+        user_info: User,
+        header: dict,
+        server_url: str = "http://127.0.0.1:8000"
+) -> User | dict:
     """
     For now uploads achievements data in User at the server side
 
     :param user_info: user info in User format to upload
     :param header: header with token
+    :param server_url: url of the server
     :return: user info in User format
     """
     url = f"{server_url}/users/me/upload"
@@ -109,12 +126,17 @@ def upload_info(user_info: User, header: dict) -> User | dict:
     return User(**response.json())
 
 
-def get_file(language: str, header) -> None | dict:
+def get_file(
+        language: str,
+        header,
+        server_url: str = "http://127.0.0.1:8000"
+) -> None | dict:
     """
     Gets file with chosen language from the server to user/data/file_name
 
     :param language: language of the file in type "en" or "ru"
     :param header: header with token
+    :param server_url: url of the server
     :return: None
     """
 
@@ -138,7 +160,10 @@ def get_file(language: str, header) -> None | dict:
         json.dump(response.json(), file)
 
 
-def get_leaderboard():
+def get_leaderboard(server_url: str = "http://127.0.0.1:8000") -> dict:
+    """
+    :param server_url: url of the server
+    """
     url = f"{server_url}/leaderboard"
     response = requests.get(url)
 
