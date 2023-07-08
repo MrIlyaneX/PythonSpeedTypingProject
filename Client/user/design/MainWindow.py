@@ -4,6 +4,7 @@ from PyQt6.QtWidgets import QWidget as QWidget
 
 from Client import SharedData
 from Client.user.scripts.text_generator import generate_text
+import time
 
 
 class MainWindow(QWidget):
@@ -72,6 +73,14 @@ class MainWindow(QWidget):
         for i in range(len(text)):
             display += text[i]
         self.display_text(display)
+        self.startTime = time.time()
+
+
+    def start(self):
+        self.our_text_for_typing.clear()
+        self.user_text.clear()
+        self.our_text_for_typing.setText("Try your speed typing...")
+
 
     def display_text(self, text):
         """
@@ -123,6 +132,7 @@ class MainWindow(QWidget):
         return matchCount / len(ourText) * 100
 
         # def typingSpeed(self):
+        #
 
     def setup_ui(self, stacked_widget: QStackedWidget):
         """
@@ -132,6 +142,7 @@ class MainWindow(QWidget):
         :param stacked_widget: QStackedWidget object representing the stacked widget to be used in the main window.
         :return: None
         """
+        self.startTime = time.time()
         self.stacked_widget = stacked_widget
         self.setObjectName("MainWindow")
         self.setEnabled(True)
@@ -309,6 +320,7 @@ class MainWindow(QWidget):
 
         self.start_btn = QtWidgets.QPushButton(parent=self.central_widget)
         self.start_btn.setGeometry(QtCore.QRect(320, 550, 141, 41))
+        self.start_btn.clicked.connect(self.start)
         font = QtGui.QFont()
         font.setFamily("Arial Rounded MT Bold")
         font.setPointSize(12)
