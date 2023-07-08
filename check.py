@@ -102,13 +102,6 @@ class MainWindow(QWidget):
 
         self.our_text_for_typing.setHtml(colored_text)
 
-    def typingAccuracy(self):
-
-
-    def typingSpeed(self):
-
-
-
     def setup_ui(self, stacked_widget: QStackedWidget):
         """
         Sets up the user interface for the main window.
