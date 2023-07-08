@@ -1,12 +1,30 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
-from PyQt6.QtWidgets import QStackedWidget, QMainWindow
+from PyQt6.QtWidgets import QStackedWidget
+
+from Client import SharedData
 
 
 class InfoWindow(object):
+    def __init__(self, shared_data: SharedData):
+        super().__init__()
+        self.shared_data = shared_data
+
     def open_main(self):
+        """
+        Opens the Main window by setting the current index of the stacked widget to 1.
+
+        :param self: The instance of the class that this method belongs to.
+        :return: None
+        """
         self.stacked_widget.setCurrentIndex(1)
 
     def setup_ui(self, stacked_widget: QStackedWidget):
+        """
+        Sets up the user interface for the main window.
+
+        :param self: The instance of the class that this function belongs to.
+        :return: None
+        """
         self.stacked_widget = stacked_widget
 
         self.info = QtWidgets.QWidget()
@@ -33,8 +51,10 @@ class InfoWindow(object):
         font.setFamily("Arial Rounded MT Bold")
         font.setPointSize(12)
         self.back_btn.setFont(font)
-        self.back_btn.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                    "border-radius: 15px;")
+        self.back_btn.setStyleSheet("""QPushButton:hover{background-color: rgb(235, 255, 197); 
+                                    border: 1px solid black;border-radius: 25px;}
+                                    QPushButton:!hover{background-color: rgb(235, 255, 197);
+                                    border-radius: 25px;}""")
         self.back_btn.setObjectName("BackBtn")
 
         # Button action to come back to the MainWindow
@@ -58,6 +78,11 @@ class InfoWindow(object):
         stacked_widget.addWidget(self.info)
 
     def retranslate_ui(self, info):
+        """
+        This function sets the translated text for various UI elements in the main window.
+
+        :return: None
+        """
         _translate = QtCore.QCoreApplication.translate
         info.setWindowTitle(_translate("Info", "MainWindow"))
         self.info_lbl.setText(_translate("Info", "Information"))
@@ -70,22 +95,3 @@ class InfoWindow(object):
                                                  " imperfect, with users complaining about limited functionality,"
                                                  " excessive advertising, a complex interface, and inflexible settings."
                                                  "</span></p></body></html>"))
-
-
-if __name__ == "__main__":
-    import sys
-
-    app = QtWidgets.QApplication(sys.argv)
-    stacked_widget = QStackedWidget()
-    stacked_widget.setFixedSize(800, 600)
-
-    info_window = InfoWindow()
-    info_window.setup_ui(stacked_widget)
-    stacked_widget.addWidget(info_window.info)
-
-    main_window = QMainWindow()
-
-    main_window.setCentralWidget(stacked_widget)
-    main_window.show()
-
-    sys.exit(app.exec())
