@@ -82,11 +82,11 @@ class CreateAccountWindow(QWidget):
         try:
             header = get_header(username=username, password=password, user_email=user_email, to_signup=True)
             print(header)
-            if header.get("Authorization", None) is None:
+            if header is not None:
                 self.shared_data.header = header
                 self.stacked_widget.setCurrentIndex(0)
             else:
-                print("Here")
+                self.show_error_window()
 
         except Exception as e:
             traceback.print_exc()

@@ -25,8 +25,11 @@ def get_header(username: str, password: str, user_email: str, to_login: bool | N
     token: Token | None = None
 
     if to_signup:
-        signup(username, password, user_email)
-        token = login(username, password)
+        status = signup(username, password, user_email)
+        if isinstance(status, User):
+            token = login(username, password)
+        else:
+            return None
     if to_login and not to_remember:
         token = login(username, password)
     if to_login and to_remember:
