@@ -3,8 +3,8 @@ from PyQt6.QtWidgets import QStackedWidget
 from PyQt6.QtWidgets import QWidget as QWidget
 
 from Client import SharedData
-from Client import user
-# import scripts.te
+from Client.user.scripts.text_generator import generate_text
+
 
 class MainWindow(QWidget):
     def __init__(self, shared_data: SharedData):
@@ -67,7 +67,11 @@ class MainWindow(QWidget):
         """
         self.our_text_for_typing.clear()
         self.user_text.clear()
-        self.display_text()
+        text = generate_text()
+        display = ""
+        for i in range(len(text)):
+            display += text[i]
+        self.display_text(display)
 
     def display_text(self, text):
         """
@@ -108,8 +112,6 @@ class MainWindow(QWidget):
     #
     #
     # def typingSpeed(self):
-
-
 
     def setup_ui(self, stacked_widget: QStackedWidget):
         """
