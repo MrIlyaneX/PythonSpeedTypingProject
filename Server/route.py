@@ -4,11 +4,18 @@ from typing import Annotated
 from fastapi import Depends, HTTPException, status, APIRouter
 from fastapi.responses import FileResponse
 from fastapi.security import OAuth2PasswordRequestForm
+from starlette.responses import HTMLResponse
 
-from Server.config import ACCESS_TOKEN_EXPIRE_MINUTES
 from Server.auth_functions import create_access_token, authenticate_user, get_current_active_user, get_password_hash
+from Server.config import ACCESS_TOKEN_EXPIRE_MINUTES
+<<<<<<< HEAD
 from Server.db_access import get_person_by_username, update_user_achievements, add_person, get_leaderboard
 from db.data_classes import Token, User, Language
+=======
+from Server.models.db_access import get_person_by_username, update_user_achievements, get_leaderboard
+from Server.models.data_classes import Token, User, Language
+from Server.models.db import add_person
+>>>>>>> feature-setup-wizard
 
 router = APIRouter()
 
@@ -52,7 +59,7 @@ async def read_users_me(
     return current_user
 
 
-@router.post("/users/me/upload")
+@router.post("/users/me/upload", response_model=dict)
 async def upload_own_data(
         current_user: Annotated[User, Depends(get_current_active_user)], user: User
 ) -> dict:
@@ -113,9 +120,25 @@ async def send_words(language: Language) -> FileResponse:
     elif language == Language.ru:
         return FileResponse("Server/words/en.json", media_type="application/json", filename="en.json")
     else:
-        raise HTTPException(status_code=400, detail="Invalid language")
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid language"
+        )
 
 
 @router.post("/leaderboard", response_model=dict)
 async def post_leaderboard() -> dict:
     return get_leaderboard()
+
+
+@router.get("/download")
+async def app_download() -> FileResponse:
+    file_path = "Server/static/run_client_app.exe"
+    return FileResponse(file_path, media_type="application/octet-stream", filename="ty-typing.exe")
+
+
+@router.get("/")
+async def index() -> HTMLResponse:
+    with open("Server/static/html/download.html", "r") as file:
+        html_content = file.read()
+    return HTMLResponse(content=html_content, status_code=200)

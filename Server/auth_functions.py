@@ -4,9 +4,14 @@ from typing import Annotated
 from fastapi import Depends, HTTPException, status
 from jose import JWTError, jwt
 
-from db.data_classes import *
 from Server.config import pwd_context, SECRET_KEY, ALGORITHM, oauth2_scheme
+<<<<<<< HEAD
 from Server.db_access import get_user
+from db.data_classes import *
+=======
+from Server.models.db_access import get_user
+from Server.models.data_classes import *
+>>>>>>> feature-setup-wizard
 
 
 def verify_password(plain_password, hashed_password) -> bool:
@@ -93,7 +98,7 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]) -> Use
 
 
 async def get_current_active_user(
-        current_user: Annotated[User, Depends(get_current_user)]
+        current_user: Annotated[UserInDB, Depends(get_current_user)]
 ) -> UserInDB:
     """
     Retrieves the current active user based on the provided current user.

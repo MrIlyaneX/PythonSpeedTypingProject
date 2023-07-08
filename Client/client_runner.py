@@ -1,9 +1,13 @@
 """ Works with client data exchange to server and inner data """
 
-from Client.client import signup, login, get_file, upload_info, get_info, get_leaderboard
+from Client.client import signup, login, upload_info, get_info
+<<<<<<< HEAD
 from db.data_classes import User, Token
 
 server_url = "http://127.0.0.1:8000"
+=======
+from Client.models.data_classes import User, Token
+>>>>>>> feature-setup-wizard
 
 
 def get_header(username: str, password: str, user_email: str, to_login: bool | None = None,
@@ -72,8 +76,8 @@ def upload_user_info(header: dict, user: User) -> None:
 
 def main():
     """ Actions for testing the work of system (server+app) """
-    header = get_header(to_login=True, to_remember=False, password="123",
-                        username="loq2", user_email="123")
+    header = get_header(to_signup=True, password="123",
+                        username="loasdq2", user_email="123")
     print(header)
     user = get_user(header)
     achievements = get_achievements(header)

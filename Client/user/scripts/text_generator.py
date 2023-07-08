@@ -39,7 +39,7 @@ def create_len_dict(language: str = "en"):
 
 
 def generate_pseudo_phone_number():
-    area_code = str(random.randint(100, 999))
+    area_code = str(random.randint(1, 999))
     first_three_digits = str(random.randint(100, 999))
     last_four_digits = str(random.randint(1000, 9999))
     return f"{area_code}-{first_three_digits}-{last_four_digits}"
@@ -95,13 +95,11 @@ def generate_text(language: str = "en", use_punctuation: bool = False, digits: b
             sentence = sentence.capitalize()
         sentences.append(sentence)
 
-    for sentence in sentences:
-        print(sentence, end=" ")
-    print()
+    return sentences
 
 
 if __name__ == '__main__':
     # create_len_dict("en")
     for _ in range(10):
-        generate_text("en", use_punctuation=True, digits=False, phone_number=False)
-        print()
+        print(generate_text("en", use_punctuation=True, digits=False, phone_number=False))
+
