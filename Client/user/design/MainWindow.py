@@ -1,5 +1,5 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
-from PyQt6.QtWidgets import QStackedWidget
+from PyQt6.QtWidgets import QStackedWidget, QTextEdit
 from PyQt6.QtWidgets import QWidget as QWidget
 
 from Client import SharedData
@@ -67,7 +67,7 @@ class MainWindow(QWidget):
         :param self: The instance of the class that this function belongs to.
         :return: None
         """
-        self.endTime = time.time()
+        # self.endTime = time.time()
         self.typingAccuracy()
         self.typingSpeed()
         self.our_text_for_typing.clear()
@@ -138,7 +138,7 @@ class MainWindow(QWidget):
     def typingSpeed(self):
         typingTime = self.endTime - self.startTime
         print("Time: ", int(typingTime / len(self.user_text.text())))
-        return int(typingTime / len(self.user_text.text()))
+        return int(typingTime / len(self.user_text.text()) * 10)
 
     def setup_ui(self, stacked_widget: QStackedWidget):
         """
@@ -355,6 +355,7 @@ class MainWindow(QWidget):
         self.retranslate_ui(self)
         stacked_widget.addWidget(self.central_widget)
         QtCore.QMetaObject.connectSlotsByName(self)
+        self.endTime = time.time()
 
     def retranslate_ui(self, main_window):
         """

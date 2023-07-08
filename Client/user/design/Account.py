@@ -3,6 +3,7 @@ from PyQt6.QtWidgets import QStackedWidget
 from PyQt6.QtWidgets import QWidget as QWidget
 
 from Client import SharedData
+from Client.client_runner import get_user, get_header
 
 
 class AccountWindow(QWidget):
@@ -136,10 +137,10 @@ class AccountWindow(QWidget):
         self.time_lbl.setText(_translate("Account", "Your best time"))
         self.days_lbl.setText(_translate("Account", "days"))
         self.with_us_lbl.setText(_translate("Account", "You are with us already"))
-        self.username_txt.setText("Username")
+        self.username_txt.setText(get_user(self.shared_data.header).username)
         self.username_txt.setAlignment(QtCore.Qt.AlignmentFlag.AlignVCenter
                                        | QtCore.Qt.AlignmentFlag.AlignHCenter)
-        self.days_txt.setText("23")
+        # self.days_txt.setText(get_user(get_header()).username)
         self.days_txt.setAlignment(QtCore.Qt.AlignmentFlag.AlignVCenter
                                    | QtCore.Qt.AlignmentFlag.AlignHCenter)
         self.time_txt.setText("14 seconds")
