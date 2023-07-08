@@ -8,14 +8,10 @@ from starlette.responses import HTMLResponse
 
 from Server.auth_functions import create_access_token, authenticate_user, get_current_active_user, get_password_hash
 from Server.config import ACCESS_TOKEN_EXPIRE_MINUTES
-<<<<<<< HEAD
-from Server.db_access import get_person_by_username, update_user_achievements, add_person, get_leaderboard
-from db.data_classes import Token, User, Language
-=======
+
 from Server.models.db_access import get_person_by_username, update_user_achievements, get_leaderboard
 from Server.models.data_classes import Token, User, Language
 from Server.models.db import add_person
->>>>>>> feature-setup-wizard
 
 router = APIRouter()
 

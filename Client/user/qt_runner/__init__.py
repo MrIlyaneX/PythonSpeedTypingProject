@@ -1,6 +1,8 @@
 import sys
 
 from PyQt6.QtWidgets import QApplication, QStackedWidget
+
+
 from Client import SharedData
 
 from Client.user.design.Account import AccountWindow

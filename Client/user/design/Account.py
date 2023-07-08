@@ -5,6 +5,7 @@ from PyQt6.QtWidgets import QWidget as QWidget
 from Client import SharedData
 from Client.client_runner import get_user, get_header
 
+
 class AccountWindow(QWidget):
     def __init__(self, shared_data: SharedData):
         super().__init__()
@@ -131,7 +132,7 @@ class AccountWindow(QWidget):
         self.time_lbl.setText(_translate("Account", "Your best time"))
         self.days_lbl.setText(_translate("Account", "days"))
         self.with_us_lbl.setText(_translate("Account", "You are with us already"))
-        self.username_txt.setText(get_user(self.shared_data.header).username)
+        # self.username_txt.setText(get_user(self.shared_data.header).username)
         self.username_txt.setAlignment(QtCore.Qt.AlignmentFlag.AlignVCenter
                                        | QtCore.Qt.AlignmentFlag.AlignHCenter)
         # self.days_txt.setText(get_user(get_header()).username)
