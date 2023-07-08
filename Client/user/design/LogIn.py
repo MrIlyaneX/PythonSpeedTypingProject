@@ -210,7 +210,6 @@ class LogInWindow(QWidget):
         self.log_in_button.clicked.connect(self.username_input.clear)
         self.log_in_button.clicked.connect(self.email_txt.clear)
 
-        # was back
         self.back_btn.clicked.connect(self.open_main)
 
         self.retranslate_ui()

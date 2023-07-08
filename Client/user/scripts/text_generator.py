@@ -16,6 +16,13 @@ import random
 
 
 def get_words_lens(language: str = "en"):
+    """
+    Retrieves the lengths of words from a language-specific JSON file.
+
+    :param language: The language code to specify the JSON file. Defaults to "en".
+    :return: List[int]: A sorted list of unique word lengths.
+    :raise "FileNotFoundError: If the JSON file for the specified language is not found.
+    """
     with open(f'../data/words/{language}.json', 'r') as f:
         data = json.load(f)
 
@@ -30,6 +37,16 @@ def get_words_lens(language: str = "en"):
 
 
 def create_len_dict(language: str = "en"):
+    """
+    Creates a length dictionary for words in a specific language and saves it to a JSON file.
+    - Retrieves the lengths of words from a language-specific JSON file using the get_words_lens function.
+    - Creates a dictionary len_dict with the language as the key and the word lengths as the value.
+    - Saves the len_dict to a JSON file named "{language}_len.json" in the "../data/words/" directory.
+
+    :param language: The language for which the length dictionary is created. Defaults to "en".
+    :return: None
+    :raise FileNotFoundError: If the language-specific JSON file is not found.
+    """
     words_len = get_words_lens(language)
 
     len_dict = {language: words_len}
@@ -39,6 +56,18 @@ def create_len_dict(language: str = "en"):
 
 
 def generate_pseudo_phone_number():
+    """
+    Generates a pseudo-random phone number in the format "XXX-XXX-XXXX".
+    Note:
+    - This function generates a pseudo-random phone number using random integers for the area code, first three digits,
+        and last four digits.
+    - The area code is a three-digit number ranging from 100 to 999.
+    - The first three digits are also a three-digit number ranging from 100 to 999.
+    - The last four digits are a four-digit number ranging from 1000 to 9999.
+    - The generated phone number follows the format "XXX-XXX-XXXX", where each X represents a digit.
+
+    :return: str: A pseudo-random phone number in the format "XXX-XXX-XXXX".
+    """
     area_code = str(random.randint(100, 999))
     first_three_digits = str(random.randint(100, 999))
     last_four_digits = str(random.randint(1000, 9999))
@@ -47,6 +76,28 @@ def generate_pseudo_phone_number():
 
 def generate_text(language: str = "en", use_punctuation: bool = False, digits: bool = False,
                   phone_number: bool = False):
+    """
+    Generates random text based on a language-specific word list and optional settings.
+
+    Note:
+
+    - Reads the language-specific word list from a JSON file named "{language}.json" in "../data/words/" directory.
+    - Reads the length dictionary for the language from a JSON file "{language}_len.json" in "../data/words/" directory.
+    - Shuffles the words from the word list.
+    - Generates a random number of sentences (between 3 and 12).
+    - Each sentence has a random length (between 4 and 15 words).
+    - Adds common words specific to the English language.
+    - Adds random digits if the digits parameter is True.
+    - Adds a pseudo-random phone number if the phone_number parameter is True.
+    - Capitalizes the first letter of each sentence and adds punctuation if the use_punctuation parameter is True.
+    - Prints the generated text to the console.
+
+    :param language: The language for which the text is generated. Defaults to "en".
+    :param use_punctuation: Whether to include punctuation marks in the generated text. Defaults to False.
+    :param digits: Whether to include random digits in the generated text. Defaults to False.
+    :param phone_number: Whether to include a pseudo-random phone number in the generated text. Defaults to False.
+    :return: None
+    """
     with open(f'../data/words/{language}.json', 'r') as f:
         data = json.load(f)
 

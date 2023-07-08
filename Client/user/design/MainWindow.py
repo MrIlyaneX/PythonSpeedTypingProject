@@ -261,9 +261,9 @@ class MainWindow(QWidget):
         self.start_again_btn.setFont(font)
         self.start_again_btn.setStyleSheet("""QPushButton:hover{background-color: rgb(235, 255, 197); 
                                                             border: 1px solid black;
-                                                            border-radius: 25px;}
+                                                            border-radius: 15px;}
                                                          QPushButton:!hover{background-color: rgb(235, 255, 197);
-                                                          border-radius: 25px;}
+                                                          border-radius: 15px;}
                                                             """)
         self.start_again_btn.setObjectName("start_again_btn")
 
@@ -277,28 +277,14 @@ class MainWindow(QWidget):
         self.log_in_btn.setFont(font)
         self.log_in_btn.setStyleSheet("""QPushButton:hover{background-color: rgb(235, 255, 197); 
                                                             border: 1px solid black;
-                                                            border-radius: 25px;}
+                                                            border-radius: 15px;}
                                                          QPushButton:!hover{background-color: rgb(235, 255, 197);
-                                                          border-radius: 25px;}
+                                                          border-radius: 15px;}
                                                             """)
         self.log_in_btn.setObjectName("log_in_btn")
         self.log_in_btn.clicked.connect(self.open_login)
         self.log_in_btn.setAutoDefault(False)
 
-        self.start_btn = QtWidgets.QPushButton(parent=self.central_widget)
-        self.start_btn.setGeometry(QtCore.QRect(320, 550, 141, 41))
-        font = QtGui.QFont()
-        font.setFamily("Arial Rounded MT Bold")
-        font.setPointSize(12)
-        self.start_btn.setFont(font)
-        self.start_btn.setStyleSheet("""QPushButton:hover{
-                                                        background-color: rgb(235, 255, 197); 
-                                                        border: 1px solid black;
-                                                        border-radius: 25px;
-                                                        }
-                                     QPushButton:!hover{background-color: rgb(235, 255, 197);
-                                     border-radius: 25px;}""")
-        self.start_btn.setObjectName("start_btn")
 
         self.try_your_speed_lbl.raise_()
         self.our_text_for_typing.raise_()
@@ -306,7 +292,6 @@ class MainWindow(QWidget):
         self.frame.raise_()
         self.start_again_btn.raise_()
         self.log_in_btn.raise_()
-        self.start_btn.raise_()
 
         self.retranslate_ui(self)
         stacked_widget.addWidget(self.central_widget)
@@ -328,4 +313,3 @@ class MainWindow(QWidget):
         self.achievements_btn.setText(_translate("MainWindow", "Achievements"))
         self.start_again_btn.setText(_translate("MainWindow", "Start again"))
         self.log_in_btn.setText(_translate("MainWindow", "Log in"))
-        self.start_btn.setText(_translate("MainWindow", "Start"))
