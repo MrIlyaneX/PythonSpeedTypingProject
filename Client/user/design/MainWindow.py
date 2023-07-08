@@ -2,7 +2,6 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtWidgets import QStackedWidget, QTextEdit
 from PyQt6.QtWidgets import QWidget as QWidget
 
-
 from Client import SharedData
 
 from Client.user.scripts.text_generator import generate_text
@@ -70,11 +69,12 @@ class MainWindow(QWidget):
         :return: None
         """
         # self.endTime = time.time()
-        self.typingAccuracy()
-        self.typingSpeed()
+        # self.typingAccuracy()
+        # self.typingSpeed()
         self.our_text_for_typing.clear()
         self.user_text.clear()
         text = generate_text()
+        print(text)
         display = ""
         for i in range(len(text)):
             display += text[i]
@@ -124,6 +124,8 @@ class MainWindow(QWidget):
     def typingAccuracy(self):
         userText = self.user_text.text()
         ourText = self.our_text_for_typing.toPlainText()
+        if len(userText) == 0 and len(ourText) == 0:
+            return
         if len(userText) < len(ourText):
             length = len(userText)
         else:
@@ -307,7 +309,6 @@ class MainWindow(QWidget):
                                                           border-radius: 15px;}
                                                             """)
         self.start_again_btn.setObjectName("start_again_btn")
-
         self.start_again_btn.clicked.connect(self.start_again)
 
         self.log_in_btn = QtWidgets.QPushButton(parent=self.central_widget)
@@ -326,26 +327,8 @@ class MainWindow(QWidget):
         self.log_in_btn.clicked.connect(self.open_login)
         self.log_in_btn.setAutoDefault(False)
 
-
-        self.start_btn = QtWidgets.QPushButton(parent=self.central_widget)
-        self.start_btn.setGeometry(QtCore.QRect(320, 550, 141, 41))
-        self.start_btn.clicked.connect(self.start)
-        font = QtGui.QFont()
-        font.setFamily("Arial Rounded MT Bold")
-        font.setPointSize(12)
-        self.start_btn.setFont(font)
-        self.start_btn.setStyleSheet("""QPushButton:hover{
-                                                        background-color: rgb(235, 255, 197); 
-                                                        border: 1px solid black;
-                                                        border-radius: 25px;
-                                                        }
-                                     QPushButton:!hover{background-color: rgb(235, 255, 197);
-                                     border-radius: 25px;}""")
-        self.start_btn.setObjectName("start_btn")
-
         if len(self.user_text.text()) == len(self.our_text_for_typing.toPlainText()):
             self.endTime = time.time()
-
 
         self.try_your_speed_lbl.raise_()
         self.our_text_for_typing.raise_()
