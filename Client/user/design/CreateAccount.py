@@ -84,7 +84,7 @@ class CreateAccountWindow(QWidget):
             print(header)
             if header is not None:
                 self.shared_data.header = header
-                self.stacked_widget.setCurrentIndex(0)
+                self.stacked_widget.setCurrentIndex(1)
             else:
                 self.show_error_window()
 
@@ -93,6 +93,14 @@ class CreateAccountWindow(QWidget):
             self.show_error_window()
 
     def show_error_window(self):
+        """
+        Displays an error window if it hasn't been shown before.
+        This function creates and shows an error window using the SameUsernameWindow class. If the error window has
+        already been shown, calling this function again will not create a new window.
+
+        :param self: The instance of the class.
+        :return: None
+        """
         if self.error_window is None:
             self.error_window = QtWidgets.QMainWindow()
             self.error_ui = SameUsernameWindow()

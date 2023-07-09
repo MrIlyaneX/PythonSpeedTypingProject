@@ -157,6 +157,7 @@ class MainWindow(QWidget):
         """
         self.start_time = time.time()
         self.stacked_widget = stacked_widget
+        self.stacked_widget.setWindowTitle("Speed-typing app")
         self.setObjectName("MainWindow")
         self.setEnabled(True)
         self.resize(800, 600)
