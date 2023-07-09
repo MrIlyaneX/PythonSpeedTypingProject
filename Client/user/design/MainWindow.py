@@ -1,5 +1,5 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
-from PyQt6.QtWidgets import QStackedWidget, QTextEdit
+from PyQt6.QtWidgets import QStackedWidget, QTextEdit, QPlainTextEdit
 from PyQt6.QtWidgets import QWidget as QWidget
 
 from Client import SharedData
@@ -81,10 +81,6 @@ class MainWindow(QWidget):
         self.display_text(display)
         # self.startTime = time.time()
 
-    def start(self):
-        self.our_text_for_typing.clear()
-        self.user_text.clear()
-        self.our_text_for_typing.setText("Try your speed typing...")
 
     def display_text(self, text):
         """
@@ -216,7 +212,6 @@ class MainWindow(QWidget):
         self.user_text.setObjectName("user_text")
         self.user_text.setGraphicsEffect(QtWidgets.QGraphicsOpacityEffect())
         self.user_text.textChanged.connect(self.on_text_changed)
-        # self.user_text.setMaxLength(len(self.our_text_for_typing.toPlainText()))
         self.frame = QtWidgets.QFrame(parent=self.central_widget)
         self.frame.setGeometry(QtCore.QRect(0, 0, 801, 181))
         self.frame.setStyleSheet(" background-color: rgb(194, 255, 172);")
