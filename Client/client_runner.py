@@ -8,7 +8,7 @@ from Client.models.data_classes import User, Token
 
 
 def get_header(username: str, password: str, user_email: str, to_login: bool | None = None,
-               to_signup: bool | None = None, to_remember: bool | None = None) -> dict | None:
+               to_signup: bool | None = None, to_remember: bool = False) -> dict | None:
     """
     Main function for client actions
     SignUp or LogIn user into system and returns header with token or None if error occurred
