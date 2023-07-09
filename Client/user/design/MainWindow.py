@@ -73,18 +73,16 @@ class MainWindow(QWidget):
         :param self: The instance of the class that this function belongs to.
         :return: None
         """
-        # self.end_time = time.time()
-        # self.typingAccuracy()
-        # self.typingSpeed()
+        self.typingAccuracy()
         self.our_text_for_typing.clear()
         self.user_text.clear()
         text = generate_text()
-        print(text)
         display = ""
         for i in range(len(text)):
             display += text[i]
         self.display_text(display)
-        # self.start_time = time.time()
+        self.end_time = time.time()
+        # self.typingSpeed()
 
     def display_text(self, text):
         """
@@ -131,7 +129,6 @@ class MainWindow(QWidget):
         else:
             length = len(ourText)
         matchCount = 0
-        # if len(userText) == len(ourText) and len(ourText)!=0:
         for i in range(length):
             if userText[i] == ourText[i]:
                 matchCount += 1
@@ -333,6 +330,9 @@ class MainWindow(QWidget):
         self.log_in_btn.setObjectName("log_in_btn")
         self.log_in_btn.clicked.connect(self.open_login)
         self.log_in_btn.setAutoDefault(False)
+
+        if len(self.user_text.text()) == 1:
+            self.start_time = time.time()
 
         self.try_your_speed_lbl.raise_()
         self.our_text_for_typing.raise_()

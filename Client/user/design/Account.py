@@ -55,7 +55,10 @@ class AccountWindow(QWidget):
         self.username_txt = QtWidgets.QTextBrowser(parent=self.central_widget)
         self.username_txt.setGeometry(QtCore.QRect(60, 290, 301, 61))
         self.username_txt.setStyleSheet("background-color: rgb(255, 255, 255);")
-
+        if get_user(self.shared_data.header).email is not None:
+            self.username_txt.setText(get_user(self.shared_data.header).username)
+        else:
+            self.username_txt.setText("No username")
         self.username_txt.setObjectName("UsernameTxt")
 
         self.days_txt = QtWidgets.QTextBrowser(parent=self.central_widget)
@@ -132,7 +135,10 @@ class AccountWindow(QWidget):
         self.time_lbl.setText(_translate("Account", "Your best time"))
         self.days_lbl.setText(_translate("Account", "days"))
         self.with_us_lbl.setText(_translate("Account", "You are with us already"))
-        # self.username_txt.setText(get_user(self.shared_data.header).username)
+        # if get_user(self.shared_data.header).email is not None:
+        #     self.username_txt.setText(get_user(self.shared_data.header).username)
+        # else:
+        #     self.username_txt.setText("No username")
         self.username_txt.setAlignment(QtCore.Qt.AlignmentFlag.AlignVCenter
                                        | QtCore.Qt.AlignmentFlag.AlignHCenter)
         # self.days_txt.setText(get_user(get_header()).username)
