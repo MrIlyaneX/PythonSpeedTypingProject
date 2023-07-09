@@ -1,6 +1,8 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
-from PyQt6.QtWidgets import QStackedWidget, QTextEdit, QPlainTextEdit
+from PyQt6.QtCore import Qt
+from PyQt6.QtWidgets import QStackedWidget, QTextEdit, QPlainTextEdit, QVBoxLayout
 from PyQt6.QtWidgets import QWidget as QWidget
+from PyQt6.QtGui import QFontMetrics
 
 from Client import SharedData
 
@@ -8,10 +10,13 @@ from Client.user.scripts.text_generator import generate_text
 import time
 
 
+
+
 class MainWindow(QWidget):
     def __init__(self, shared_data: SharedData):
         super().__init__()
-        self.endTime = None
+        self.start_time = None
+        self.end_time = None
         self.shared_data = shared_data
 
     def open_login(self):
@@ -68,7 +73,7 @@ class MainWindow(QWidget):
         :param self: The instance of the class that this function belongs to.
         :return: None
         """
-        # self.endTime = time.time()
+        # self.end_time = time.time()
         # self.typingAccuracy()
         # self.typingSpeed()
         self.our_text_for_typing.clear()
@@ -79,8 +84,7 @@ class MainWindow(QWidget):
         for i in range(len(text)):
             display += text[i]
         self.display_text(display)
-        # self.startTime = time.time()
-
+        # self.start_time = time.time()
 
     def display_text(self, text):
         """
@@ -88,7 +92,7 @@ class MainWindow(QWidget):
         'our_text_for_typing' widget to the provided text.
 
         :param self: The instance of the class that this function belongs to.
-        :param: text: The text to be displayed for the user's typing.
+        :param text: The text to be displayed for the user's typing.
         :return: None
         """
         self.our_text_for_typing.setText(text)
@@ -136,9 +140,15 @@ class MainWindow(QWidget):
         return int(matchCount / len(ourText) * 100)
 
     def typingSpeed(self):
-        typingTime = self.endTime - self.startTime
+        typingTime = self.end_time - self.start_time
         print("Time: ", int(typingTime / len(self.user_text.text())))
         return int(typingTime / len(self.user_text.text()) * 10)
+
+    def change(self):
+        text = self.user_text.text()
+        font_metrics = QFontMetrics(self.user_text.font())
+        edited_text = font_metrics.elidedText(text, Qt.TextElideMode.ElideRight, self.user_text.width())
+        self.user_text.setText(edited_text)
 
     def setup_ui(self, stacked_widget: QStackedWidget):
         """
@@ -148,7 +158,7 @@ class MainWindow(QWidget):
         :param stacked_widget: QStackedWidget object representing the stacked widget to be used in the main window.
         :return: None
         """
-        self.startTime = time.time()
+        self.start_time = time.time()
         self.stacked_widget = stacked_widget
         self.setObjectName("MainWindow")
         self.setEnabled(True)
@@ -186,7 +196,7 @@ class MainWindow(QWidget):
         self.our_text_for_typing.setObjectName("our_text_for_typing")
         self.our_text_for_typing.setAlignment(
             QtCore.Qt.AlignmentFlag.AlignLeading | QtCore.Qt.AlignmentFlag.AlignLeft | QtCore.Qt.AlignmentFlag.AlignTop)
-        self.our_text_for_typing.setObjectName("our_text_for_typing")
+        # self.our_text_for_typing.setObjectName("our_text_for_typing")
 
         self.user_text = QtWidgets.QLineEdit(parent=self.central_widget)
         self.user_text.setGeometry(QtCore.QRect(112, 293, 591, 221))
@@ -205,10 +215,12 @@ class MainWindow(QWidget):
         self.user_text.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
                                      "border: none;\n"
                                      "color:black;"
-                                     "font-size:16px;\n"
-                                     )
+                                     "font-size:16px;\n")
         self.user_text.setAlignment(
             QtCore.Qt.AlignmentFlag.AlignLeading | QtCore.Qt.AlignmentFlag.AlignLeft | QtCore.Qt.AlignmentFlag.AlignTop)
+        self.layout = QVBoxLayout(self.user_text)
+        self.user_text.textChanged.connect(self.change)
+        self.layout.addWidget(self.user_text)
         self.user_text.setObjectName("user_text")
         self.user_text.setGraphicsEffect(QtWidgets.QGraphicsOpacityEffect())
         self.user_text.textChanged.connect(self.on_text_changed)
@@ -303,9 +315,9 @@ class MainWindow(QWidget):
                                                          QPushButton:!hover{background-color: rgb(235, 255, 197);
                                                           border-radius: 15px;}
                                                             """)
-        self.start_again_btn.setObjectName("start_again_btn")
         self.start_again_btn.clicked.connect(self.start_again)
-
+        self.start_again_btn.setAutoDefault(False)
+        self.start_again_btn.setObjectName("start_again_btn")
         self.log_in_btn = QtWidgets.QPushButton(parent=self.central_widget)
         self.log_in_btn.setGeometry(QtCore.QRect(20, 550, 141, 41))
         font = QtGui.QFont()
@@ -322,9 +334,6 @@ class MainWindow(QWidget):
         self.log_in_btn.clicked.connect(self.open_login)
         self.log_in_btn.setAutoDefault(False)
 
-        if len(self.user_text.text()) == len(self.our_text_for_typing.toPlainText()):
-            self.endTime = time.time()
-
         self.try_your_speed_lbl.raise_()
         self.our_text_for_typing.raise_()
         self.user_text.raise_()
@@ -335,12 +344,10 @@ class MainWindow(QWidget):
         self.retranslate_ui(self)
         stacked_widget.addWidget(self.central_widget)
         QtCore.QMetaObject.connectSlotsByName(self)
-        self.endTime = time.time()
 
     def retranslate_ui(self, main_window):
         """
         This function sets the translated text for various UI elements in the main window.
-
         :return: None
         """
         _translate = QtCore.QCoreApplication.translate
