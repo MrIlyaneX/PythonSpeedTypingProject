@@ -21,6 +21,36 @@
             <input type="submit" value="Download file" style="background-color: rgb(235, 255, 197); width:439px;height:51px; border-radius: 25px; font-size: 16pt"/>
         </form>
     </div>
+<p>
+</p>
+    <ul id="historyList"></ul>
+    <script>
+        fetch('history.json')
+            .then(response => response.json())
+            .then(data => {
+                const historyList = document.getElementById('historyList');
+
+                if (data.history.length > 0) {
+                    data.history.forEach(item => {
+                        const listItem = document.createElement('li');
+                        const featuresList = document.createElement('ul');
+                        const titleItem = document.createElement('strong');
+                        titleItem.textContent = item.title;
+                        listItem.appendChild(titleItem);
+                        item.features.forEach(feature => {
+                            const featureItem = document.createElement('li');
+                            featureItem.textContent = feature;
+                            featuresList.appendChild(featureItem);
+                        });
+                        listItem.appendChild(featuresList);
+                        historyList.appendChild(listItem);
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error loading history.json:', error);
+            });
+    </script>
 </body>
 <style>
     div {
@@ -28,31 +58,4 @@
         place-items: center;
     }
 </style>
-<p>
-</p>
-<body>
-    <script>
-        fetch('history.txt')
-            .then(response => response.text())
-            .then(data => {
-                const historyList = document.createElement('ul');
-                const historyItems = data.split('. ')
-
-                if (historyItems.length > 0) {
-                    historyItems.forEach(item => {
-                        const listItem = document.createElement('li');
-                        listItem.textContent = item.trim();
-                        historyList.appendChild(listItem);
-                    });
-                }
-
-
-
-                document.body.appendChild(historyList);
-            })
-            .catch(error => {
-                console.error('Error loading history.txt:', error);
-            });
-    </script>
-</body>
 </html>

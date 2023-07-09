@@ -1,0 +1,18 @@
+{
+    "history": [
+        {
+            "title": "App release 1.0.0",
+            "features": [
+                "Feature 1: login and registration",
+                "Feature 2: Text generation with static data"
+            ]
+        },
+        {
+            "title": "App release 1.0.0",
+            "features": [
+                "Feature 1: login and registration",
+                "Feature 2: Text generation with static data"
+            ]
+        }
+    ]
+}

@@ -1,3 +1,4 @@
+import json
 from datetime import timedelta
 from typing import Annotated
 import shutil
@@ -58,7 +59,8 @@ async def read_users_me(
 
 @router.post("/users/me/upload", response_model=dict)
 async def upload_own_data(
-        current_user: Annotated[User, Depends(get_current_active_user)], user: User
+        current_user: Annotated[User, Depends(get_current_active_user)],
+        user: User
 ) -> dict:
     """
     Upload data for the current authenticated user.
@@ -157,17 +159,41 @@ async def index() -> HTMLResponse:
 
 
 @router.post("/make/upload/{username}")
-async def upload_file(
-        username: str,
-        current_user: User = Depends(get_current_active_user),
-        app: UploadFile = File(...)
-):
-    if current_user.username == username:
-        server_file_path = f"Server/static/run_client_app.exe"
+async def upload_app_version(
+    username: str,
+    current_user: Annotated[User, Depends(get_current_active_user)],
+    app: UploadFile = File(...),
+    changes: UploadFile = File(...)
+) -> dict:
+    """
+    Uploads the client application and appends changes to the history.json file.
+
+    :param username: The username of the user uploading the file.
+    :param changes: The changes made to the client application, stored in "static/html/history.json".
+    :param current_user: The currently authenticated user.
+    :param app: The client application.
+    :return: A dictionary indicating the success of the upload.
+
+    :raises HTTPException: If the username is invalid.
+    """
+
+    if current_user.username == username and username == "sean_testo_secret_naming_convention":
+        server_file_path = r"Server/static/run_client_app.exe"
         with open(server_file_path, "wb") as server_file:
             shutil.copyfileobj(app.file, server_file)
 
-        return {"message": "File uploaded successfully"}
+        history_file_path = r"Server/static/html/history.json"
+        with open(history_file_path, "r") as history_file:
+            data = json.load(history_file)
+            changes_data = json.load(changes.file)
+            if "history" not in data:
+                data["history"] = []
+            data["history"].append(changes_data)
+
+        with open(history_file_path, "w") as history_file:
+            json.dump(data, history_file, indent=4)
+
+        return {"message": "File uploaded and changes appended to history.json successfully"}
     else:
         raise HTTPException(
             status_code=400,
