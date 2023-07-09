@@ -37,15 +37,15 @@ class SameUsernameWindow(QMainWindow):
         self.retranslate_ui()
 
 
-def retranslate_ui(self):
-    """
-    This function sets the translated text for various UI elements in the main window.
+    def retranslate_ui(self):
+        """
+        This function sets the translated text for various UI elements in the main window.
 
-    :return: None
-    """
-    _translate = QtCore.QCoreApplication.translate
-    self.setWindowTitle(_translate("same_username", "Form"))
-    self.centralWidget().findChild(QtWidgets.QLabel, "error_lbl").setText(
-        _translate("same_username", "This Username already exists"))
-    self.centralWidget().findChild(QtWidgets.QLabel, "new_username_lbl").setText(
-        _translate("same_username", "Please, insert new Username"))
+        :return: None
+        """
+        _translate = QtCore.QCoreApplication.translate
+        self.setWindowTitle(_translate("same_username", "Form"))
+        self.centralWidget().findChild(QtWidgets.QLabel, "error_lbl").setText(
+            _translate("same_username", "This Username already exists"))
+        self.centralWidget().findChild(QtWidgets.QLabel, "new_username_lbl").setText(
+            _translate("same_username", "Please, insert new Username"))
