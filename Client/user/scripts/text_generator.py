@@ -13,6 +13,7 @@
 
 import json
 import random
+import os
 
 
 def get_words_lens(language: str = "en"):
@@ -47,10 +48,14 @@ def generate_pseudo_phone_number():
 
 def generate_text(language: str = "en", use_punctuation: bool = False, digits: bool = False,
                   phone_number: bool = False):
-    with open(f'../data/words/{language}.json', 'r') as f:
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    words_path = os.path.normpath(os.path.join(current_dir, "..", "data", "words", f"{language}.json"))
+    len_path = os.path.normpath(os.path.join(current_dir, "..", "data", "words", f"{language}_len.json"))
+
+    with open(words_path, 'r') as f:
         data = json.load(f)
 
-    with open(f'../data/words/{language}_len.json', 'r') as f:
+    with open(len_path, 'r') as f:
         len_data = json.load(f)
 
     words = data['text'].split('\n')

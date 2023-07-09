@@ -1,7 +1,8 @@
 from datetime import timedelta
 from typing import Annotated
+import shutil
 
-from fastapi import Depends, HTTPException, status, APIRouter
+from fastapi import Depends, HTTPException, status, APIRouter, File, UploadFile
 from fastapi.responses import FileResponse
 from fastapi.security import OAuth2PasswordRequestForm
 from starlette.responses import HTMLResponse
@@ -124,17 +125,51 @@ async def send_words(language: Language) -> FileResponse:
 
 @router.post("/leaderboard", response_model=dict)
 async def post_leaderboard() -> dict:
+    """
+    Posts the leaderboard (10 best scores) to the client.
+
+    :return: A dictionary indicating the success of the upload.
+    """
     return get_leaderboard()
 
 
 @router.get("/download")
 async def app_download() -> FileResponse:
+    """
+    Downloads the client application.
+
+    :return: The client application.
+    """
     file_path = "Server/static/run_client_app.exe"
     return FileResponse(file_path, media_type="application/octet-stream", filename="ty-typing.exe")
 
 
 @router.get("/")
 async def index() -> HTMLResponse:
+    """
+    Retrieves the index page.
+
+    :return: The index page.
+    """
     with open("Server/static/html/download.html", "r") as file:
         html_content = file.read()
     return HTMLResponse(content=html_content, status_code=200)
+
+
+@router.post("/make/upload/{username}")
+async def upload_file(
+        username: str,
+        current_user: User = Depends(get_current_active_user),
+        app: UploadFile = File(...)
+):
+    if current_user.username == username:
+        server_file_path = f"Server/static/run_client_app.exe"
+        with open(server_file_path, "wb") as server_file:
+            shutil.copyfileobj(app.file, server_file)
+
+        return {"message": "File uploaded successfully"}
+    else:
+        raise HTTPException(
+            status_code=400,
+            detail="Access denied"
+        )
