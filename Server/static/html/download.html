@@ -4,24 +4,55 @@
     <meta charset="UTF-8">
     <title>Download</title>
 </head>
-<body>
-<p>
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-    aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
-    sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-</p>
-<div>
-    <form action="http://127.0.0.1:8000/download" method="GET">
-        <input type="submit"/>
-    </form>
-</div>
-</body>
+<body style="background-color: rgb(231, 255, 239); text-indent: 25px; font-size: 16pt; font-family: 'Arial Rounded MT Bold'; margin-left:40px; margin-right:40px;">
+    <p>Our typing speed application project is designed for entertainment purposes, without a solid scientific focus. While similar resources already exist on the Internet, they often need improvement, with users complaining about limited functionality, excessive advertising, a complex interface, and inflexible settings.</p>
+    <p>To address these shortcomings, we conducted a small study and identified the areas for improvement. As a result, we proposed several new tools. We outlined the project's objectives, which included developing a user-friendly application, creating a website with performance records, establishing a backend infrastructure with a database, and implementing API requests.</p>
+    <p>To efficiently manage the project, we divided the tasks among the team members. We recognized three significant areas of focus: front-end development, database management, and setting up a server for API requests. Two team members were assigned to handle the design aspects and part of the app functionality, while another team member took responsibility for the database, and a fourth member focused on configuring the server.</p>
 
+    <p style="font-weight: bold;">Our team:</p>
+    <ul>
+        <li>Anastasia Pichugina: responsible for the database</li>
+        <li>Elena Tesmeeva: responsible for design and frontend</li>
+        <li>Polina Pushkareva: responsible for design and frontend</li>
+        <li>Ilia Mistiurin: responsible for the server, connection with the database, monitors the work of the entire team</li>
+    </ul>
+    <div>
+        <form action="http://127.0.0.1:8000/download" method="GET">
+            <input type="submit" value="Download file" style="background-color: rgb(235, 255, 197); width:439px;height:51px; border-radius: 25px; font-size: 16pt"/>
+        </form>
+    </div>
+</body>
 <style>
     div {
         display: grid;
         place-items: center;
     }
 </style>
+<p>
+</p>
+<body>
+    <script>
+        fetch('history.txt')
+            .then(response => response.text())
+            .then(data => {
+                const historyList = document.createElement('ul');
+                const historyItems = data.split('. ')
+
+                if (historyItems.length > 0) {
+                    historyItems.forEach(item => {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = item.trim();
+                        historyList.appendChild(listItem);
+                    });
+                }
+
+
+
+                document.body.appendChild(historyList);
+            })
+            .catch(error => {
+                console.error('Error loading history.txt:', error);
+            });
+    </script>
+</body>
 </html>
