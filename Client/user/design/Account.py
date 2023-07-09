@@ -55,10 +55,10 @@ class AccountWindow(QWidget):
         self.username_txt = QtWidgets.QTextBrowser(parent=self.central_widget)
         self.username_txt.setGeometry(QtCore.QRect(60, 290, 301, 61))
         self.username_txt.setStyleSheet("background-color: rgb(255, 255, 255);")
-        if get_user(self.shared_data.header).email is not None:
-            self.username_txt.setText(get_user(self.shared_data.header).username)
-        else:
-            self.username_txt.setText("No username")
+        # if get_user(self.shared_data.header).email is not None:
+        #     self.username_txt.setText(get_user(self.shared_data.header).username)
+        # else:
+        #     self.username_txt.setText("No username")
         self.username_txt.setObjectName("UsernameTxt")
 
         self.days_txt = QtWidgets.QTextBrowser(parent=self.central_widget)
