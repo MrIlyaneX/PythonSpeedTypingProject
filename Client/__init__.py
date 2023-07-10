@@ -25,3 +25,4 @@ class SharedData:
             }
             return User(**user)
         return self.user
+
