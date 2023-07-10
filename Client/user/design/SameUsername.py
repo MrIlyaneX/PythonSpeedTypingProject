@@ -11,7 +11,7 @@ class SameUsernameWindow(QMainWindow):
         :return: None
         """
         self.setObjectName("same_username")
-        self.resize(396, 229)
+        self.setFixedSize(396, 229)
         self.setStyleSheet("background-color: rgb(194, 255, 172);\n"
                            "font: 12pt \"Arial Rounded MT Bold\";\n")
 
@@ -29,13 +29,14 @@ class SameUsernameWindow(QMainWindow):
         new_username_lbl.setGeometry(QtCore.QRect(10, 140, 371, 61))
         new_username_lbl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
                                        "border-radius: 25px;")
+
         new_username_lbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+
         new_username_lbl.setObjectName("new_username_lbl")
 
         self.setCentralWidget(central_widget)
 
         self.retranslate_ui()
-
 
     def retranslate_ui(self):
         """

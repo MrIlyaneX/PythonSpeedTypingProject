@@ -67,6 +67,8 @@ class LogInWindow(QWidget):
             self.error_ui = IncorrectPassword()
             self.error_ui.setup_ui()
             self.error_window.setCentralWidget(self.error_ui)
+            self.error_window.move(560, 270)
+            self.error_window.setWindowTitle("Incorrect Password")
         self.error_window.show()
 
     def get_email(self):
