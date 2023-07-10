@@ -2,7 +2,7 @@ import traceback
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtWidgets import QStackedWidget, QWidget
 from Client import SharedData
-from Client.user.design import IncorrectPassword
+from Client.user.design.IncorrectPassword import IncorrectPassword
 from Client.client_runner import *
 
 

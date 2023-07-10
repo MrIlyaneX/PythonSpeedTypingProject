@@ -60,6 +60,22 @@ class CreateAccountWindow(QWidget):
         """
         return self.email_text.text()
 
+    def show_error_window(self):
+        """
+        Displays an error window if it hasn't been shown before.
+        This function creates and shows an error window using the SameUsernameWindow class. If the error window has
+        already been shown, calling this function again will not create a new window.
+
+        :param self: The instance of the class.
+        :return: None
+        """
+        if self.error_window is None:
+            self.error_window = QtWidgets.QMainWindow()
+            self.error_ui = SameUsernameWindow()
+            self.error_ui.setup_ui()
+            self.error_window.setCentralWidget(self.error_ui)
+        self.error_window.show()
+
     def button_clicked(self):
         """
         Registers the user using the collected information when the 'sign_up' button is clicked.
@@ -91,22 +107,6 @@ class CreateAccountWindow(QWidget):
         except Exception as e:
             traceback.print_exc()
             self.show_error_window()
-
-    def show_error_window(self):
-        """
-        Displays an error window if it hasn't been shown before.
-        This function creates and shows an error window using the SameUsernameWindow class. If the error window has
-        already been shown, calling this function again will not create a new window.
-
-        :param self: The instance of the class.
-        :return: None
-        """
-        if self.error_window is None:
-            self.error_window = QtWidgets.QMainWindow()
-            self.error_ui = SameUsernameWindow()
-            self.error_ui.setup_ui()
-            self.error_window.setCentralWidget(self.error_ui)
-        self.error_window.show()
 
     def setup_ui(self, stacked_widget: QStackedWidget):
         """
