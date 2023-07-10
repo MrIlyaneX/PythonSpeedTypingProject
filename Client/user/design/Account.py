@@ -147,6 +147,6 @@ class AccountWindow(QWidget):
         # self.days_txt.setText(get_user(get_header()).username)
         self.days_txt.setAlignment(QtCore.Qt.AlignmentFlag.AlignVCenter
                                    | QtCore.Qt.AlignmentFlag.AlignHCenter)
-        self.time_txt.setText("14 seconds")
+        # self.time_txt.setText("14 seconds")
         self.time_txt.setAlignment(QtCore.Qt.AlignmentFlag.AlignVCenter
                                    | QtCore.Qt.AlignmentFlag.AlignHCenter)
