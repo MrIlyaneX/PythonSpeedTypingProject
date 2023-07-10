@@ -23,7 +23,7 @@ def setup_windows():
     stacked_widget.setFixedSize(800, 600)
     stacked_widget.setStyleSheet("background-color: rgb(231, 255, 239);\n"
                                  "font: 12pt \"Arial Rounded MT Bold\";")
-    stacked_widget.setWindowIcon(QIcon("../../../icon.jpg"))
+    stacked_widget.setWindowIcon(QIcon("D:\PycharmProjects\PythonSpeedTypingProject\icon.jpg"))
     stacked_widget.show()
 
     # 0
