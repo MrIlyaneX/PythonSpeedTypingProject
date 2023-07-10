@@ -22,7 +22,7 @@ def get_header(username: str, password: str, user_email: str, to_login: bool | N
     :return: None or Header
     """
 
-    token: Token | None = None
+    token: dict | Token | None = None
 
     if to_signup:
         status = signup(username, password, user_email)
@@ -36,6 +36,9 @@ def get_header(username: str, password: str, user_email: str, to_login: bool | N
         token = login(username, password)
 
     if token is not None:
+        if "msg" in token.keys():
+            return None
+        print(token)
         tokens = Token(**token)
         return {"Authorization": "Bearer " + tokens.access_token}
     else:
