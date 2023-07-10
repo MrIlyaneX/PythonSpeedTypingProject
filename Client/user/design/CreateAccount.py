@@ -1,6 +1,7 @@
 import traceback
 
 from PyQt6 import QtCore, QtGui, QtWidgets
+from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QStackedWidget
 from PyQt6.QtWidgets import QWidget as QWidget
 
@@ -76,6 +77,7 @@ class CreateAccountWindow(QWidget):
             self.error_window.setCentralWidget(self.error_ui)
             self.error_window.move(560, 270)
             self.error_window.setWindowTitle("Same Username")
+            self.error_window.setWindowIcon(QIcon("../../../icon.jpg"))
         self.error_window.show()
 
     def button_clicked(self):

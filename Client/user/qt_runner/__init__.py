@@ -1,5 +1,6 @@
 import sys
 
+from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QApplication, QStackedWidget
 
 from Client import SharedData
@@ -22,7 +23,7 @@ def setup_windows():
     stacked_widget.setFixedSize(800, 600)
     stacked_widget.setStyleSheet("background-color: rgb(231, 255, 239);\n"
                                  "font: 12pt \"Arial Rounded MT Bold\";")
-
+    stacked_widget.setWindowIcon(QIcon("../../../icon.jpg"))
     stacked_widget.show()
 
     # 0
