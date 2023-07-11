@@ -73,7 +73,6 @@ class MainWindow(QWidget):
         :return: None
         """
         self.typingAccuracy()
-        # print("End time:", time.time())
         if self.start_time is not None:
             self.typing_time = time.time() - self.start_time
         self.typingSpeed()
@@ -107,8 +106,7 @@ class MainWindow(QWidget):
         """
         if self.start_time is None:
             self.start_time = time.time()
-        # print("Start time:", self.start_time)
-        user_text = self.user_text.text()
+        user_text = self.user_text.toPlainText()
         user_text_length = len(user_text)
         our_text = self.our_text_for_typing.toPlainText()
         colored_text = ""
@@ -125,7 +123,7 @@ class MainWindow(QWidget):
         self.our_text_for_typing.setHtml(colored_text)
 
     def typingAccuracy(self):
-        userText = self.user_text.text()
+        userText = self.user_text.toPlainText()
         ourText = self.our_text_for_typing.toPlainText()
         if len(userText) == 0:
             return 0
@@ -145,19 +143,12 @@ class MainWindow(QWidget):
         """
         Counts the speed of typing 10 symbols
         """
-        # typingTime = self.end_time - self.start_time
-        if len(self.user_text.text()) == 0:
+        if len(self.user_text.toPlainText()) == 0:
             print("No words")
             return 0
         else:
-            print("Time: ", int(self.typing_time / len(self.user_text.text()) * 10))
-            return int(self.typing_time / len(self.user_text.text()) * 10)
-
-    def change(self):
-        text = self.user_text.text()
-        font_metrics = QFontMetrics(self.user_text.font())
-        edited_text = font_metrics.elidedText(text, Qt.TextElideMode.ElideRight, self.user_text.width())
-        self.user_text.setText(edited_text)
+            print("Time: ", int(self.typing_time / len(self.user_text.toPlainText()) * 10))
+            return int(self.typing_time / len(self.user_text.toPlainText()) * 10)
 
     def setup_ui(self, stacked_widget: QStackedWidget):
         """
@@ -206,34 +197,6 @@ class MainWindow(QWidget):
         self.our_text_for_typing.setObjectName("our_text_for_typing")
         self.our_text_for_typing.setAlignment(
             QtCore.Qt.AlignmentFlag.AlignLeading | QtCore.Qt.AlignmentFlag.AlignLeft | QtCore.Qt.AlignmentFlag.AlignTop)
-        # self.our_text_for_typing.setObjectName("our_text_for_typing")
-
-        self.user_text = QtWidgets.QLineEdit(parent=self.central_widget)
-        self.user_text.setGeometry(QtCore.QRect(112, 293, 591, 221))
-        size_policy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding,
-                                            QtWidgets.QSizePolicy.Policy.Fixed)
-        size_policy.setHorizontalStretch(0)
-        size_policy.setVerticalStretch(0)
-        size_policy.setHeightForWidth(self.user_text.sizePolicy().hasHeightForWidth())
-        self.user_text.setSizePolicy(size_policy)
-        self.user_text.setGeometry(QtCore.QRect(112, 293, 591, 221))
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.user_text.sizePolicy().hasHeightForWidth())
-        self.user_text.setSizePolicy(sizePolicy)
-        self.user_text.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
-                                     "border: none;\n"
-                                     "color:black;"
-                                     "font-size:16px;\n")
-        self.user_text.setAlignment(
-            QtCore.Qt.AlignmentFlag.AlignLeading | QtCore.Qt.AlignmentFlag.AlignLeft | QtCore.Qt.AlignmentFlag.AlignTop)
-        self.layout = QVBoxLayout(self.user_text)
-        self.user_text.textChanged.connect(self.change)
-        self.layout.addWidget(self.user_text)
-        self.user_text.setObjectName("user_text")
-        self.user_text.setGraphicsEffect(QtWidgets.QGraphicsOpacityEffect())
-        self.user_text.textChanged.connect(self.on_text_changed)
         self.frame = QtWidgets.QFrame(parent=self.central_widget)
         self.frame.setGeometry(QtCore.QRect(0, 0, 801, 181))
         self.frame.setStyleSheet(" background-color: rgb(194, 255, 172);")
@@ -344,8 +307,19 @@ class MainWindow(QWidget):
         self.log_in_btn.clicked.connect(self.open_login)
         self.log_in_btn.setAutoDefault(False)
 
-        # if len(self.user_text.text()) == 1:
-        #     self.start_time = time.time()
+        self.user_text = QtWidgets.QTextEdit(parent=self.central_widget)
+        self.user_text.setGeometry(QtCore.QRect(110, 290, 591, 221))
+        font.setFamily("Arial Rounded MT Bold")
+        font.setPointSize(12)
+        self.user_text.setFont(font)
+        self.user_text.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
+                                     "border: none;\n"
+                                     "color:black;"
+                                     "font-size:16px;\n")
+        self.user_text.setAlignment(
+            QtCore.Qt.AlignmentFlag.AlignLeading | QtCore.Qt.AlignmentFlag.AlignLeft | QtCore.Qt.AlignmentFlag.AlignTop)
+        self.user_text.setObjectName("user_text")
+        self.user_text.textChanged.connect(self.on_text_changed)
 
         self.try_your_speed_lbl.raise_()
         self.our_text_for_typing.raise_()
