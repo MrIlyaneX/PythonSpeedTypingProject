@@ -10,13 +10,12 @@ from Client.user.scripts.text_generator import generate_text
 import time
 
 
-
-
 class MainWindow(QWidget):
     def __init__(self, shared_data: SharedData):
         super().__init__()
-        self.start_time = None
+        self.start_time = time.time()
         self.end_time = None
+        self.typing_time = None
         self.shared_data = shared_data
 
     def open_login(self):
@@ -74,6 +73,11 @@ class MainWindow(QWidget):
         :return: None
         """
         self.typingAccuracy()
+        # print("End time:", time.time())
+        if self.start_time is not None:
+            self.typing_time = time.time() - self.start_time
+        self.typingSpeed()
+        self.start_time = None
         self.our_text_for_typing.clear()
         self.user_text.clear()
         text = generate_text()
@@ -81,8 +85,6 @@ class MainWindow(QWidget):
         for i in range(len(text)):
             display += text[i]
         self.display_text(display)
-        self.end_time = time.time()
-        # self.typingSpeed()
 
     def display_text(self, text):
         """
@@ -103,6 +105,9 @@ class MainWindow(QWidget):
         :param self: The instance of the class that this function belongs to.
         :return: None
         """
+        if self.start_time is None:
+            self.start_time = time.time()
+        # print("Start time:", self.start_time)
         user_text = self.user_text.text()
         user_text_length = len(user_text)
         our_text = self.our_text_for_typing.toPlainText()
@@ -122,8 +127,8 @@ class MainWindow(QWidget):
     def typingAccuracy(self):
         userText = self.user_text.text()
         ourText = self.our_text_for_typing.toPlainText()
-        if len(userText) == 0 and len(ourText) == 0:
-            return
+        if len(userText) == 0:
+            return 0
         if len(userText) < len(ourText):
             length = len(userText)
         else:
@@ -133,13 +138,20 @@ class MainWindow(QWidget):
             if userText[i] == ourText[i]:
                 matchCount += 1
 
-        # print("Accuracy: ", int(matchCount / len(ourText) * 100), "%")
+        print("Accuracy: ", int(matchCount / len(ourText) * 100), "%")
         return int(matchCount / len(ourText) * 100)
 
     def typingSpeed(self):
-        typingTime = self.end_time - self.start_time
-        print("Time: ", int(typingTime / len(self.user_text.text())))
-        return int(typingTime / len(self.user_text.text()) * 10)
+        """
+        Counts the speed of typing 10 symbols
+        """
+        # typingTime = self.end_time - self.start_time
+        if len(self.user_text.text()) == 0:
+            print("No words")
+            return 0
+        else:
+            print("Time: ", int(self.typing_time / len(self.user_text.text()) * 10))
+            return int(self.typing_time / len(self.user_text.text()) * 10)
 
     def change(self):
         text = self.user_text.text()
@@ -155,7 +167,7 @@ class MainWindow(QWidget):
         :param stacked_widget: QStackedWidget object representing the stacked widget to be used in the main window.
         :return: None
         """
-        self.start_time = time.time()
+        # self.start_time = time.time()
         self.stacked_widget = stacked_widget
         self.stacked_widget.setWindowTitle("Speed-typing app")
         self.setObjectName("MainWindow")
@@ -332,8 +344,8 @@ class MainWindow(QWidget):
         self.log_in_btn.clicked.connect(self.open_login)
         self.log_in_btn.setAutoDefault(False)
 
-        if len(self.user_text.text()) == 1:
-            self.start_time = time.time()
+        # if len(self.user_text.text()) == 1:
+        #     self.start_time = time.time()
 
         self.try_your_speed_lbl.raise_()
         self.our_text_for_typing.raise_()
