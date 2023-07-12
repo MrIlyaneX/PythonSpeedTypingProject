@@ -27,7 +27,7 @@ class SharedData:
                 }
                 return User(**user)
             else:
-                return get_user(header=self.header)
+                self.user = get_user(header=self.header)
         return self.user
 
     def get_stats(self) -> Stats:
