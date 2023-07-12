@@ -99,12 +99,12 @@ class AchievementsWindow(QWidget):
         self.best_time_lbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.best_time_lbl.setObjectName("BestTimeLbl")
 
-        self.days_with_us_labl = QtWidgets.QLabel(parent=self.central_widget)
-        self.days_with_us_labl.setGeometry(QtCore.QRect(440, 200, 301, 71))
-        self.days_with_us_labl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
+        self.accuracy_lbl = QtWidgets.QLabel(parent=self.central_widget)
+        self.accuracy_lbl.setGeometry(QtCore.QRect(440, 200, 301, 71))
+        self.accuracy_lbl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
                                              "border-radius: 25px;")
-        self.days_with_us_labl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.days_with_us_labl.setObjectName("DaysWithUsLabl")
+        self.accuracy_lbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.accuracy_lbl.setObjectName("AccuracyLbl")
 
         Achievements.setCentralWidget(self.central_widget)
 
@@ -122,4 +122,4 @@ class AchievementsWindow(QWidget):
         self.back_btn.setText(_translate("Achievements", "Back"))
         self.achievements_lbl.setText(_translate("Achievements", "Achievements"))
         self.best_time_lbl.setText(_translate("Achievements", "Your best time of typing"))
-        self.days_with_us_labl.setText(_translate("Achievements", "Your days spent with us"))
+        self.accuracy_lbl.setText(_translate("Achievements", "Accuracy"))

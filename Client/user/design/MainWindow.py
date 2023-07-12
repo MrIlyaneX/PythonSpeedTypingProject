@@ -7,6 +7,7 @@ from PyQt6.QtGui import QFontMetrics
 from Client import SharedData
 
 from Client.user.scripts.text_generator import generate_text
+from Client.user.design.Account import AccountWindow
 import time
 
 
@@ -43,6 +44,7 @@ class MainWindow(QWidget):
         :param self: The instance of the class that this function belongs to.
         :return: None
         """
+        # AccountWindow.update_data()
         self.stacked_widget.setCurrentIndex(5)
 
     def open_achievements(self):

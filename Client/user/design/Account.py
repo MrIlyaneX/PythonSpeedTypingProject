@@ -6,6 +6,7 @@ from Client import SharedData
 from Client.client_runner import get_user, get_header
 
 
+
 class AccountWindow(QWidget):
     def __init__(self, shared_data: SharedData):
         super().__init__()
@@ -19,6 +20,17 @@ class AccountWindow(QWidget):
         :return: None
         """
         self.stacked_widget.setCurrentIndex(1)
+
+    def update_data(self):
+        self.username_txt.setText("rfbdjnsdkji")
+        return
+        if self.shared_data.user is not None:
+            self.username_txt.setText(self.shared_data.user.username)
+        try:
+            self.username_txt.setText(self.shared_data.user.username)
+
+        except Exception as e:
+            print('error')
 
     def setup_ui(self, stacked_widget: QStackedWidget):
         """
@@ -57,15 +69,13 @@ class AccountWindow(QWidget):
         self.username_txt.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.username_txt.setObjectName("UsernameTxt")
 
-        if self.shared_data.user != None:
-            self.username_txt.setText(self.shared_data.user.username)
-        try:
-            self.username_txt.setText(self.shared_data.user.username)
-
-        except Exception as e:
-            print('error')
-
-
+        # if self.shared_data.user is not None:
+        #     self.username_txt.setText(self.shared_data.user.username)
+        # try:
+        #     self.username_txt.setText(self.shared_data.user.username)
+        #
+        # except Exception as e:
+        #     print('error')
 
         self.days_txt = QtWidgets.QTextBrowser(parent=self.central_widget)
         self.days_txt.setGeometry(QtCore.QRect(80, 500, 81, 51))

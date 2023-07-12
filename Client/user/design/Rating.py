@@ -97,12 +97,12 @@ class RatingWindow(QWidget):
         self.time_lbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.time_lbl.setObjectName("TimeLbl")
 
-        self.days_lbl = QtWidgets.QLabel(parent=self.central_widget)
-        self.days_lbl.setGeometry(QtCore.QRect(440, 200, 301, 71))
-        self.days_lbl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
+        self.accuracy_lbl = QtWidgets.QLabel(parent=self.central_widget)
+        self.accuracy_lbl.setGeometry(QtCore.QRect(440, 200, 301, 71))
+        self.accuracy_lbl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
                                     "border-radius: 25px;")
-        self.days_lbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.days_lbl.setObjectName("DaysLbl")
+        self.accuracy_lbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.accuracy_lbl.setObjectName("AccuracyLbl")
 
         stacked_widget.addWidget(self.central_widget)
         self.retranslate_ui()
@@ -118,4 +118,4 @@ class RatingWindow(QWidget):
         self.rating_lbl.setText(_translate("MainWindow", "Rating"))
         self.back_btn.setText(_translate("MainWindow", "Back"))
         self.time_lbl.setText(_translate("MainWindow", "\"The fastest typers\""))
-        self.days_lbl.setText(_translate("MainWindow", "People that are with us"))
+        self.accuracy_lbl.setText(_translate("MainWindow", "The most \"accurate\" typers"))
