@@ -93,7 +93,7 @@ This will install all the necessary libraries and frameworks, including FastAPI 
 
 - For running the desktop application, follow the instructions specific to your operating system and the PyQt framework.
 
-  Note: Additional setup may be required depending on the desktop application's specific requirements and dependencies.
+8. Now you can download and start app from the [local server](http://127.0.0.1:8000/)
 
 ## Technologies Used
 
@@ -104,9 +104,6 @@ The Python Speed Typing Project utilizes the following libraries and frameworks:
 - **PyQt**: A comprehensive set of Python bindings for the Qt application framework, allowing for the creation of
   cross-platform desktop applications.
 
--
-
--
 
 ## Endpoints
 
