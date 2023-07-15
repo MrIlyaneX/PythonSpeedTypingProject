@@ -5,7 +5,15 @@ from Client import SharedData
 
 
 class InfoWindow(object):
+    """
+    This class is responsible for the info window about the application.
+    """
     def __init__(self, shared_data: SharedData):
+        """
+        Initializes the RatingWindow class.
+
+        :param shared_data: SharedData object representing the shared data between the windows.
+        """
         super().__init__()
         self.shared_data = shared_data
 

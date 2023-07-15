@@ -6,11 +6,22 @@ from Client import SharedData
 
 
 class AchievementsWindow(QWidget):
+    """
+    This class is responsible for user achievements window.
+    """
     def __init__(self, shared_data: SharedData):
+        """
+        Initializes the AchievementsWindow class.
+
+        :param shared_data: SharedData object representing the shared data between all windows.
+        """
         super().__init__()
         self.shared_data = shared_data
 
     def update_data(self) -> None:
+        """
+        Updates the data in the main window.
+        """
         self.scroll_days.setText(str(self.shared_data.get_user().achievements.avg_accuracy))
         self.scroll_time.setText(str(self.shared_data.get_user().achievements.max_score))
 

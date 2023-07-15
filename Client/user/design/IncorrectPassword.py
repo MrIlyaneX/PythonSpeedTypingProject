@@ -3,6 +3,9 @@ from PyQt6.QtWidgets import QMainWindow
 
 
 class IncorrectPassword(QMainWindow):
+    """
+    This class is responsible for the warning window.
+    """
     def setup_ui(self):
         """
         Sets up the user interface for the main window.

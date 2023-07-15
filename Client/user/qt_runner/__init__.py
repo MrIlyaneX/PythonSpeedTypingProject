@@ -15,6 +15,15 @@ from Client.user.design.SignUp import SignUpWindow
 
 
 def setup_windows():
+    """
+    Sets up all windows and adds them to the stacked widget.
+
+    shared_data is passed to all windows. Singleton pattern.
+    stacked_widget is passed to all windows for window switching.
+
+    :return: None
+    """
+
     app = QApplication(sys.argv)
     stacked_widget = QStackedWidget()
     shared_data = SharedData(stacked_widget)

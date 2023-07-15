@@ -10,7 +10,13 @@ from Client.user.scripts.text_generator import generate_text
 
 
 class MainWindow(QWidget):
+    """
+    This class is responsible for the user interface of the main window.
+    """
     def __init__(self, shared_data: SharedData):
+        """
+        Initializes the MainWindow class.
+        """
         super().__init__()
         self.start_time = time.time()
         self.end_time = None
@@ -137,6 +143,9 @@ class MainWindow(QWidget):
         self.our_text_for_typing.setHtml(colored_text)
 
     def typingAccuracy(self):
+        """
+        Counts the accuracy of typing
+        """
         userText = self.user_text.toPlainText()
         ourText = self.our_text_for_typing.toPlainText()
         if len(userText) == 0:

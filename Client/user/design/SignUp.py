@@ -5,7 +5,15 @@ from Client import SharedData
 
 
 class SignUpWindow(QWidget):
+    """
+    This class is responsible for the start window of the application.
+    """
     def __init__(self, shared_data: SharedData):
+        """
+        Initializes the RatingWindow class.
+
+        :param self: The instance of the class that this method belongs to.
+        """
         super().__init__()
         self.shared_data = shared_data
 

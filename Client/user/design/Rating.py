@@ -6,11 +6,24 @@ from Client import SharedData
 
 
 class RatingWindow(QWidget):
+    """
+    This class is responsible for the rating window.
+    """
     def __init__(self, shared_data: SharedData):
+        """
+        Initializes the RatingWindow class.
+
+        :param self: The instance of the class that this function belongs to.
+        """
         super().__init__()
         self.shared_data = shared_data
 
     def update_data(self) -> None:
+        """
+        Updates the data in the main window.
+
+        :return: None
+        """
         self.scroll_days.setText(self.shared_data.get_user().username)
         self.scroll_fast.setText(self.shared_data.get_user().username)
 

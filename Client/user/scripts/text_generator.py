@@ -17,6 +17,13 @@ import random
 
 
 def get_words_lens(language: str = "en"):
+    """
+    Get a list of word lengths for a language.
+    Currently, do not used.
+
+    :param language: Language to use. Currently only supports English.
+    :return: List of word lengths.
+    """
     with open(f'../data/words/{language}.json', 'r') as f:
         data = json.load(f)
 
@@ -31,6 +38,13 @@ def get_words_lens(language: str = "en"):
 
 
 def create_len_dict(language: str = "en"):
+    """
+    Create a dictionary of word lengths for a language.
+    Currently, do not used.
+
+    :param language: Language to use. Currently only supports English.
+    :return: Dictionary of word lengths.
+    """
     words_len = get_words_lens(language)
 
     len_dict = {language: words_len}
@@ -40,6 +54,11 @@ def create_len_dict(language: str = "en"):
 
 
 def generate_pseudo_phone_number():
+    """
+    Generate a pseudo phone number.
+
+    :return: Pseudo phone number.
+    """
     area_code = str(random.randint(1, 999))
     first_three_digits = str(random.randint(100, 999))
     last_four_digits = str(random.randint(1000, 9999))
@@ -48,6 +67,16 @@ def generate_pseudo_phone_number():
 
 def generate_text(language: str = "en", use_punctuation: bool = False, digits: bool = False,
                   phone_number: bool = False):
+    """
+    Generate random text based on a language's most common words.
+
+    :param language: Language to use. Currently only supports English.
+    :param use_punctuation: Whether to use punctuation or not.
+    :param digits: Whether to use digits or not.
+    :param phone_number: Whether to use phone numbers or not.
+    :return: Random text.
+    """
+
     current_dir = os.path.dirname(os.path.abspath(__file__))
     words_path = os.path.normpath(os.path.join(current_dir, "..", "data", "words", f"{language}.json"))
     len_path = os.path.normpath(os.path.join(current_dir, "..", "data", "words", f"{language}_len.json"))

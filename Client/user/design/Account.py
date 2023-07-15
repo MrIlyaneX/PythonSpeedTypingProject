@@ -6,7 +6,15 @@ from Client import SharedData
 
 
 class AccountWindow(QWidget):
+    """
+    This class is responsible for the user information window.
+    """
     def __init__(self, shared_data: SharedData):
+        """
+        Initializes the AccountWindow class.
+
+        :param shared_data: SharedData object representing the shared data between the windows.
+        """
         super().__init__()
         self.shared_data = shared_data
 
