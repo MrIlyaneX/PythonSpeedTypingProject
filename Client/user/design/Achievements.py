@@ -12,7 +12,7 @@ class AchievementsWindow(QWidget):
 
     def update_data(self) -> None:
         self.scroll_days.setText(str(self.shared_data.get_user().achievements.avg_accuracy))
-        self.scroll_time.setText(str(self.shared_data.get_user().achievements.max_symbols_per_day))
+        self.scroll_time.setText(str(self.shared_data.get_user().achievements.max_score))
 
     def open_main(self):
         """
