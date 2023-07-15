@@ -39,8 +39,8 @@ def signup(username: str,
     :return: User
     """
 
-    url = f"{server_url}/signup"
-    response = requests.post(url, params={"password": password, "username": username, "user_email": user_email})
+    url = f"{server_url}/signup/{username}/{user_email}/{password}"
+    response = requests.post(url)
     if response.status_code != 200:
         print("Error:", response.status_code)
         print(response.text)
@@ -65,7 +65,7 @@ def login(
     url = f"{server_url}/token"
     payload = {
         "username": username,
-        "password": password
+        "password": password,
     }
     response = requests.post(url, data=payload)
     if response.status_code != 200:
@@ -122,7 +122,6 @@ def upload_info(
         print("Error:", response.status_code)
         print(response.text)
         return {"msg": " Failed to upload info to the server", "code": 22}
-
 
 
 def get_file(

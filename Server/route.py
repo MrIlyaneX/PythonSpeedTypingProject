@@ -29,6 +29,7 @@ async def login_for_access_token(
 
     :raises HTTPException: If the username or password is incorrect.
     """
+    print("pass", form_data.password, "\nuser", form_data.username)
     user = authenticate_user(form_data.username, form_data.password)
     if not user:
         raise HTTPException(
@@ -80,7 +81,7 @@ async def upload_own_data(
     return {"Success": True}
 
 
-@router.post("/signup", response_model=User)
+@router.post("/signup/{username}/{user_email}/{password}", response_model=User)
 async def signup(username: str, user_email: str, password: str) -> User:
     """
     Sign up a new user.
@@ -98,7 +99,7 @@ async def signup(username: str, user_email: str, password: str) -> User:
             detail="Username already registered",
         )
     hashed_password = get_password_hash(password)
-
+    print(username, hashed_password, user_email)
     add_person(username=username, password=hashed_password, mail=user_email)
     return User(**get_person_by_username(username=username))
 
@@ -159,10 +160,10 @@ async def index() -> HTMLResponse:
 
 @router.post("/make/upload/{username}")
 async def upload_app_version(
-    username: str,
-    current_user: Annotated[User, Depends(get_current_active_user)],
-    app: UploadFile = File(...),
-    changes: UploadFile = File(...)
+        username: str,
+        current_user: Annotated[User, Depends(get_current_active_user)],
+        app: UploadFile = File(...),
+        changes: UploadFile = File(...)
 ) -> dict:
     """
     Uploads the client application and appends changes to the history.json file.
