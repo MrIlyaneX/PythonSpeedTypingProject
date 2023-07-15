@@ -1,14 +1,12 @@
+import time
+import traceback
+
 from PyQt6 import QtCore, QtGui, QtWidgets
-from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import QStackedWidget, QTextEdit, QPlainTextEdit, QVBoxLayout
+from PyQt6.QtWidgets import QStackedWidget
 from PyQt6.QtWidgets import QWidget as QWidget
-from PyQt6.QtGui import QFontMetrics
 
 from Client import SharedData
-
 from Client.user.scripts.text_generator import generate_text
-from Client.user.design.Account import AccountWindow
-import time
 
 
 class MainWindow(QWidget):
@@ -26,6 +24,8 @@ class MainWindow(QWidget):
         :param self: The instance of the class that this function belongs to.
         :return: None
         """
+
+        self.shared_data.update_windows()
         self.stacked_widget.setCurrentIndex(0)
 
     def open_info(self):
@@ -35,6 +35,8 @@ class MainWindow(QWidget):
         :param self: The instance of the class that this function belongs to.
         :return: None
         """
+
+        self.shared_data.update_windows()
         self.stacked_widget.setCurrentIndex(3)
 
     def open_account(self):
@@ -44,7 +46,8 @@ class MainWindow(QWidget):
         :param self: The instance of the class that this function belongs to.
         :return: None
         """
-        # AccountWindow.update_data()
+
+        self.shared_data.update_windows()
         self.stacked_widget.setCurrentIndex(5)
 
     def open_achievements(self):
@@ -55,6 +58,8 @@ class MainWindow(QWidget):
         :param self: The instance of the class that this function belongs to.
         :return: None
         """
+
+        self.shared_data.update_windows()
         self.stacked_widget.setCurrentIndex(6)
 
     def open_rating(self):
@@ -64,6 +69,8 @@ class MainWindow(QWidget):
         :param self: The instance of the class that this function belongs to.
         :return: None
         """
+
+        self.shared_data.update_windows()
         self.stacked_widget.setCurrentIndex(7)
 
     def start_again(self):
@@ -74,10 +81,15 @@ class MainWindow(QWidget):
         :param self: The instance of the class that this function belongs to.
         :return: None
         """
+
         self.typingAccuracy()
         if self.start_time is not None:
             self.typing_time = time.time() - self.start_time
         self.typingSpeed()
+        try:
+            self.shared_data.upload_info_on_server()
+        except Exception as e:
+            traceback.print_exc()
         self.start_time = None
         self.our_text_for_typing.clear()
         self.user_text.clear()
@@ -138,19 +150,21 @@ class MainWindow(QWidget):
             if userText[i] == ourText[i]:
                 matchCount += 1
 
-        print("Accuracy: ", int(matchCount / len(ourText) * 100), "%")
-        return int(matchCount / len(ourText) * 100)
+        accuracy = int(matchCount / len(ourText) * 100)
+        print("Accuracy: ", accuracy)
+        self.shared_data.update_accuracy(accuracy=accuracy)
 
     def typingSpeed(self):
         """
         Counts the speed of typing 10 symbols
         """
         if len(self.user_text.toPlainText()) == 0:
-            print("No words")
+            # print("No words")
             return 0
         else:
-            print("Time: ", int(self.typing_time / len(self.user_text.toPlainText()) * 10))
-            return int(self.typing_time / len(self.user_text.toPlainText()) * 10)
+            a = int(self.typing_time / len(self.user_text.toPlainText()) * 10)
+            print("Time: ", a)
+            self.shared_data.update_score(a)
 
     def setup_ui(self, stacked_widget: QStackedWidget):
         """

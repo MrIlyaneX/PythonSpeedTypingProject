@@ -15,7 +15,8 @@ class SameUsernameWindow(QMainWindow):
         self.setStyleSheet("background-color: rgb(194, 255, 172);\n"
                            "font: 12pt \"Arial Rounded MT Bold\";\n")
 
-        central_widget = QtWidgets.QWidget(self)
+        central_widget = QtWidgets.QMainWindow()
+        central_widget.resize(396, 229)
         central_widget.setObjectName("central_widget")
 
         error_lbl = QtWidgets.QLabel(parent=central_widget)

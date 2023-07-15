@@ -1,6 +1,7 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtWidgets import QStackedWidget
 from PyQt6.QtWidgets import QWidget as QWidget
+
 from Client import SharedData
 
 
@@ -9,6 +10,10 @@ class RatingWindow(QWidget):
         super().__init__()
         self.shared_data = shared_data
 
+    def update_data(self) -> None:
+        self.scroll_days.setText(self.shared_data.get_user().username)
+        self.scroll_fast.setText(self.shared_data.get_user().username)
+
     def open_main(self):
         """
         Opens the Main window by setting the current index of the stacked widget to 1.
@@ -16,6 +21,8 @@ class RatingWindow(QWidget):
         :param self: The instance of the class that this function belongs to.
         :return: None
         """
+
+        self.shared_data.update_windows()
         self.stacked_widget.setCurrentIndex(1)
 
     def setup_ui(self, stacked_widget: QStackedWidget):
@@ -66,29 +73,23 @@ class RatingWindow(QWidget):
         self.back_btn.setObjectName("BackBtn")
         self.back_btn.clicked.connect(self.open_main)
 
-        self.scroll_fast = QtWidgets.QScrollArea(parent=self.central_widget)
+        self.scroll_fast = QtWidgets.QTextEdit(parent=self.central_widget)
         self.scroll_fast.setGeometry(QtCore.QRect(100, 280, 241, 291))
         self.scroll_fast.setStyleSheet("background-color: rgb(255, 255, 255);")
-        self.scroll_fast.setWidgetResizable(True)
         self.scroll_fast.setObjectName("scrollFast")
 
         self.scroll_area_widget_contents = QtWidgets.QWidget()
         self.scroll_area_widget_contents.setGeometry(QtCore.QRect(0, 0, 239, 289))
         self.scroll_area_widget_contents.setObjectName("scrollAreaWidgetContents")
 
-        self.scroll_fast.setWidget(self.scroll_area_widget_contents)
-
-        self.scroll_days = QtWidgets.QScrollArea(parent=self.central_widget)
+        self.scroll_days = QtWidgets.QTextEdit(parent=self.central_widget)
         self.scroll_days.setGeometry(QtCore.QRect(470, 280, 241, 291))
         self.scroll_days.setStyleSheet("background-color: rgb(255, 255, 255);")
-        self.scroll_days.setWidgetResizable(True)
         self.scroll_days.setObjectName("scrollDays")
 
         self.scroll_area_widget_contents_2 = QtWidgets.QWidget()
         self.scroll_area_widget_contents_2.setGeometry(QtCore.QRect(0, 0, 239, 289))
         self.scroll_area_widget_contents_2.setObjectName("scrollAreaWidgetContents_2")
-
-        self.scroll_days.setWidget(self.scroll_area_widget_contents_2)
 
         self.time_lbl = QtWidgets.QLabel(parent=self.central_widget)
         self.time_lbl.setGeometry(QtCore.QRect(70, 200, 301, 71))
@@ -100,7 +101,7 @@ class RatingWindow(QWidget):
         self.accuracy_lbl = QtWidgets.QLabel(parent=self.central_widget)
         self.accuracy_lbl.setGeometry(QtCore.QRect(440, 200, 301, 71))
         self.accuracy_lbl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                    "border-radius: 25px;")
+                                        "border-radius: 25px;")
         self.accuracy_lbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.accuracy_lbl.setObjectName("AccuracyLbl")
 

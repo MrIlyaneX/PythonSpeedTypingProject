@@ -16,6 +16,8 @@ class SignUpWindow(QWidget):
         :param self: The instance of the class that this method belongs to.
         :return: None
         """
+
+        self.shared_data.update_windows()
         self.stacked_widget.setCurrentIndex(1)
 
     def open_login(self):
@@ -25,6 +27,8 @@ class SignUpWindow(QWidget):
         :param self: The instance of the class that this method belongs to.
         :return: None
         """
+
+        self.shared_data.update_windows()
         self.stacked_widget.setCurrentIndex(2)
 
     def open_create_acc(self):
@@ -34,6 +38,8 @@ class SignUpWindow(QWidget):
         :param self: The instance of the class that this method belongs to.
         :return: None
         """
+
+        self.shared_data.update_windows()
         self.stacked_widget.setCurrentIndex(4)
 
     def exit_program(self):
@@ -43,6 +49,7 @@ class SignUpWindow(QWidget):
         :param self: The instance of the class that this method belongs to.
         :return: None
         """
+
         QtWidgets.QApplication.quit()
 
     def setup_ui(self, stacked_widget: QStackedWidget):

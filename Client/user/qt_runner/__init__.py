@@ -4,7 +4,6 @@ from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QApplication, QStackedWidget
 
 from Client import SharedData
-
 from Client.user.design.Account import AccountWindow
 from Client.user.design.Achievements import AchievementsWindow
 from Client.user.design.CreateAccount import CreateAccountWindow
@@ -17,9 +16,9 @@ from Client.user.design.SignUp import SignUpWindow
 
 def setup_windows():
     app = QApplication(sys.argv)
-    shared_data = SharedData()
-
     stacked_widget = QStackedWidget()
+    shared_data = SharedData(stacked_widget)
+
     stacked_widget.setFixedSize(800, 600)
     stacked_widget.setStyleSheet("background-color: rgb(231, 255, 239);\n"
                                  "font: 12pt \"Arial Rounded MT Bold\";")
@@ -52,23 +51,26 @@ def setup_windows():
     create_account_window.setup_ui(stacked_widget)
     stacked_widget.addWidget(create_account_window.central_widget)
 
-    # 5
+    # 5 needs updating
     account_window = AccountWindow(shared_data)
     account_window.setup_ui(stacked_widget)
     stacked_widget.addWidget(account_window.central_widget)
 
-    # 6
+    # 6 needs updating
     achievements_window = AchievementsWindow(shared_data)
     achievements_window.setup_ui(stacked_widget)
     stacked_widget.addWidget(achievements_window.central_widget)
 
-    # 7
+    # 7 needs updating
     rating_window = RatingWindow(shared_data)
     rating_window.setup_ui(stacked_widget)
     stacked_widget.addWidget(rating_window.central_widget)
+
+    shared_data.add_window(account_window)
+    shared_data.add_window(achievements_window)
+    shared_data.add_window(rating_window)
 
     stacked_widget.setCurrentIndex(0)
     stacked_widget.show()
 
     sys.exit(app.exec())
-

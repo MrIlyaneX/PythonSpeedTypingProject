@@ -42,13 +42,6 @@ class TokenData(BaseModel):
     username: str | None = None
 
 
-class UserInDB(User):
-    """
-    Class represents the user filed for db communication
-    """
-    hashed_password: str
-
-
 class Language(str, Enum):
     """
     Enum class represents acceptable languages for the application

@@ -5,9 +5,8 @@ from fastapi import Depends, HTTPException, status
 from jose import JWTError, jwt
 
 from Server.config import pwd_context, SECRET_KEY, ALGORITHM, oauth2_scheme
-
-from Server.models.db_access import get_user
 from Server.models.data_classes import *
+from Server.models.db_access import get_user
 
 
 def verify_password(plain_password, hashed_password) -> bool:

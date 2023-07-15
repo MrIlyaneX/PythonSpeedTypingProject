@@ -101,7 +101,7 @@ def upload_info(
         user_info: User,
         header: dict,
         server_url: str = "http://127.0.0.1:8000"
-) -> User | dict:
+) -> None:
     """
     For now uploads achievements data in User at the server side
 
@@ -123,7 +123,6 @@ def upload_info(
         print(response.text)
         return {"msg": " Failed to upload info to the server", "code": 22}
 
-    return User(**response.json())
 
 
 def get_file(

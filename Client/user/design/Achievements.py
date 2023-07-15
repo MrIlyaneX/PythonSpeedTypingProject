@@ -10,6 +10,10 @@ class AchievementsWindow(QWidget):
         super().__init__()
         self.shared_data = shared_data
 
+    def update_data(self) -> None:
+        self.scroll_days.setText(str(self.shared_data.get_user().achievements.avg_accuracy))
+        self.scroll_time.setText(str(self.shared_data.get_user().achievements.max_symbols_per_day))
+
     def open_main(self):
         """
         Opens the Main window by setting the current index of the stacked widget to 1.
@@ -17,6 +21,8 @@ class AchievementsWindow(QWidget):
         :param self: The instance of the class that this function belongs to.
         :return: None
         """
+
+        self.shared_data.update_windows()
         self.stacked_widget.setCurrentIndex(1)
 
     def setup_ui(self, stacked_widget: QStackedWidget):
@@ -68,29 +74,23 @@ class AchievementsWindow(QWidget):
         self.achievements_lbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.achievements_lbl.setObjectName("achievements_lbl")
 
-        self.scroll_time = QtWidgets.QScrollArea(parent=self.central_widget)
+        self.scroll_time = QtWidgets.QTextEdit(parent=self.central_widget)
         self.scroll_time.setGeometry(QtCore.QRect(100, 280, 241, 291))
         self.scroll_time.setStyleSheet("background-color: rgb(255, 255, 255);")
-        self.scroll_time.setWidgetResizable(True)
         self.scroll_time.setObjectName("scroll_time")
 
         self.scroll_area_widget_contents = QtWidgets.QWidget()
         self.scroll_area_widget_contents.setGeometry(QtCore.QRect(0, 0, 239, 289))
         self.scroll_area_widget_contents.setObjectName("scrollAreaWidgetContents")
 
-        self.scroll_time.setWidget(self.scroll_area_widget_contents)
-
-        self.scroll_days = QtWidgets.QScrollArea(parent=self.central_widget)
+        self.scroll_days = QtWidgets.QTextEdit(parent=self.central_widget)
         self.scroll_days.setGeometry(QtCore.QRect(470, 280, 241, 291))
         self.scroll_days.setStyleSheet("background-color: rgb(255, 255, 255);")
-        self.scroll_days.setWidgetResizable(True)
         self.scroll_days.setObjectName("scrollDays")
 
         self.scroll_area_widget_contents_2 = QtWidgets.QWidget()
         self.scroll_area_widget_contents_2.setGeometry(QtCore.QRect(0, 0, 239, 289))
         self.scroll_area_widget_contents_2.setObjectName("scrollAreaWidgetContents_2")
-
-        self.scroll_days.setWidget(self.scroll_area_widget_contents_2)
 
         self.best_time_lbl = QtWidgets.QLabel(parent=self.central_widget)
         self.best_time_lbl.setGeometry(QtCore.QRect(70, 200, 301, 71))
@@ -102,7 +102,7 @@ class AchievementsWindow(QWidget):
         self.accuracy_lbl = QtWidgets.QLabel(parent=self.central_widget)
         self.accuracy_lbl.setGeometry(QtCore.QRect(440, 200, 301, 71))
         self.accuracy_lbl.setStyleSheet("background-color: rgb(235, 255, 197);\n"
-                                             "border-radius: 25px;")
+                                        "border-radius: 25px;")
         self.accuracy_lbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.accuracy_lbl.setObjectName("AccuracyLbl")
 

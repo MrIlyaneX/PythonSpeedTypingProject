@@ -16,6 +16,8 @@ class InfoWindow(object):
         :param self: The instance of the class that this method belongs to.
         :return: None
         """
+
+        self.shared_data.update_windows()
         self.stacked_widget.setCurrentIndex(1)
 
     def setup_ui(self, stacked_widget: QStackedWidget):

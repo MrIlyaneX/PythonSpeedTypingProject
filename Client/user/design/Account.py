@@ -3,8 +3,6 @@ from PyQt6.QtWidgets import QStackedWidget
 from PyQt6.QtWidgets import QWidget as QWidget
 
 from Client import SharedData
-from Client.client_runner import get_user, get_header
-
 
 
 class AccountWindow(QWidget):
@@ -12,25 +10,27 @@ class AccountWindow(QWidget):
         super().__init__()
         self.shared_data = shared_data
 
-    def open_main(self):
+    def open_main(self) -> None:
         """
         Opens the Main window by setting the current index of the stacked widget to 1.
 
         :param self: The instance of the class that this function belongs to.
         :return: None
         """
+        self.shared_data.update_windows()
         self.stacked_widget.setCurrentIndex(1)
 
-    def update_data(self):
-        self.username_txt.setText("rfbdjnsdkji")
-        return
-        if self.shared_data.user is not None:
-            self.username_txt.setText(self.shared_data.user.username)
-        try:
-            self.username_txt.setText(self.shared_data.user.username)
+    def update_data(self) -> None:
+        """
+        Updates the data of the user.
 
-        except Exception as e:
-            print('error')
+        :param self: The instance of the class that this function belongs to.
+        :return: None
+        """
+
+        self.days_txt.setText(self.shared_data.get_days())
+        self.time_txt.setText(str(self.shared_data.get_user().achievements.max_score))
+        self.username_txt.setText(self.shared_data.get_user().username)
 
     def setup_ui(self, stacked_widget: QStackedWidget):
         """
@@ -68,14 +68,6 @@ class AccountWindow(QWidget):
         self.username_txt.setGeometry(QtCore.QRect(60, 290, 301, 61))
         self.username_txt.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.username_txt.setObjectName("UsernameTxt")
-
-        # if self.shared_data.user is not None:
-        #     self.username_txt.setText(self.shared_data.user.username)
-        # try:
-        #     self.username_txt.setText(self.shared_data.user.username)
-        #
-        # except Exception as e:
-        #     print('error')
 
         self.days_txt = QtWidgets.QTextBrowser(parent=self.central_widget)
         self.days_txt.setGeometry(QtCore.QRect(80, 500, 81, 51))
@@ -132,19 +124,17 @@ class AccountWindow(QWidget):
         self.with_us_lbl.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.with_us_lbl.setObjectName("WithUsLbl")
 
-        Account.setCentralWidget(self.central_widget)
-
         stacked_widget.addWidget(self.central_widget)
-        self.retranslate_ui(self)
+        self.retranslate_ui()
 
-    def retranslate_ui(self, Account):
+    def retranslate_ui(self):
         """
         This function sets the translated text for various UI elements in the main window.
 
         :return: None
         """
         _translate = QtCore.QCoreApplication.translate
-        Account.setWindowTitle(_translate("Account", "MainWindow"))
+        self.setWindowTitle(_translate("Account", "MainWindow"))
         self.account_lbl.setText(_translate("Account", "Account"))
         self.back_btn.setText(_translate("Account", "Back"))
         self.username_lbl.setText(_translate("Account", "Username"))

@@ -1,7 +1,7 @@
 import json
+import shutil
 from datetime import timedelta
 from typing import Annotated
-import shutil
 
 from fastapi import Depends, HTTPException, status, APIRouter, File, UploadFile
 from fastapi.responses import FileResponse
@@ -10,10 +10,9 @@ from starlette.responses import HTMLResponse
 
 from Server.auth_functions import create_access_token, authenticate_user, get_current_active_user, get_password_hash
 from Server.config import ACCESS_TOKEN_EXPIRE_MINUTES
-
-from Server.models.db_access import get_person_by_username, update_user_achievements, get_leaderboard
 from Server.models.data_classes import Token, User, Language
 from Server.models.db import add_person
+from Server.models.db_access import get_person_by_username, update_user_achievements, get_leaderboard
 
 router = APIRouter()
 

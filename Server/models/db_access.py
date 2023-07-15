@@ -1,6 +1,5 @@
-from Server.models.db import get_person_by_username, set_achieve, get_top
-
 from Server.models.data_classes import UserInDB, User
+from Server.models.db import get_person_by_username, set_achieve, get_top
 
 
 def get_user(username: str) -> UserInDB | None:

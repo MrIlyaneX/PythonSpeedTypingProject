@@ -1,7 +1,8 @@
-import sqlalchemy as db
-from sqlalchemy import DATETIME, Boolean
 from datetime import datetime
+
+import sqlalchemy as db
 from sqlalchemy import Column, Integer, String, Double
+from sqlalchemy import DATETIME, Boolean
 from sqlalchemy.orm import declarative_base, sessionmaker
 
 Base = declarative_base()
@@ -78,7 +79,6 @@ meta.create_all(bind=engine)
 
 Session = sessionmaker(bind=engine)
 session = Session()
-
 
 """ Variable for saving 10 users with the best max_scores in tuple type (username, score). """
 top = [("", 0)]
@@ -163,13 +163,41 @@ def set_password(old: str, new: str) -> None:
         return None
 
 
+def set_email(name: str, new: str) -> None:
+    """ Changes the email of the user """
+    person = get(name)
+    if person is not None:
+        person.email = new
+        session.commit()
+    else:
+        return None
+
+
+def set_disabled(name: str) -> None:
+    """ Changes the status of the user """
+    person = get(name)
+    if person is not None:
+        person.disabled = True
+        session.commit()
+    else:
+        return None
+
+
 def set_achieve(data: dict, name: str) -> None:
+    """
+        Changes the achievements of the user.
+        It takes the dictionary of data and username for
+        corresponding user. It checks whether some variables
+        must be changed or not. Also, it updates the top of
+        users (top with the best users with their max scores.
+    """
+
     user = get(name)
     achieve = get_achievements(name)
     achieve.avg_accuracy = max(achieve.avg_accuracy, data['avg_accuracy'])
     achieve.max_score = max(achieve.max_score, data['max_score'])
     achieve.max_symbols_per_day = max(achieve.max_symbols_per_day, data['max_symbols_per_day'])
-    achieve.time_spend = data['time_spend']
+    # achieve.max_speed_accuracy = data['max_speed_accuracy']
     achieve.last_visit = data['last_visit']
     session.commit()
     if data['max_score'] > top[0][1]:
@@ -177,6 +205,6 @@ def set_achieve(data: dict, name: str) -> None:
         sorted(top, key=lambda current_user: current_user[1])
         if top.__len__() > 10:
             top.pop()
-    user.attemts.append(data['max_score'])
-    user.attempts.pop()
+    # user.attemts.append(data['max_score'])
+    # user.attempts.pop()
     session.commit()

@@ -5,11 +5,9 @@ from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QStackedWidget
 from PyQt6.QtWidgets import QWidget as QWidget
 
-
 from Client import SharedData
-from Client.user.design.SameUsername import SameUsernameWindow
-
 from Client.client_runner import get_header
+from Client.user.design.SameUsername import SameUsernameWindow
 
 
 class CreateAccountWindow(QWidget):
@@ -26,6 +24,8 @@ class CreateAccountWindow(QWidget):
         :param self: The instance of the class that this method belongs to.
         :return: None
         """
+
+        self.shared_data.update_windows()
         self.stacked_widget.setCurrentIndex(0)
 
     def get_username(self):
@@ -104,6 +104,7 @@ class CreateAccountWindow(QWidget):
             print(header)
             if header is not None:
                 self.shared_data.header = header
+                self.shared_data.update_windows()
                 self.stacked_widget.setCurrentIndex(1)
             else:
                 self.show_error_window()

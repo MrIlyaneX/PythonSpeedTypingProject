@@ -12,8 +12,8 @@
 """
 
 import json
-import random
 import os
+import random
 
 
 def get_words_lens(language: str = "en"):

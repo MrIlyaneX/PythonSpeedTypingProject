@@ -1,10 +1,12 @@
 import traceback
+
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QStackedWidget, QWidget
+
 from Client import SharedData
-from Client.user.design.IncorrectPassword import IncorrectPassword
 from Client.client_runner import *
+from Client.user.design.IncorrectPassword import IncorrectPassword
 
 
 class LogInWindow(QWidget):
@@ -21,6 +23,8 @@ class LogInWindow(QWidget):
         :param self: The instance of the class that this method belongs to.
         :return: None
         """
+
+        self.shared_data.update_windows()
         self.stacked_widget.setCurrentIndex(0)
 
     def open_signup(self):
@@ -30,6 +34,8 @@ class LogInWindow(QWidget):
         :param self: The instance of the class that this method belongs to.
         :return: None
         """
+
+        self.shared_data.update_windows()
         self.stacked_widget.setCurrentIndex(3)
 
     def get_username(self):
@@ -108,6 +114,7 @@ class LogInWindow(QWidget):
             print(header)
             if header is not None:
                 self.shared_data.header = header
+                self.shared_data.update_windows()
                 self.stacked_widget.setCurrentIndex(1)
             else:
                 self.show_error_window()
