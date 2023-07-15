@@ -24,11 +24,11 @@ interface for practicing and tracking progress.
 
 ## Installation
 
-- ### By download from our server (Not working)
+- ### By download from our server (Might not working)
 
 To download the Python Speed Typing app, you can visit our server and follow these steps:
 
-1. Go to [our website](https://) in your web browser.
+1. Go to [our website](https://ty-typing.onrender.com) in your web browser.
 
 2. Click on the download button to initiate the download of the app.
 
