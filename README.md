@@ -93,7 +93,7 @@ This will install all the necessary libraries and frameworks, including FastAPI 
 - For running the desktop application, follow the instructions specific to your operating system and the PyQt framework.
 
 8. Now you can download and start app from the [local server](http://127.0.0.1:8000/)
-9. Run run_client_app.py to start the app
+9. Run run_client_app.py to start the app locally
 
 ## Technologies Used
 
@@ -131,12 +131,14 @@ Please refer to the API documentation for more details on each endpoint.
 
 ## Contact
 
-If you have any questions or need further assistance, please contact the project team:
+You can contact team members if you found bugs, have ideas for improvement:
 
-- Ilia Mistiurin
-- Elena Tesmeeva
-- Polina Pushkareva
-- Anastasia Pichugina
+Contributors:
+
+- Ilia Mistiurin - [email](i.mistiurin@innopolis.university)
+- Elena Tesmeeva - [email](e.tesmeeva@innopolis.university)
+- Polina Pushkareva - [email](p.pushkareva@innopolis.university)
+- Anastasia Pichugina - [email](a.pichugina@innopolis.university)
 
 Thank you for your interest in the Python Speed Typing Project! We hope you find it helpful in improving your typing
 skills.
