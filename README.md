@@ -13,7 +13,6 @@ interface for practicing and tracking progress.
 ## Features
 
 - **Speed Typing Exercises**: The application provides a variety of exercises to improve typing speed and accuracy.
-  Users can choose from different difficulty levels and practice typing paragraphs, sentences, or random words.
 
 - **Blind Typing Techniques**: The application includes exercises specifically tailored to help users learn and master
   blind typing techniques. These exercises focus on typing without looking at the keyboard, enhancing muscle memory and
@@ -94,6 +93,7 @@ This will install all the necessary libraries and frameworks, including FastAPI 
 - For running the desktop application, follow the instructions specific to your operating system and the PyQt framework.
 
 8. Now you can download and start app from the [local server](http://127.0.0.1:8000/)
+9. Run run_client_app.py to start the app
 
 ## Technologies Used
 
