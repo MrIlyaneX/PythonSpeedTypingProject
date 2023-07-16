@@ -135,10 +135,10 @@ You can contact team members if you found bugs, have ideas for improvement:
 
 Contributors:
 
-- Ilia Mistiurin - [email](i.mistiurin@innopolis.university)
-- Elena Tesmeeva - [email](e.tesmeeva@innopolis.university)
-- Polina Pushkareva - [email](p.pushkareva@innopolis.university)
-- Anastasia Pichugina - [email](a.pichugina@innopolis.university)
+- Ilia Mistiurin - email: i.mistiurin@innopolis.university
+- Elena Tesmeeva - email: e.tesmeeva@innopolis.university
+- Polina Pushkareva - email: p.pushkareva@innopolis.university
+- Anastasia Pichugina - email: a.pichugina@innopolis.university
 
 Thank you for your interest in the Python Speed Typing Project! We hope you find it helpful in improving your typing
 skills.
